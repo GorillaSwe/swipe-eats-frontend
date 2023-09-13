@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-
-import { showRestaurants } from "lib/api/restaurants"
+import { showRestaurants } from "utils/api/restaurants"
+import CardSwiper from "./components/CardSwiper"; // CardSwiperコンポーネントをインポート
 
 const App: React.FC = () => {
   const [restaurants, setRestaurants] = useState<any[]>([]);
@@ -25,15 +25,8 @@ const App: React.FC = () => {
   return (
     <div>
       <h1>レストラン一覧</h1>
-      <ul>
-        {restaurants.map((restaurant: any, index) => (
-          <li key={index}>
-            <h2>{restaurant.name}</h2>
-            <p>住所: {restaurant.vicinity}</p>
-            {/* 他のレストラン情報も表示できるように修正 */}
-          </li>
-        ))}
-      </ul>
+      {/* CardSwiperコンポーネントにレストランデータを渡す */}
+      <CardSwiper cardData={restaurants} />
     </div>
   );
 };

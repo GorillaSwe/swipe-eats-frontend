@@ -1,4 +1,4 @@
-import client from "lib/api/client"
+import client from "utils/api/client"
 
 // 動作確認用
 export const showRestaurants = async () => {
