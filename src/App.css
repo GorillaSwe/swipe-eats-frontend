@@ -48,6 +48,11 @@
   h2 {
     color: #fff;
   }
+
+  h3 {
+    /* color: #EB5C6D; */
+    color: #000;
+  }
   
   .swipe {
     position: absolute;
@@ -74,10 +79,6 @@
   .cardContent {
     width: 100%;
     height: 100%;
-  }
-  
-  .swipe:last-of-type {
-  
   }
   
   .card h3 {
@@ -158,4 +159,141 @@
 .slick-prev.slick-disabled,
 .slick-next.slick-disabled {
     opacity: 0;
+}
+
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  width: 800px;
+}
+.category-item {
+  width: 350px;
+  height: 250px;
+  padding: 0;
+  margin: 0 25px 20px 25px;
+  transition: transform 0.2s;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+.category-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.category-link {
+  text-decoration: none;
+}
+.category-image {
+  width: 350px;
+  height: 200px;
+  border-radius: 20px 20px 0 0;
+  background-size: cover;
+  background-position: center;
+}
+.category-text {
+  background-color: #e1e1e1;
+  width: 350px;
+  height: 50px;
+  border-radius: 0 0 20px 20px;
+}
+.category-text p {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 50px;
+  color: #000;
+}
+
+/* Slider.css */
+.distance-wrap {
+  padding: 50px 10px;
+  width: 500px;
+}
+
+#distance-slider {
+  height: 15px;
+  background: lightgrey;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+}
+
+#distance-slider label {
+  position: absolute;
+  width: 20px;
+  margin-top: 20px;
+  margin-left: -10px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.slider-handle {
+  border-radius: 100%;
+  background: black;
+  width: 15px;
+  height: 15px;
+  cursor: grab;
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.price-level-label {
+  margin: 0 15px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #c3c4d3;
+  display: inline-block;
+  cursor: pointer;
+}
+.price-level-label:hover {
+  background-color: #b9bac5;
+  transition: 200ms;
+}
+.price-level-label.price-level-label-selected {
+  background-color: rgb(51, 51, 51);
+  color: #c3c4d3;
+}
+.price-level-label.price-level-label-selected:hover {
+  background-color: rgb(74, 74, 74);
+}
+
+.price-level-label p {
+  width: 52px;
+  margin: 0;
+  letter-spacing: -0.3em;
+  text-indent: -0.3em;
+}
+.price-level-button {
+  display:none;
+}
+.searchButton {
+  background-color: #9198e5;
+}
+
+.sort-option-label {
+  margin: 0 15px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #c3c4d3;
+  display: inline-block;
+  cursor: pointer;
+}
+.sort-option-label:hover {
+  background-color: #b9bac5;
+  transition: 200ms;
+}
+.sort-option-label.sort-option-label-selected {
+  background-color: rgb(51, 51, 51);
+  color: #c3c4d3;
+}
+.sort-option-label.sort-option-label-selected:hover {
+  background-color: rgb(74, 74, 74);
+}
+
+.sort-option-label p {
+  margin: 0;
+}
+.sort-option-button {
+  display:none;
 }
