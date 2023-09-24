@@ -1,10 +1,16 @@
 import client from "utils/api/client"
 
-// 動作確認用
-export const showRestaurants = async (latitude: number, longitude: number) => {
+export const showRestaurants = async (
+  latitude: number,
+  longitude: number,
+  genre: string,
+  raduis: number,
+  priceLevels: number[],
+  sortParam: string
+) => {
   try {
     const response = await client.get("/restaurants", {
-      params: { latitude, longitude },
+      params: { latitude, longitude, genre, raduis, priceLevels, sortParam },
     });
     if (response.status === 200) {
       return response.data;
