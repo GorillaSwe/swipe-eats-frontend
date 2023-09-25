@@ -8,7 +8,7 @@ const ResultsPage: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
   const latitude = parseFloat(queryParams.get("latitude") || "") || null;
   const longitude = parseFloat(queryParams.get("longitude") || "") || null;
-  const selectedGenre = queryParams.get("genre") || "restaurant";
+  const selectedCategory = queryParams.get("category") || "restaurant";
   const selectedRadius = parseInt(queryParams.get("radius") || "5", 10);
   const priceLevelsParam = queryParams.get("priceLevels");
   const selectedPriceLevels = priceLevelsParam ? priceLevelsParam.split(",").map(Number) : [];
@@ -23,7 +23,7 @@ const ResultsPage: React.FC = () => {
     // URLから取得した条件でレストランを検索
     const fetchRestaurants = async () => {
       try {
-        const res = await showRestaurants(latitude, longitude, selectedGenre, selectedRadius, selectedPriceLevels, sortParam);
+        const res = await showRestaurants(latitude, longitude, selectedCategory, selectedRadius, selectedPriceLevels, sortParam);
         if (res && res.status === 200) {
           const restaurantData = res.message;
           setRestaurants(restaurantData);
@@ -33,7 +33,7 @@ const ResultsPage: React.FC = () => {
       };
     }
     fetchRestaurants();
-  }, [latitude, longitude, selectedGenre, selectedRadius, selectedPriceLevels, sortParam]);
+  }, [location]);
 
   return (
     <div>
