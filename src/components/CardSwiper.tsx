@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import TinderCard from 'react-tinder-card'
 import { CardData } from "../types/CardData";
 import IconButton from "@mui/material/IconButton";
@@ -18,7 +18,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData }) => {
   const [lastDirection, setLastDirection] = useState<string>()
   const [currentIndex, setCurrentIndex] = useState<number>(cardData.length - 1)
   const sliderSettings = {
-    dots: true,
+    dots: false,
     slidesToShow: 1,
     infinite: false,
     useCSS: false,
@@ -89,6 +89,10 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData }) => {
   const outOfFrame = (name: string, index: number) => {
     currentIndexRef.current >= index && childRefs[index].current.restoreCard()
   }
+  // cardData.lengthが変更された際にcurrentIndexを更新する
+  useEffect(() => {
+    setCurrentIndex(cardData.length - 1);
+  }, [cardData.length]);
 
   return (
     <div>
