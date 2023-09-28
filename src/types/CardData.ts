@@ -4,5 +4,6 @@ export interface CardData {
   lat: number;
   lng: number;
   photoUrl: { url: string }[];
+  direction: string;
   // 他のカードデータのプロパティをここに追加
 }

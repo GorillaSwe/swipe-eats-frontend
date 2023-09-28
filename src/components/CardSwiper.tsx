@@ -12,9 +12,11 @@ import 'slick-carousel/slick/slick-theme.css';
 
 interface CardSwiperProps {
     cardData: CardData[];
+    onCardSwipe: (index: number, direction: string) => void;
+    onLastCardSwipe: () => void;
 }
 
-const CardSwiper: React.FC<CardSwiperProps> = ({ cardData }) => {
+const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCardSwipe }) => {
   const [lastDirection, setLastDirection] = useState<string>()
   const [currentIndex, setCurrentIndex] = useState<number>(cardData.length - 1)
   const sliderSettings = {
@@ -81,6 +83,9 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData }) => {
   const swiped = (direction: string, nameToDelete: string, index: number) => {
     setLastDirection(direction)
     updateCurrentIndex(index - 1)
+    // direction プロパティを更新
+    onCardSwipe(index, direction);
+    if(currentIndex == 0) onLastCardSwipe()
   }
   /**
    * 1,手動でのスワイプした時に発火する
