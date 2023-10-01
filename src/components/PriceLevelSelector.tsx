@@ -1,30 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
+import { PRICE_LEVELS } from '../constants/priceLevels';
+import PriceLevelOption from './PriceLevelOption';
 
 type PriceLevelSelectorProps = {
   selectedPriceLevels: number[];
-  onPriceLevelChange: (selectedPriceLevels: number[]) => void;
+  onSelectedPriceLevelsChange: (selectedPriceLevels: number[]) => void;
 };
 
 const PriceLevelSelector: React.FC<PriceLevelSelectorProps> = ({
   selectedPriceLevels,
-  onPriceLevelChange,
+  onSelectedPriceLevelsChange,
 }) => {
-  // 価格レベルのオプション
-  const priceLevels = [
-    { level: 0, label: "￥" },
-    { level: 1, label: "￥￥" },
-    { level: 2, label: "￥￥￥" },
-    { level: 3, label: "￥￥￥￥" },
-    { level: 4, label: "￥￥￥￥￥" },
-  ];
-
-  // 価格レベルが選択されたときのハンドラ
   const handleLevelClick = (level: number) => {
-    // 選択状態をトグル
     if (selectedPriceLevels.includes(level)) {
-      onPriceLevelChange(selectedPriceLevels.filter((l) => l !== level));
+      onSelectedPriceLevelsChange(selectedPriceLevels.filter((l) => l !== level));
     } else {
-      onPriceLevelChange([...selectedPriceLevels, level]);
+      onSelectedPriceLevelsChange([...selectedPriceLevels, level]);
     }
   };
 
@@ -32,19 +23,14 @@ const PriceLevelSelector: React.FC<PriceLevelSelectorProps> = ({
     <div>
       <h3>価格帯</h3>
       <div className="price-level-selector">
-        {priceLevels.map((priceLevel) => (
-          <label
+        {PRICE_LEVELS.map((priceLevel) => (
+          <PriceLevelOption
             key={priceLevel.level}
-            className={`price-level-label ${selectedPriceLevels.includes(priceLevel.level) ? "price-level-label-selected" : ""}`}
-          >
-            <input
-              type="checkbox"
-              className="price-level-button"
-              checked={selectedPriceLevels.includes(priceLevel.level)}
-              onChange={() => handleLevelClick(priceLevel.level)}
-            />
-            <p>{priceLevel.label}</p>
-          </label>
+            level={priceLevel.level}
+            label={priceLevel.label}
+            isSelected={selectedPriceLevels.includes(priceLevel.level)}
+            onLevelClick={handleLevelClick}
+          />
         ))}
       </div>
     </div>
