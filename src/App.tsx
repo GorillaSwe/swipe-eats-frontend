@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import SearchPage from "./components/SearchPage";
-import ResultsPage from "./components/ResultsPage";
+import ResultsPage from "./components/RestaurantResultsPage";
 import CategorySelectionPage from "./components/CategorySelectionPage";
 import MapPage from "./components/MapPage";
 import './App.css'
