@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
-import TinderCard from 'react-tinder-card'
 import { CardData } from "../types/CardData";
+import TinderCard from 'react-tinder-card'
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -9,7 +9,6 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-
 interface CardSwiperProps {
     cardData: CardData[];
     onCardSwipe: (index: number, direction: string) => void;
@@ -17,7 +16,6 @@ interface CardSwiperProps {
 }
 
 const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCardSwipe }) => {
-  const [lastDirection, setLastDirection] = useState<string>()
   const [currentIndex, setCurrentIndex] = useState<number>(cardData.length - 1)
   const sliderSettings = {
     dots: false,
@@ -26,6 +24,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
     useCSS: false,
   };
   const currentIndexRef = useRef(currentIndex)
+
   /**
    * dbのlengthだけRefを生成する
    * TinderSwipeを通すことでswipeメソッドとrestoreCardメソッドを付与する(useImperativeHandle)
@@ -37,6 +36,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
         .map((i) => React.createRef()),
     [cardData.length]
   )
+
   /**
    * state(currentIndex)を更新し連動している
    * useRef(currentIndexRef)も更新する
@@ -45,17 +45,20 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
     setCurrentIndex(val)
     currentIndexRef.current = val
   }
+
   /**
    * goback可能かを判定する
    * DBが5の場合3の時はgobackできない
    * 初手gobackを不可にするために設置している
    */
   const canGoBack = currentIndex < cardData.length - 1
+
   /**
    * スワイプ可能かを判定する
    * DBが5の場合3,2,1,0,-1と減っていく
    */
   const canSwipe = currentIndex >= 0
+
   /**
    * ボタンを押下してスワイプした時に発火する
    * currentIndexを+1する
@@ -66,6 +69,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
     updateCurrentIndex(newIndex)
     await childRefs[newIndex].current.restoreCard()
   }
+
   /**
    * ボタンを押下してスワイプした時に発火する
    * ライブラリのonSwipeメソッドを叩く=ローカルのswipeメソッドを叩く
@@ -75,18 +79,18 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
       await childRefs[currentIndex].current.swipe(direction)
     }
   }
+
   /**
    * 1,手動でのスワイプした時に発火する
    * 2,ボタンを押下してスワイプした時に発火する（条件2の時swipe関数も発火する）
    * currentIndexを-1減らす
    */
   const swiped = (direction: string, nameToDelete: string, index: number) => {
-    setLastDirection(direction)
     updateCurrentIndex(index - 1)
-    // direction プロパティを更新
     onCardSwipe(index, direction);
-    if(currentIndex == 0) onLastCardSwipe()
+    if(currentIndex === 0) onLastCardSwipe()
   }
+
   /**
    * 1,手動でのスワイプした時に発火する
    * 2,ボタンを押下してスワイプした時に発火する（条件2の時swipe関数も発火する）
@@ -94,6 +98,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
   const outOfFrame = (name: string, index: number) => {
     currentIndexRef.current >= index && childRefs[index].current.restoreCard()
   }
+  
   // cardData.lengthが変更された際にcurrentIndexを更新する
   useEffect(() => {
     setCurrentIndex(cardData.length - 1);

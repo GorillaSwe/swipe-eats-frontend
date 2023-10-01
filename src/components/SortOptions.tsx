@@ -1,40 +1,25 @@
 import React from "react";
+import { SORT_OPTIONS } from '../constants/sortOptions';
+import SortOption from "./SortOption";
 
 type SortOptionsProps = {
   selectedSort: string;
-  onSortChange: (selectedSort: string) => void;
+  onSelectedSortChange: (selectedSort: string) => void;
 };
 
-const SortOptions: React.FC<SortOptionsProps> = ({ selectedSort, onSortChange }) => {
-  const sortOptions = [
-    { value: "recommend", label: "おすすめ" },
-    { value: "distance", label: "距離順" },
-    { value: "highRating", label: "高評価順" },
-    { value: "highPrice", label: "高い順" },
-    { value: "lowPrice", label: "安い順" },
-  ];
-
-  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedValue = event.target.value;
-    onSortChange(selectedValue);
-  };
-
+const SortOptions: React.FC<SortOptionsProps> = ({ selectedSort, onSelectedSortChange }) => {
   return (
     <div>
       <h3>並び替え</h3>
       <div className="sort-options">
-        {sortOptions.map((option) => (
-          <label key={option.value} className={`sort-option-label ${selectedSort === option.value ? 'sort-option-label-selected' : ''}`}>
-            <input
-              type="radio"
-              className="sort-option-button"
-              name="sortOptions"
-              value={option.value}
-              checked={selectedSort === option.value}
-              onChange={handleSortChange}
+        {SORT_OPTIONS.map((option) => (
+          <SortOption
+            key={option.value}
+            value={option.value}
+            label={option.label}
+            isSelected={selectedSort === option.value}
+            onOptionChange={() => onSelectedSortChange(option.value)}
             />
-            <p>{option.label}</p>
-          </label>
         ))}
       </div>
     </div>
