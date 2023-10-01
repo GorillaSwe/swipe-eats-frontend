@@ -5,5 +5,4 @@ export interface CardData {
   lng: number;
   photoUrl: { url: string }[];
   direction: string;
-  // 他のカードデータのプロパティをここに追加
 }
