@@ -1,5 +1,7 @@
-import { useLocation } from 'react-router-dom';
+"use client";
+
 import { GoogleMap, LoadScript, MarkerF } from '@react-google-maps/api'
+import { useRestaurantData } from '@/contexts/RestaurantContext';
 
 const DEFAULT_CENTER = {
   lat: 35.5634291,
@@ -9,14 +11,11 @@ const DEFAULT_CENTER = {
 const USER_MARKER_ICON = "https://maps.google.com/mapfiles/kml/paddle/blu-stars.png";
 
 const MapPage: React.FC = () => {
-  const location = useLocation();
-  const state = location.state as { 
-    restaurantsWithDirection: any[],
-    latitude: number | null,
-    longitude: number | null
-  };
-  const { restaurantsWithDirection, latitude, longitude } = state;
-  const googleMapsApiKey = process.env.REACT_APP_GOOGLE_API_KEY || '';
+  const restaurantData = useRestaurantData();
+  const restaurants = restaurantData.restaurantsWithDirection
+  const latitude = restaurantData.latitude
+  const longitude = restaurantData.longitude
+  const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '';
 
   const containerStyle = {
     width: '90vw',
@@ -40,7 +39,7 @@ const MapPage: React.FC = () => {
           icon={USER_MARKER_ICON}
           position={center}
         />
-        {restaurantsWithDirection.map((restaurant, index) => (
+        {restaurants?.map((restaurant, index) => (
           <MarkerF
             key={index}
             position={{ 

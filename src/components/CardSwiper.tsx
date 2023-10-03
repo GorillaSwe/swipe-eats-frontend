@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
-import { CardData } from "../types/CardData";
+import { RestaurantData } from "@/types/RestaurantData";
 import TinderCard from 'react-tinder-card'
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,7 +10,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 interface CardSwiperProps {
-    cardData: CardData[];
+    cardData: RestaurantData[];
     onCardSwipe: (index: number, direction: string) => void;
     onLastCardSwipe: () => void;
 }
