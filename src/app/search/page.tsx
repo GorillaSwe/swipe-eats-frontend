@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import PriceLevelSelector from "./PriceLevelSelector";
-import SortOptions from "./SortOptions";
+import { useSearchParams, useRouter } from "next/navigation";
+import PriceLevelSelector from "../../components/PriceLevelSelector";
+import SortOptions from "../../components/SortOptions";
 
 const DEFAULT_CATEGORY = "restaurant";
 const DEFAULT_RADIUS = 100;
@@ -15,21 +17,20 @@ const SearchPage: React.FC = () => {
   const [selectedRadius, setSelectedRadius] = useState<number>(DEFAULT_RADIUS);
   const [selectedPriceLevels, setSelectedPriceLevels] = useState<number[]>([]);
   const [selectedSort, setSelectedSort] = useState<string>(DEFAULT_SORT);
- 
-  const navigate = useNavigate();
-  const location = useLocation();
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("category");
     if (category) {
       setSelectedCategory(category);
     } else {
-      navigate("/");
+      router.push("/");
     }
     
     fetchCurrentPosition();
-  }, [location, navigate]);
+  }, []);
 
   const fetchCurrentPosition = async () => {
     try {
@@ -58,7 +59,7 @@ const SearchPage: React.FC = () => {
 
   const handleSearch = () => {
     if (latitude && longitude) {
-      navigate(
+      router.push(
         `/results?category=${selectedCategory}&radius=${selectedRadius}&latitude=${latitude}&longitude=${longitude}&priceLevels=${selectedPriceLevels.join(",")}&sort=${selectedSort}`
       );
     } else {

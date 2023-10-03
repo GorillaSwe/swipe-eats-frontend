@@ -1,6 +1,6 @@
 import React from "react";
-import CategoryItem from "./CategoryItem";
-import { CATEGORIES } from "../constants/categories";
+import CategoryItem from "@/components/CategoryItem";
+import { CATEGORIES } from "@/constants/categories";
 
 const CategorySelectionPage: React.FC = () => {
   return (
