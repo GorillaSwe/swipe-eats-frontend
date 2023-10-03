@@ -6,7 +6,7 @@ const options = {
 }
 
 const client = applyCaseMiddleware(axios.create({
-  baseURL: "http://localhost:3001/api/"
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL
 }), options)
 
 export default client

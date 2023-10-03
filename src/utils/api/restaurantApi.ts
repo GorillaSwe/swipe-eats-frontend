@@ -1,4 +1,4 @@
-import client from "utils/api/apiClient"
+import client from "./apiClient"
 
 export const showRestaurants = async (
   latitude: number,

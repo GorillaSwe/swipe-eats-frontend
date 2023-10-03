@@ -1,5 +1,5 @@
 import React from "react";
-import { SORT_OPTIONS } from '../constants/sortOptions';
+import { SORT_OPTIONS } from '@/constants/sortOptions';
 import SortOption from "./SortOption";
 
 type SortOptionsProps = {
