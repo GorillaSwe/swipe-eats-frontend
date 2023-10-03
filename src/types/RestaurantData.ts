@@ -1,4 +1,4 @@
-export interface CardData {
+export interface RestaurantData {
   placeId: string;
   name: string;
   lat: number;

@@ -1,5 +1,5 @@
 import React from "react";
-import { PRICE_LEVELS } from '../constants/priceLevels';
+import { PRICE_LEVELS } from '@/constants/priceLevels';
 import PriceLevelOption from './PriceLevelOption';
 
 type PriceLevelSelectorProps = {
