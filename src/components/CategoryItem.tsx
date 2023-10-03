@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 type CategoryItemProps = {
   value: string;
@@ -9,9 +9,9 @@ type CategoryItemProps = {
 const CategoryItem: React.FC<CategoryItemProps> = ({ value, image }) => {
   return (
     <li className='category-item'>
-      <Link to={`/search?category=${value}`} className='category-link' >
+      <Link href={`/search?category=${value}`} className='category-link'>
         <div 
-          style={{ backgroundImage: 'url(' + image + ')' }}
+          style={{ backgroundImage: `url(${image})` }}
           className='category-image'
         >
         </div>

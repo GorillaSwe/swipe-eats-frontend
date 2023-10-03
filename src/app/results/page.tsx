@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
-import CardSwiper from "./CardSwiper";
-import { useLocation, useNavigate } from "react-router-dom";
-import { showRestaurants } from "../utils/api/restaurantApi";
-import { getQueryParam } from "../utils/helpers"
+"use client";
+
+import React, { useEffect, useState, useContext } from "react";
+import CardSwiper from "@/components/CardSwiper";
+import { useSearchParams, useRouter } from "next/navigation";
+import { showRestaurants } from "@/utils/api/restaurantApi";
+import { useSetRestaurantData } from '@/contexts/RestaurantContext';
+import { RestaurantData } from "@/types/RestaurantData";
 
 const ResultsPage: React.FC = () => {
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
-  const latitude = parseFloat(getQueryParam(queryParams, "latitude", ""));
-  const longitude = parseFloat(getQueryParam(queryParams, "longitude", ""));
-  const selectedCategory = getQueryParam(queryParams, "category", "restaurant");
-  const selectedRadius = parseInt(getQueryParam(queryParams, "radius", "100"));
-  const priceLevelsParam = getQueryParam(queryParams, "priceLevels", "");
+  const router = useRouter();
+  const searchParams = useSearchParams()
+  const latitude = parseFloat(searchParams.get('latitude') || '');
+  const longitude = parseFloat(searchParams.get('longitude') || '');
+  const selectedCategory = searchParams.get('category') || 'restaurant';
+  const selectedRadius = parseInt(searchParams.get('radius') || '100');
+  const priceLevelsParam = searchParams.get('priceLevels') || '';
   const selectedPriceLevels = priceLevelsParam.split(",").map(Number);
-  const sortParam = getQueryParam(queryParams, "sort", "recommend");
+  const sortParam = searchParams.get('sort') || 'recommend';
+  const setRestaurantData = useSetRestaurantData();
 
-  const [restaurants, setRestaurants] = useState<any[]>([]);
-  const [restaurantsWithDirection, setRestaurantsWithDirection] = useState<any[]>([]);
+  const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
+  const [restaurantsWithDirection, setRestaurantsWithDirection] = useState<RestaurantData[]>([]);
   const [error, setError] = useState<string | null>(null);
-  
-  const navigation = useNavigate();
-  
+
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
@@ -43,7 +45,7 @@ const ResultsPage: React.FC = () => {
     } else {
       setError("位置情報がありません。");
     }
-  }, [latitude, longitude, selectedCategory, selectedRadius, selectedPriceLevels, sortParam]);
+  }, []);
 
   const handleCardSwipe = (index :number, direction :string) => {
     setRestaurantsWithDirection(prev => {
@@ -54,7 +56,12 @@ const ResultsPage: React.FC = () => {
   }
 
   const handleLastCardSwipe = () => {
-    navigation(`/map`, { state: { restaurantsWithDirection, latitude, longitude } });
+    setRestaurantData({
+      restaurantsWithDirection,
+      latitude,
+      longitude
+    });
+    router.push(`/map`);
   }
 
   return (
