@@ -3,6 +3,12 @@ export interface RestaurantData {
   name: string;
   lat: number;
   lng: number;
-  photoUrl: { url: string }[];
+  photos: [string];
+  vicinity: string;
+  rating: number;
+  price_level: number;
+  website: string;
+  url: string;
+  formatted_phone_number: string;
   direction: string;
 }

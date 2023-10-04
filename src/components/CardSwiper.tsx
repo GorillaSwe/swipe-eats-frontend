@@ -10,13 +10,13 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 interface CardSwiperProps {
-    cardData: RestaurantData[];
+    restaurants: RestaurantData[];
     onCardSwipe: (index: number, direction: string) => void;
     onLastCardSwipe: () => void;
 }
 
-const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCardSwipe }) => {
-  const [currentIndex, setCurrentIndex] = useState<number>(cardData.length - 1)
+const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLastCardSwipe }) => {
+  const [currentIndex, setCurrentIndex] = useState<number>(restaurants.length - 1)
   const sliderSettings = {
     dots: false,
     slidesToShow: 1,
@@ -26,15 +26,15 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
   const currentIndexRef = useRef(currentIndex)
 
   /**
-   * dbのlengthだけRefを生成する
+   * restaurantsのlengthだけRefを生成する
    * TinderSwipeを通すことでswipeメソッドとrestoreCardメソッドを付与する(useImperativeHandle)
    */
   const childRefs = useMemo<any>(
     () =>
-      Array(cardData.length)
+      Array(restaurants.length)
         .fill(0)
         .map((i) => React.createRef()),
-    [cardData.length]
+    [restaurants.length]
   )
 
   /**
@@ -51,7 +51,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
    * DBが5の場合3の時はgobackできない
    * 初手gobackを不可にするために設置している
    */
-  const canGoBack = currentIndex < cardData.length - 1
+  const canGoBack = currentIndex < restaurants.length - 1
 
   /**
    * スワイプ可能かを判定する
@@ -75,7 +75,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
    * ライブラリのonSwipeメソッドを叩く=ローカルのswipeメソッドを叩く
    */
   const swipe = async (direction: string) => {
-    if (canSwipe && currentIndex < cardData.length) {
+    if (canSwipe && currentIndex < restaurants.length) {
       await childRefs[currentIndex].current.swipe(direction)
     }
   }
@@ -99,34 +99,39 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ cardData, onCardSwipe, onLastCa
     currentIndexRef.current >= index && childRefs[index].current.restoreCard()
   }
   
-  // cardData.lengthが変更された際にcurrentIndexを更新する
+  // restaurants.lengthが変更された際にcurrentIndexを更新する
   useEffect(() => {
-    setCurrentIndex(cardData.length - 1);
-  }, [cardData.length]);
+    setCurrentIndex(restaurants.length - 1);
+  }, [restaurants.length]);
 
   return (
     <div>
       <div className='cardContainer'>
-        {cardData.map((character, index) => (
+        {restaurants.map((restaurant, index) => (
           <TinderCard
             ref={childRefs[index]}
             className='swipe'
-            key={character.name}
-            onSwipe={(dir) => swiped(dir, character.name, index)}
-            onCardLeftScreen={() => outOfFrame(character.name, index)}
+            key={restaurant.name}
+            onSwipe={(dir) => swiped(dir, restaurant.name, index)}
+            onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
           >
             <Slider className= "SliderSection" {...sliderSettings}>
-              {character.photoUrl ? (
-                character.photoUrl.map((photo, photoIndex) => (
+              {restaurant.photos ? (
+                restaurant.photos.map((photo, photoIndex) => (
                   <div
                     key={photoIndex}
                   >
                     <div
-                      style={{ backgroundImage: 'url(' + photo.url + ')' }}
+                      style={{ backgroundImage: 'url(' + photo + ')' }}
                       className='card'
                       key={photoIndex}
-                    >
-                      <h3>{character.name}</h3>
+                    ></div>
+                    <div className="card-info">
+                      <h3 className="restaurant-name">{restaurant.name}</h3>
+                      <h3 className="restaurant-vicinity">{restaurant.vicinity}</h3>
+                      <h3 className="restaurant-rating">{restaurant.rating}</h3>
+                      <h3 className="restaurant-price_level">{restaurant.price_level}</h3>
+                      <h3 className="restaurant-website">{restaurant.website}</h3>
                     </div>
                   </div>)
                 )

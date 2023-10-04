@@ -68,7 +68,7 @@ const ResultsPage: React.FC = () => {
     <div>
       <h1>検索結果</h1>
       {error && <div className="error-message">{error}</div>}
-      <CardSwiper cardData={restaurants} onCardSwipe={handleCardSwipe} onLastCardSwipe={handleLastCardSwipe} />
+      <CardSwiper restaurants={restaurants} onCardSwipe={handleCardSwipe} onLastCardSwipe={handleLastCardSwipe} />
     </div>
   );
 };

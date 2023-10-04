@@ -103,7 +103,7 @@ h3 {
 .cardContainer {
   width: 580px;
   max-width: 580px;
-  height: 500px;
+  height: 600px;
 }
 
 .card {
@@ -111,7 +111,7 @@ h3 {
   max-width: 580px;
   height: 500px;
   min-height: 500px;
-  border-radius: 20px;
+  border-radius: 20px 20px 0 0 ;
   background-size: cover;
   background-position: center;
   cursor: pointer;
@@ -122,12 +122,22 @@ h3 {
   height: 100%;
 }
 
-.card h3 {
-  position: absolute;
-  bottom: 0;
-  margin: 10px;
+.card-info h3 {
   color: #fff;
 }
+.card-info {
+  width: 580px;
+  max-width: 580px;
+  height: 100px;
+  min-height: 100px;
+  background-color: #121418;
+  border-radius: 0 0 20px 20px;
+}
+.restaurant-name {
+  font-weight: bold;
+  color: #fff;
+}
+
 
 .infoText {
   width: 100%;
@@ -337,4 +347,20 @@ margin: 0;
 }
 .sort-option-button {
 display:none;
+}
+.map-restaurant-info {
+  bottom: 10vh;
+  width: 90vw;
+  position: absolute;
+  background-color: #b0b0b0;
+  border-radius: 10px 10px 0 0;
+
+}
+
+.map-restaurant-info-image {
+  width: 350px;
+  height: 200px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
 }

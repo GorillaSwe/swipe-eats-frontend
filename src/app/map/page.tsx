@@ -1,14 +1,19 @@
 "use client";
 
-import { GoogleMap, LoadScript, MarkerF } from '@react-google-maps/api'
+import React, { useState } from "react";
+import { GoogleMap, LoadScript, MarkerF, InfoWindow } from '@react-google-maps/api'
 import { useRestaurantData } from '@/contexts/RestaurantContext';
+import { RestaurantData } from "@/types/RestaurantData";
 
 const DEFAULT_CENTER = {
-  lat: 35.5634291,
-  lng: 139.6536136,
+  lat: 35.5649221,
+  lng: 139.6559956,
 };
 
-const USER_MARKER_ICON = "https://maps.google.com/mapfiles/kml/paddle/blu-stars.png";
+const USER_MARKER_ICON = "https://maps.google.com/mapfiles/ms/micons/man.png";
+const LIKE_MARKER_ICON = "https://maps.google.com/mapfiles/ms/micons/red-dot.png";
+const NOPE_MARKER_ICON = "https://labs.google.com/ridefinder/images/mm_20_gray.png";
+const OTHER_MARKER_ICON = "https://labs.google.com/ridefinder/images/mm_20_black.png";
 
 const MapPage: React.FC = () => {
   const restaurantData = useRestaurantData();
@@ -16,23 +21,39 @@ const MapPage: React.FC = () => {
   const latitude = restaurantData.latitude
   const longitude = restaurantData.longitude
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '';
-
-  const containerStyle = {
-    width: '90vw',
-    height: '75vh',
-  }
+  const [selectedRestaurant, setSelectedRestaurant] = useState<null | RestaurantData>(null);
 
   const center = {
     lat: latitude ?? DEFAULT_CENTER.lat,
     lng: longitude ?? DEFAULT_CENTER.lng
+    // lat: DEFAULT_CENTER.lat,
+    // lng: DEFAULT_CENTER.lng
   };
 
+  const [currentCenter, setCurrentCenter] = useState(center);
+
+  const containerStyle = {
+    width: '90vw',
+    height: '80vh',
+  }
+
+  const getMarkerIcon = (direction: string) => {
+    switch (direction) {
+      case "right":
+        return LIKE_MARKER_ICON
+      case "left":
+        return NOPE_MARKER_ICON
+      default:
+        return OTHER_MARKER_ICON
+    }
+  };
+  
   return (
     <div style={{ height: "100vh", width: "100%" }}>
       <LoadScript googleMapsApiKey={googleMapsApiKey}>
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={center}
+        center={currentCenter}
         zoom={17}
       >
         <MarkerF 
@@ -46,9 +67,24 @@ const MapPage: React.FC = () => {
               lat: restaurant.lat,
               lng: restaurant.lng,
             }}
+            icon={getMarkerIcon(restaurant.direction)}
+            onClick={() => {
+              setSelectedRestaurant(restaurant)
+              setCurrentCenter({ lat: restaurant.lat, lng: restaurant.lng });
+            }}
           />
         ))}
       </GoogleMap>
+      {selectedRestaurant && (
+        <div className="map-restaurant-info">
+          <h2 className="map-restaurant-info-name">{selectedRestaurant.name}</h2>
+          <div
+            style={{ backgroundImage: `url(${selectedRestaurant.photos[0]})` }}
+            className="map-restaurant-info-image"
+          >
+          </div>
+        </div>
+      )}
     </LoadScript>
     </div>
   );
