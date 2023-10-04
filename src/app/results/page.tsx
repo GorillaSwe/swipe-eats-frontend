@@ -4,7 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import CardSwiper from "@/components/CardSwiper";
 import { useSearchParams, useRouter } from "next/navigation";
 import { showRestaurants } from "@/utils/api/restaurantApi";
-import { useSetRestaurantData, RestaurantContext } from '@/contexts/RestaurantContext';
+import { useSetRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
 
 const ResultsPage: React.FC = () => {

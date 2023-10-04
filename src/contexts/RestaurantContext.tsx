@@ -16,7 +16,7 @@ const defaultState: RestaurantData = {
 };
 
 const RestaurantUpdateContext = createContext<Function>(() => {});
-export const RestaurantContext = createContext<RestaurantData>(defaultState);
+const RestaurantContext = createContext<RestaurantData>(defaultState);
 
 export const useRestaurantData = () => useContext(RestaurantContext);
 export const useSetRestaurantData = () => useContext(RestaurantUpdateContext);
