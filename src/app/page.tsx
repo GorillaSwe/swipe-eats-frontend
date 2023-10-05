@@ -1,12 +1,13 @@
 import React from "react";
 import CategoryItem from "@/components/CategoryItem";
 import { CATEGORIES } from "@/constants/categories";
+import styles from './page.module.css';
 
 const CategorySelectionPage: React.FC = () => {
   return (
-    <div>
-      <h1>カテゴリを選択してください</h1>
-      <ul className='category-list'>
+    <div className={styles.container}>
+      <h1 className={styles.title}>カテゴリを選択してください</h1>
+      <ul className={styles.list}>
         {CATEGORIES.map((category) => (
           <CategoryItem 
             key={category.id} 
