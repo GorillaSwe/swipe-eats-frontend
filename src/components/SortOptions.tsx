@@ -1,6 +1,7 @@
 import React from "react";
 import { SORT_OPTIONS } from '@/constants/sortOptions';
 import SortOption from "./SortOption";
+import styles from './SortOptions.module.css';
 
 type SortOptionsProps = {
   selectedSort: string;
@@ -9,9 +10,9 @@ type SortOptionsProps = {
 
 const SortOptions: React.FC<SortOptionsProps> = ({ selectedSort, onSelectedSortChange }) => {
   return (
-    <div>
-      <h3>並び替え</h3>
-      <div className="sort-options">
+    <div className={styles.container}>
+      <h3 className={styles.title}>並び替え</h3>
+      <div className={styles.option}>
         {SORT_OPTIONS.map((option) => (
           <SortOption
             key={option.value}

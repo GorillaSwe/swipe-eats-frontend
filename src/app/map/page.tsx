@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { GoogleMap, LoadScript, MarkerF, InfoWindow } from '@react-google-maps/api'
 import { useRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
+import styles from './page.module.css';
 
 const DEFAULT_CENTER = {
   lat: 35.5649221,
@@ -49,7 +50,7 @@ const MapPage: React.FC = () => {
   };
   
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div className={styles.container}>
       <LoadScript googleMapsApiKey={googleMapsApiKey}>
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -76,11 +77,11 @@ const MapPage: React.FC = () => {
         ))}
       </GoogleMap>
       {selectedRestaurant && (
-        <div className="map-restaurant-info">
-          <h2 className="map-restaurant-info-name">{selectedRestaurant.name}</h2>
+        <div className={styles.info}>
+          <h2 className={styles.name}>{selectedRestaurant.name}</h2>
           <div
             style={{ backgroundImage: `url(${selectedRestaurant.photos[0]})` }}
-            className="map-restaurant-info-image"
+            className={styles.image}
           >
           </div>
         </div>

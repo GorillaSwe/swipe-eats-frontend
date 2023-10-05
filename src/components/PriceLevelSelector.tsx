@@ -1,6 +1,7 @@
 import React from "react";
 import { PRICE_LEVELS } from '@/constants/priceLevels';
 import PriceLevelOption from './PriceLevelOption';
+import styles from './PriceLevelSelector.module.css';
 
 type PriceLevelSelectorProps = {
   selectedPriceLevels: number[];
@@ -20,9 +21,9 @@ const PriceLevelSelector: React.FC<PriceLevelSelectorProps> = ({
   };
 
   return (
-    <div>
-      <h3>価格帯</h3>
-      <div className="price-level-selector">
+    <div className={styles.container}>
+      <h3 className={styles.title}>価格帯</h3>
+      <div className="options">
         {PRICE_LEVELS.map((priceLevel) => (
           <PriceLevelOption
             key={priceLevel.level}

@@ -1,4 +1,5 @@
 import React from "react";
+import styles from './PriceLevelOption.module.css';
 
 type PriceLevelOptionProps = {
   level: number;
@@ -14,14 +15,14 @@ const PriceLevelOption: React.FC<PriceLevelOptionProps> = React.memo(({
   onLevelClick
 }: PriceLevelOptionProps) => {
   return (
-    <label className={`price-level-label ${isSelected ? "price-level-label-selected" : ""}`}>
+    <label className={`${styles.label} ${isSelected ? styles.selected : ''}`}>
       <input
         type="checkbox"
-        className="price-level-button"
+        className={styles.button}
         checked={isSelected}
         onChange={() => onLevelClick(level)}
       />
-      <p>{label}</p>
+      <p className={styles.text}>{label}</p>
     </label>
   );
 });

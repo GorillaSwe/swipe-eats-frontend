@@ -6,6 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { showRestaurants } from "@/utils/api/restaurantApi";
 import { useSetRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
+import styles from './page.module.css';
 
 const ResultsPage: React.FC = () => {
   const router = useRouter();
@@ -65,9 +66,9 @@ const ResultsPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>検索結果</h1>
-      {error && <div className="error-message">{error}</div>}
+    <div className={styles.container}>
+      <h1 className={styles.title}>検索結果</h1>
+      {error && <div className={styles.error}>{error}</div>}
       <CardSwiper restaurants={restaurants} onCardSwipe={handleCardSwipe} onLastCardSwipe={handleLastCardSwipe} />
     </div>
   );

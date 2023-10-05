@@ -8,6 +8,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import styles from './CardSwiper.module.css';
 
 interface CardSwiperProps {
     restaurants: RestaurantData[];
@@ -105,33 +106,29 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
   }, [restaurants.length]);
 
   return (
-    <div>
-      <div className='cardContainer'>
+    <div className={styles.container}>
+      <div className={styles.cardContainer}>
         {restaurants.map((restaurant, index) => (
           <TinderCard
             ref={childRefs[index]}
-            className='swipe'
+            className={styles.card}
             key={restaurant.name}
             onSwipe={(dir) => swiped(dir, restaurant.name, index)}
             onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
           >
-            <Slider className= "SliderSection" {...sliderSettings}>
+            <Slider className={styles.slider} {...sliderSettings}>
               {restaurant.photos ? (
                 restaurant.photos.map((photo, photoIndex) => (
                   <div
                     key={photoIndex}
                   >
-                    <div
-                      style={{ backgroundImage: 'url(' + photo + ')' }}
-                      className='card'
-                      key={photoIndex}
-                    ></div>
-                    <div className="card-info">
-                      <h3 className="restaurant-name">{restaurant.name}</h3>
-                      <h3 className="restaurant-vicinity">{restaurant.vicinity}</h3>
-                      <h3 className="restaurant-rating">{restaurant.rating}</h3>
-                      <h3 className="restaurant-price_level">{restaurant.price_level}</h3>
-                      <h3 className="restaurant-website">{restaurant.website}</h3>
+                    <div style={{ backgroundImage: 'url(' + photo + ')' }} className={styles.image}></div>
+                    <div className={styles.info}>
+                      <h3 className={styles.name}>{restaurant.name}</h3>
+                      <h3 className={styles.vicinity}>{restaurant.vicinity}</h3>
+                      <h3 className={styles.rating}>{restaurant.rating}</h3>
+                      <h3 className={styles.priceLevel}>{restaurant.price_level}</h3>
+                      <h3 className={styles.website}>{restaurant.website}</h3>
                     </div>
                   </div>)
                 )
@@ -142,7 +139,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
           </TinderCard>
         ))}
       </div>
-      <div className='buttons'>
+      <div className={styles.buttons}>
         <IconButton style={{ backgroundColor: canSwipe ? '#9198e5' : '#c3c4d3' }} onClick={() => swipe('left')}>
           <CloseIcon fontSize="large" />
         </IconButton>

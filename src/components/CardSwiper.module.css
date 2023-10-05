@@ -1,0 +1,97 @@
+@import "~font-awesome/css/font-awesome.min.css";
+
+.cardContainer {
+    width: 580px;
+    max-width: 580px;
+    height: 600px;
+}
+
+.card {
+    position: absolute;
+    /* box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30); */
+}
+
+.image {
+    width: 580px;
+    max-width: 580px;
+    height: 500px;
+    min-height: 500px;
+    border-radius: 20px 20px 0 0 ;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+.info {
+    width: 580px;
+    max-width: 580px;
+    height: 100px;
+    min-height: 100px;
+    background-color: #121418;
+    border-radius: 0 0 20px 20px;
+}
+
+.info h3 {
+    font-weight: bold;
+    color: #fff;
+}
+
+.slider {
+    max-width: 580px;
+}
+
+.slider :global(.slick-prev) {
+    left: 0;
+    z-index: 1;
+} 
+
+.slider :global(.slick-next) {
+    right: 0;
+}
+
+.slider :global(.slick-prev),
+.slider :global(.slick-next) {
+    width: 40px;
+    height: 40px;
+}
+
+.slider :global(.slick-prev:before),
+.slider :global(.slick-next:before) {
+    font-size: 60px;
+    opacity: 1;
+    color: #000;
+    font-family: FontAwesome;
+}
+
+.slider :global(.slick-prev:before) {
+    content: "\f0d9";
+}
+
+.slider :global(.slick-next:before) {
+    content: "\f0da";
+}
+
+.slider :global(.slick-prev.slick-disabled),
+.slider :global(.slick-next.slick-disabled) {
+    opacity: 0;
+}
+
+.buttons {
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.buttons button {
+    color: #fff;
+    width: 160px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    transition: 200ms;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.10);
+}
+
+.buttons button:hover {
+    transform: scale(1.05);
+  }
