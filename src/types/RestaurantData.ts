@@ -6,9 +6,10 @@ export interface RestaurantData {
   photos: [string];
   vicinity: string;
   rating: number;
-  price_level: number;
+  priceLevel: number;
   website: string;
   url: string;
-  formatted_phone_number: string;
+  userRatingsTotal: number,
+  formattedPhoneNumber: string;
   direction: string;
 }

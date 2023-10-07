@@ -3,12 +3,11 @@
 .cardContainer {
     width: 580px;
     max-width: 580px;
-    height: 600px;
+    height: 650px;
 }
 
 .card {
     position: absolute;
-    /* box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30); */
 }
 
 .image {
@@ -25,15 +24,27 @@
 .info {
     width: 580px;
     max-width: 580px;
-    height: 100px;
-    min-height: 100px;
-    background-color: #121418;
+    height: 150px;
+    min-height: 150px;
+    background-color: #fff;
     border-radius: 0 0 20px 20px;
+    overflow: scroll;
 }
 
-.info h3 {
+.info p,
+.info a {
+    color: #707579;
+}
+
+.name {
     font-weight: bold;
-    color: #fff;
+    font-size: 30px;
+}
+
+.subContainer {
+    display: flex;
+    align-items: center;
+    justify-content:center;
 }
 
 .slider {

@@ -9,6 +9,8 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './CardSwiper.module.css';
+import StarRating from './StarRating';
+
 
 interface CardSwiperProps {
     restaurants: RestaurantData[];
@@ -105,6 +107,24 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
     setCurrentIndex(restaurants.length - 1);
   }, [restaurants.length]);
 
+  const getPriceLevelDescription = (priceLevel: number) => {
+    switch(priceLevel) {
+      case 0:
+        return '・無料';
+      case 1:
+        return '・安価';
+      case 2:
+        return '・お手頃';
+      case 3:
+        return '・高級';
+      case 4:
+        return '・贅沢';
+      default:
+        return '';
+    }
+  }
+  
+
   return (
     <div className={styles.container}>
       <div className={styles.cardContainer}>
@@ -125,10 +145,14 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
                     <div style={{ backgroundImage: 'url(' + photo + ')' }} className={styles.image}></div>
                     <div className={styles.info}>
                       <h3 className={styles.name}>{restaurant.name}</h3>
-                      <h3 className={styles.vicinity}>{restaurant.vicinity}</h3>
-                      <h3 className={styles.rating}>{restaurant.rating}</h3>
-                      <h3 className={styles.priceLevel}>{restaurant.price_level}</h3>
-                      <h3 className={styles.website}>{restaurant.website}</h3>
+                      <p className={styles.vicinity}>{restaurant.vicinity}</p>
+                      <div className={styles.subContainer}>
+                        <StarRating rating={restaurant.rating} />
+                        <p className={styles.priceLevel}>{getPriceLevelDescription(restaurant.priceLevel)}</p>
+                      </div>
+                      <p><a className={styles.website} href={restaurant.website} target="_blank">{restaurant.website}</a></p>
+                      <p><a className={styles.url} href={restaurant.url} target="_blank">Google Mapで表示</a></p>
+                      <p className={styles.userRatingsTotal}>{restaurant.userRatingsTotal}</p>
                     </div>
                   </div>)
                 )
