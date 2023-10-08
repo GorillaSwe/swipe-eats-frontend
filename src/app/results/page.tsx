@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useState, useContext } from "react";
-import CardSwiper from "@/components/CardSwiper";
+import React, { useEffect, useState } from "react";
+import CardSwiper from "@/features/results/components/CardSwiper";
 import { useSearchParams, useRouter } from "next/navigation";
-import { showRestaurants } from "@/utils/api/restaurantApi";
+import { showRestaurants } from "@/features/results/api/getRestaurantInfo";
 import { useSetRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
 import styles from './page.module.css';
 
-const ResultsPage: React.FC = () => {
+const ResultPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams()
   const latitude = parseFloat(searchParams.get('latitude') || '');
@@ -34,7 +34,7 @@ const ResultsPage: React.FC = () => {
           setRestaurantsWithDirection(restaurantData.map((restaurant: any) => ({
             ...restaurant,
             direction: "",
-          }))); 
+          })));
         }
       } catch (error) {
         setError("レストランデータの取得に失敗しました。");
@@ -48,7 +48,7 @@ const ResultsPage: React.FC = () => {
     }
   }, []);
 
-  const handleCardSwipe = (index :number, direction :string) => {
+  const handleCardSwipe = (index: number, direction: string) => {
     setRestaurantsWithDirection(prev => {
       const updatedRestaurants = [...prev];
       updatedRestaurants[index].direction = direction;
@@ -60,7 +60,8 @@ const ResultsPage: React.FC = () => {
     setRestaurantData({
       restaurantsWithDirection,
       latitude,
-      longitude
+      longitude,
+      selectedRadius
     });
     router.push(`/map`);
   }
@@ -74,4 +75,4 @@ const ResultsPage: React.FC = () => {
   );
 };
 
-export default ResultsPage;
+export default ResultPage;

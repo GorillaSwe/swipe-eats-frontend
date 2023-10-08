@@ -17,7 +17,8 @@
     text-decoration: none;
 }
 
-.image, .text {
+.image,
+.text {
     width: 100%;
 }
 

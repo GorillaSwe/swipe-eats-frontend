@@ -1,6 +1,5 @@
 import styles from './StarRating.module.css';
 
-
 interface StarRatingProps {
   rating: number;
 }
@@ -13,7 +12,6 @@ const StarRating: React.FC<StarRatingProps> = ({ rating }) => {
 
   return (
     <div className={styles.container}>
-      <p>{rating}</p>
       {[...Array(fullStars)].map((_, i) => (
         <span key={i} className={styles.full}>★</span>
       ))}

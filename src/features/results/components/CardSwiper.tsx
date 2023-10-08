@@ -1,21 +1,17 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import { RestaurantData } from "@/types/RestaurantData";
 import TinderCard from 'react-tinder-card'
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import UndoIcon from "@mui/icons-material/Undo";
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './CardSwiper.module.css';
-import StarRating from './StarRating';
-
+import CardImageSlider from '@/features/results/components/CardImageSlider'
+import CardInfo from '@/features/results/components/CardInfo'
+import CardButtons from '@/features/results/components/CardButtons'
 
 interface CardSwiperProps {
-    restaurants: RestaurantData[];
-    onCardSwipe: (index: number, direction: string) => void;
-    onLastCardSwipe: () => void;
+  restaurants: RestaurantData[];
+  onCardSwipe: (index: number, direction: string) => void;
+  onLastCardSwipe: () => void;
 }
 
 const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLastCardSwipe }) => {
@@ -91,7 +87,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
   const swiped = (direction: string, nameToDelete: string, index: number) => {
     updateCurrentIndex(index - 1)
     onCardSwipe(index, direction);
-    if(currentIndex === 0) onLastCardSwipe()
+    if (currentIndex === 0) onLastCardSwipe()
   }
 
   /**
@@ -101,29 +97,11 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
   const outOfFrame = (name: string, index: number) => {
     currentIndexRef.current >= index && childRefs[index].current.restoreCard()
   }
-  
+
   // restaurants.lengthが変更された際にcurrentIndexを更新する
   useEffect(() => {
     setCurrentIndex(restaurants.length - 1);
   }, [restaurants.length]);
-
-  const getPriceLevelDescription = (priceLevel: number) => {
-    switch(priceLevel) {
-      case 0:
-        return '・無料';
-      case 1:
-        return '・安価';
-      case 2:
-        return '・お手頃';
-      case 3:
-        return '・高級';
-      case 4:
-        return '・贅沢';
-      default:
-        return '';
-    }
-  }
-  
 
   return (
     <div className={styles.container}>
@@ -136,44 +114,17 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
             onSwipe={(dir) => swiped(dir, restaurant.name, index)}
             onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
           >
-            <Slider className={styles.slider} {...sliderSettings}>
-              {restaurant.photos ? (
-                restaurant.photos.map((photo, photoIndex) => (
-                  <div
-                    key={photoIndex}
-                  >
-                    <div style={{ backgroundImage: 'url(' + photo + ')' }} className={styles.image}></div>
-                    <div className={styles.info}>
-                      <h3 className={styles.name}>{restaurant.name}</h3>
-                      <p className={styles.vicinity}>{restaurant.vicinity}</p>
-                      <div className={styles.subContainer}>
-                        <StarRating rating={restaurant.rating} />
-                        <p className={styles.priceLevel}>{getPriceLevelDescription(restaurant.priceLevel)}</p>
-                      </div>
-                      <p><a className={styles.website} href={restaurant.website} target="_blank">{restaurant.website}</a></p>
-                      <p><a className={styles.url} href={restaurant.url} target="_blank">Google Mapで表示</a></p>
-                      <p className={styles.userRatingsTotal}>{restaurant.userRatingsTotal}</p>
-                    </div>
-                  </div>)
-                )
-              ) : (
-                <p>No photos available</p>
-              )}
-            </Slider>
+            <CardImageSlider photos={restaurant.photos} />
+            <CardInfo restaurant={restaurant} />
           </TinderCard>
         ))}
       </div>
-      <div className={styles.buttons}>
-        <IconButton style={{ backgroundColor: canSwipe ? '#9198e5' : '#c3c4d3' }} onClick={() => swipe('left')}>
-          <CloseIcon fontSize="large" />
-        </IconButton>
-        <IconButton style={{ backgroundColor: canGoBack ? '#9198e5' : '#c3c4d3'}} onClick={() => goBack()}>
-          <UndoIcon fontSize="large" />
-        </IconButton>
-        <IconButton style={{ backgroundColor: canSwipe ? '#9198e5' : '#c3c4d3' }} onClick={() => swipe('right')}>
-          <FavoriteIcon fontSize="large" />
-        </IconButton>
-      </div>
+      <CardButtons
+        canSwipe={canSwipe}
+        canGoBack={canGoBack}
+        swipe={swipe}
+        goBack={goBack}
+      />
     </div>
   );
 };

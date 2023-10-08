@@ -11,7 +11,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ value, image }) => {
   return (
     <li className={styles.item}>
       <Link href={`/search?category=${value}`} className={styles.link}>
-        <div 
+        <div
           style={{ backgroundImage: `url(${image})` }}
           className={styles.image}
         >

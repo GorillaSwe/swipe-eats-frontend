@@ -2,20 +2,20 @@
     display: flex;
     direction: row;
 }
-  
+
 .full {
     color: #FBBD04;
 }
-  
+
 .grey {
     color: #DADCE0;
 }
-  
+
 .partialContainer {
     position: relative;
     color: #DADCE0;
 }
-  
+
 .overlay {
     position: absolute;
     top: 0;

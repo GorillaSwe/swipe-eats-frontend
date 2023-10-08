@@ -1,14 +1,14 @@
 import React from "react";
-import { SORT_OPTIONS } from '@/constants/sortOptions';
-import SortOption from "./SortOption";
-import styles from './SortOptions.module.css';
+import { SORT_OPTIONS } from '@/const/sortOptions';
+import SortOption from "@/features/search/components/SortOption";
+import styles from './SortOptionSelector.module.css';
 
 type SortOptionsProps = {
   selectedSort: string;
   onSelectedSortChange: (selectedSort: string) => void;
 };
 
-const SortOptions: React.FC<SortOptionsProps> = ({ selectedSort, onSelectedSortChange }) => {
+const SortOptionSelector: React.FC<SortOptionsProps> = ({ selectedSort, onSelectedSortChange }) => {
   return (
     <div className={styles.container}>
       <h3 className={styles.title}>並び替え</h3>
@@ -20,11 +20,11 @@ const SortOptions: React.FC<SortOptionsProps> = ({ selectedSort, onSelectedSortC
             label={option.label}
             isSelected={selectedSort === option.value}
             onOptionChange={() => onSelectedSortChange(option.value)}
-            />
+          />
         ))}
       </div>
     </div>
   );
 };
 
-export default SortOptions;
+export default SortOptionSelector;

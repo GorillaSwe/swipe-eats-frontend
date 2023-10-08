@@ -7,6 +7,7 @@ export interface RestaurantData {
   vicinity: string;
   rating: number;
   priceLevel: number;
+  postalCode: string;
   website: string;
   url: string;
   userRatingsTotal: number,

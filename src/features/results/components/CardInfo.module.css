@@ -1,0 +1,40 @@
+.container {
+    width: 580px;
+    max-width: 580px;
+    height: 115px;
+    min-height: 115px;
+    background-color: #fff;
+    border-radius: 0 0 20px 20px;
+    overflow: scroll;
+}
+
+.container p,
+.container a {
+    color: #707579;
+}
+
+.name {
+    margin-top: 7px;
+    font-weight: bold;
+    font-size: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vicinity {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.subContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 
+.subContainer span {
+    color: #707579;
+} */
