@@ -8,7 +8,7 @@ type PriceLevelOptionProps = {
   onLevelClick: (level: number) => void;
 };
 
-const PriceLevelOption: React.FC<PriceLevelOptionProps> = React.memo(({ 
+const PriceLevelOption: React.FC<PriceLevelOptionProps> = React.memo(({
   level,
   label,
   isSelected,

@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import PriceLevelSelector from "@/components/PriceLevelSelector";
-import SortOptions from "@/components/SortOptions";
-import DistanceSlider from "@/components/DistanceSlider";
-import useLocation from "@/hooks/useLocation";
+import PriceLevelSelector from "@/features/search/components/PriceLevelSelector";
+import SortOptionSelector from "@/features/search/components/SortOptionSelector";
+import DistanceSlider from "@/features/search/components/DistanceSlider";
+import useLocation from "@/features/search/hooks/useLocation";
 import styles from './page.module.css';
 
 const DEFAULT_CATEGORY = "restaurant";
@@ -44,7 +44,7 @@ const SearchPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>検索条件を設定してください</h1>
-      <SortOptions selectedSort={selectedSort} onSelectedSortChange={setSelectedSort} />
+      <SortOptionSelector selectedSort={selectedSort} onSelectedSortChange={setSelectedSort} />
       <DistanceSlider selectedRadius={selectedRadius} onRadiusChange={setSelectedRadius} />
       <PriceLevelSelector
         selectedPriceLevels={selectedPriceLevels}

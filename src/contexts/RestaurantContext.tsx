@@ -7,15 +7,17 @@ interface RestaurantData {
   restaurantsWithDirection: restaurant[];
   latitude: number | null;
   longitude: number | null;
+  selectedRadius: number | null;
 }
 
 const defaultState: RestaurantData = {
   restaurantsWithDirection: [],
   latitude: null,
   longitude: null,
+  selectedRadius: null,
 };
 
-const RestaurantUpdateContext = createContext<Function>(() => {});
+const RestaurantUpdateContext = createContext<Function>(() => { });
 const RestaurantContext = createContext<RestaurantData>(defaultState);
 
 export const useRestaurantData = () => useContext(RestaurantContext);
