@@ -1,4 +1,3 @@
-import React from "react";
 import CategoryItem from "@/features/category/components/CategoryItem";
 import { CATEGORIES } from "@/const/categories";
 import styles from './page.module.css';

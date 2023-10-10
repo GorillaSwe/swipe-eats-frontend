@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { GoogleMap, LoadScript, MarkerF, CircleF } from '@react-google-maps/api'
 import { useRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";

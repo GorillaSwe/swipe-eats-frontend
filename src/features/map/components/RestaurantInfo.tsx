@@ -3,7 +3,6 @@ import StarRating from '@/components/ui/StarRating';
 import PriceLevel from '@/components/ui/PriceLevel';
 import styles from './RestaurantInfo.module.css';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import ScheduleIcon from '@mui/icons-material/Schedule';
 import PublicIcon from '@mui/icons-material/Public';
 import PhoneIcon from '@mui/icons-material/Phone';
 import GoogleIcon from '@mui/icons-material/Google';

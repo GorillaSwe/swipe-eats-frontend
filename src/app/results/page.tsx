@@ -1,44 +1,54 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CardSwiper from "@/features/results/components/CardSwiper";
 import { useSearchParams, useRouter } from "next/navigation";
-import { showRestaurants } from "@/features/results/api/getRestaurantInfo";
+import { getRestaurantsInfo } from "@/features/results/api/getRestaurantsInfo";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import { useSetRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
 import styles from './page.module.css';
+import { AxiosError } from "axios";
 
 const ResultPage: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams()
   const latitude = parseFloat(searchParams.get('latitude') || '');
   const longitude = parseFloat(searchParams.get('longitude') || '');
-  const selectedCategory = searchParams.get('category') || 'restaurant';
-  const selectedRadius = parseInt(searchParams.get('radius') || '100');
-  const priceLevelsParam = searchParams.get('priceLevels') || '';
-  const selectedPriceLevels = priceLevelsParam.split(",").map(Number);
-  const sortParam = searchParams.get('sort') || 'recommend';
+  const category = searchParams.get('category') || '';
+  const radius = parseInt(searchParams.get('radius') || '100');
+  const price = searchParams.get('price') || '';
+  const splittedPrice = price ? price.split(",").map(Number) : [];
+  const sort = searchParams.get('sort') || 'prominence';
   const setRestaurantData = useSetRestaurantData();
 
   const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
   const [restaurantsWithDirection, setRestaurantsWithDirection] = useState<RestaurantData[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  interface ErrorResponse {
+    error: string;
+  }
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const res = await showRestaurants(latitude, longitude, selectedCategory, selectedRadius, selectedPriceLevels, sortParam);
-        if (res && res.status === 200) {
-          const restaurantData = res.message;
-          setRestaurants(restaurantData);
-          setRestaurantsWithDirection(restaurantData.map((restaurant: any) => ({
-            ...restaurant,
-            direction: "",
-          })));
-        }
+        const res = await getRestaurantsInfo(latitude, longitude, category, radius, splittedPrice, sort);
+        setRestaurants(res.message);
+        setRestaurantsWithDirection(res.message.map((restaurant: any) => ({
+          ...restaurant,
+          direction: "",
+        })));
       } catch (error) {
-        setError("レストランデータの取得に失敗しました。");
-      };
+        const axiosError = error as AxiosError<ErrorResponse>;
+        if (axiosError.response && axiosError.response.data && axiosError.response.data.error) {
+          setError(axiosError.response.data.error);
+        } else {
+          setError("不明なエラーが発生しました。");
+        }
+      }
+      setIsLoading(false);
     };
 
     if (latitude && longitude) {
@@ -61,16 +71,27 @@ const ResultPage: React.FC = () => {
       restaurantsWithDirection,
       latitude,
       longitude,
-      selectedRadius
+      radius
     });
     router.push(`/map`);
   }
 
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>検索結果</h1>
-      {error && <div className={styles.error}>{error}</div>}
-      <CardSwiper restaurants={restaurants} onCardSwipe={handleCardSwipe} onLastCardSwipe={handleLastCardSwipe} />
+      {error ? (
+        <>
+          <div className={styles.error}><p>{error}</p></div>
+          <div className={styles.buttons}>
+            <button className={styles.button} onClick={() => router.push(`/search/?category=${category}`)}>検索条件を変更</button>
+          </div>
+        </>
+      ) : (
+        <CardSwiper restaurants={restaurants} onCardSwipe={handleCardSwipe} onLastCardSwipe={handleLastCardSwipe} />
+      )}
     </div>
   );
 };

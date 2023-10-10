@@ -1,4 +1,3 @@
-import React from "react";
 import { SORT_OPTIONS } from '@/const/sortOptions';
 import SortOption from "@/features/search/components/SortOption";
 import styles from './SortOptionSelector.module.css';
