@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GoogleMap, LoadScript, MarkerF, CircleF } from '@react-google-maps/api'
+import { GoogleMap, LoadScript, MarkerF, CircleF, InfoWindowF } from '@react-google-maps/api'
 import { useRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
 import styles from './page.module.css';
@@ -25,13 +25,14 @@ const MapPage: React.FC = () => {
   const radius = restaurantData.radius || 500;
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '';
   const [selectedRestaurant, setSelectedRestaurant] = useState<null | RestaurantData>(null);
+  const [hoveredRestaurant, setHoveredRestaurant] = useState<null | RestaurantData>(null);
 
   const center = {
     lat: latitude ?? DEFAULT_CENTER.lat,
     lng: longitude ?? DEFAULT_CENTER.lng
   };
 
-  const [currentCenter, setCurrentCenter] = useState(center);
+  const [mapCenter, setMapCenter] = useState(center);
 
   const containerStyle = {
     width: '90vw',
@@ -74,7 +75,7 @@ const MapPage: React.FC = () => {
       <LoadScript googleMapsApiKey={googleMapsApiKey}>
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={currentCenter}
+          center={mapCenter}
           zoom={getZoomSize(radius)}
         >
           <CircleF
@@ -103,9 +104,30 @@ const MapPage: React.FC = () => {
                 icon={getMarkerIcon(restaurant.direction)}
                 onClick={() => {
                   setSelectedRestaurant(restaurant)
-                  setCurrentCenter({ lat: restaurant.lat, lng: restaurant.lng });
                 }}
-              />
+                onMouseOver={() => setHoveredRestaurant(restaurant)}
+                onMouseOut={() => setHoveredRestaurant(null)}
+              >
+                {(restaurant.direction === "right" && (hoveredRestaurant === null || hoveredRestaurant === restaurant)) && (
+                  <InfoWindowF
+                    position={{
+                      lat: restaurant.lat,
+                      lng: restaurant.lng,
+                    }}
+                  >
+                    <div className={`${styles.infoWindowContent} ${hoveredRestaurant === restaurant ? styles.hovered : ''}`}
+                      onMouseOver={() => setHoveredRestaurant(restaurant)}
+                      onMouseOut={() => setHoveredRestaurant(null)}
+                      onClick={(event) => {
+                        setHoveredRestaurant(null)
+                        setSelectedRestaurant(restaurant)
+                      }}
+                    >
+                      {restaurant.name}
+                    </div>
+                  </InfoWindowF>
+                )}
+              </MarkerF>
             )
           ))}
           {selectedRestaurant && (
@@ -115,13 +137,31 @@ const MapPage: React.FC = () => {
                   lat: selectedRestaurant.lat,
                   lng: selectedRestaurant.lng,
                 }}
-              />
+                onMouseOver={() => setHoveredRestaurant(selectedRestaurant)}
+                onMouseOut={() => setHoveredRestaurant(null)}
+              >
+                {(selectedRestaurant.direction === "right") && (
+                  <InfoWindowF
+                    position={{
+                      lat: selectedRestaurant.lat,
+                      lng: selectedRestaurant.lng,
+                    }}
+                  >
+                    <div className={`${styles.selectedInfoWindowContent} ${hoveredRestaurant === selectedRestaurant ? styles.hovered : ''}`}
+                      onMouseOver={() => setHoveredRestaurant(selectedRestaurant)}
+                      onMouseOut={() => setHoveredRestaurant(null)}
+                    >
+                      {selectedRestaurant.name}
+                    </div>
+                  </InfoWindowF>
+                )}
+              </MarkerF>
               <RestaurantInfo restaurant={selectedRestaurant} />
             </>
           )}
-        </GoogleMap>
+        </GoogleMap >
       </LoadScript>
-    </div>
+    </div >
   );
 };
 export default MapPage;
