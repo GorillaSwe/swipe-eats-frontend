@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import { RestaurantData } from "@/types/RestaurantData";
-import TinderCard from '@/components/TinderCard/index.js';
+import TinderCard from '@/lib/TinderCard/index.js';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './CardSwiper.module.css';
