@@ -27,4 +27,7 @@ const PriceLevelOption: React.FC<PriceLevelOptionProps> = React.memo(({
   );
 });
 
+PriceLevelOption.displayName = "PriceLevelOption";
+
+
 export default PriceLevelOption;

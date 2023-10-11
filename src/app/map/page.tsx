@@ -22,17 +22,15 @@ const MapPage: React.FC = () => {
   const restaurants = restaurantData.restaurantsWithDirection
   const latitude = restaurantData.latitude
   const longitude = restaurantData.longitude
-  const radius = restaurantData.selectedRadius || 500;
+  const radius = restaurantData.radius || 500;
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '';
   const [selectedRestaurant, setSelectedRestaurant] = useState<null | RestaurantData>(null);
 
   const center = {
     lat: latitude ?? DEFAULT_CENTER.lat,
     lng: longitude ?? DEFAULT_CENTER.lng
-    // lat: DEFAULT_CENTER.lat,
-    // lng: DEFAULT_CENTER.lng
   };
-  console.log(radius)
+
   const [currentCenter, setCurrentCenter] = useState(center);
 
   const containerStyle = {
@@ -51,25 +49,24 @@ const MapPage: React.FC = () => {
     }
   };
 
+  type ZoomLevels = {
+    [key: number]: number;
+    default: number;
+  };
+
+  const ZOOM_LEVELS: ZoomLevels = {
+    100: 18,
+    500: 17,
+    1000: 16,
+    2000: 15,
+    3000: 14,
+    4000: 14,
+    5000: 13,
+    default: 16,
+  };
+
   const getZoomSize = (radius: number) => {
-    switch (radius) {
-      case 100:
-        return 18
-      case 500:
-        return 17
-      case 1000:
-        return 16
-      case 2000:
-        return 15
-      case 3000:
-        return 14
-      case 4000:
-        return 14
-      case 5000:
-        return 13
-      default:
-        return 16
-    }
+    return ZOOM_LEVELS[radius] || ZOOM_LEVELS.default;
   }
 
   return (
@@ -98,7 +95,7 @@ const MapPage: React.FC = () => {
           {restaurants?.map((restaurant, index) => (
             restaurant !== selectedRestaurant && (
               <MarkerF
-                key={index}
+                key={restaurant.placeId}
                 position={{
                   lat: restaurant.lat,
                   lng: restaurant.lng,
