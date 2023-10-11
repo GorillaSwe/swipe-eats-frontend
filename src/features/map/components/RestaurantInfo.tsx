@@ -15,7 +15,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({ restaurant }) => {
   return (
     <div className={styles.container}>
       <div
-        style={{ backgroundImage: `url(${restaurant.photos[0]})` }}
+        style={{ backgroundImage: restaurant.photos && restaurant.photos[0] ? `url(${restaurant.photos[0]})` : 'none' }}
         className={styles.image}
       >
       </div>

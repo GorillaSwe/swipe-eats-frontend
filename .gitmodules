@@ -1,0 +1,3 @@
+[submodule "src/components/TinderCard"]
+	path = src/components/TinderCard
+	url = https://github.com/junk237/react-tinder-card.git

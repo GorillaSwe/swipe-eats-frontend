@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import { RestaurantData } from "@/types/RestaurantData";
-import TinderCard from 'react-tinder-card'
+import TinderCard from '@/components/TinderCard/index.js';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './CardSwiper.module.css';
@@ -111,8 +111,10 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
             ref={childRefs[index]}
             className={styles.card}
             key={restaurant.name}
-            onSwipe={(dir) => swiped(dir, restaurant.name, index)}
+            preventSwipe={['up', 'down']}
+            onSwipe={(dir: string) => swiped(dir, restaurant.name, index)}
             onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
+            swipeRequirementType='position'
           >
             <CardImageSlider photos={restaurant.photos} />
             <CardInfo restaurant={restaurant} />
