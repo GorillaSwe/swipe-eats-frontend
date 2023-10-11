@@ -1,3 +1,31 @@
 .container {
     width: 100%;
 }
+
+.container :global(.gm-style-iw) {
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.container :global(.gm-style-iw-d) {
+    padding: 0;
+    overflow: unset !important;
+}
+
+.container :global(.gm-ui-hover-effect) {
+    display: none !important;
+}
+
+.selectedInfoWindowContent,
+.infoWindowContent {
+    padding: 10px;
+}
+
+.hovered,
+.selectedInfoWindowContent:hover,
+.infoWindowContent:hover {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px;
+}
