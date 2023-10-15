@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { GoogleMap, LoadScript, MarkerF, CircleF, InfoWindowF } from '@react-google-maps/api'
+import { useState, useEffect } from "react";
+import { GoogleMap, LoadScript, MarkerF, CircleF, InfoWindowF, DirectionsService, DirectionsRenderer } from '@react-google-maps/api'
 import { useRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
 import styles from './page.module.css';
@@ -26,6 +26,9 @@ const MapPage: React.FC = () => {
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '';
   const [selectedRestaurant, setSelectedRestaurant] = useState<null | RestaurantData>(null);
   const [hoveredRestaurant, setHoveredRestaurant] = useState<null | RestaurantData>(null);
+  const [directionsResult, setDirectionsResult] = useState<google.maps.DirectionsResult | null>(null);
+  const [travelTime, setTravelTime] = useState<string | null>(null);
+  const [previousPlaceId, setPreviousPlaceId] = useState<string | null>(null);
 
   const center = {
     lat: latitude ?? DEFAULT_CENTER.lat,
@@ -70,6 +73,23 @@ const MapPage: React.FC = () => {
     return ZOOM_LEVELS[radius] || ZOOM_LEVELS.default;
   }
 
+  const handleDirectionsCallback = (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
+    console.log("handleDirectionsCallback called" + selectedRestaurant?.name);
+
+    if (result && status === google.maps.DirectionsStatus.OK) {
+      if (!previousPlaceId || previousPlaceId !== selectedRestaurant?.placeId) {
+        setDirectionsResult(result);
+        setTravelTime(result.routes[0].legs[0].duration?.text || null);
+        setPreviousPlaceId(selectedRestaurant?.placeId || null);
+      }
+    } else {
+      setDirectionsResult(null);
+      setTravelTime(null);
+      setPreviousPlaceId(null);
+      console.error("Failed to get directions:", status);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <LoadScript googleMapsApiKey={googleMapsApiKey}>
@@ -92,7 +112,15 @@ const MapPage: React.FC = () => {
           <MarkerF
             position={center}
             icon={USER_MARKER_ICON}
-          />
+          >
+            {(travelTime) && (
+              <InfoWindowF
+                position={center}
+              >
+                <div className={styles.infoWindowContent}>{travelTime}</div>
+              </InfoWindowF>
+            )}
+          </MarkerF>
           {restaurants?.map((restaurant, index) => (
             restaurant !== selectedRestaurant && (
               <MarkerF
@@ -140,23 +168,45 @@ const MapPage: React.FC = () => {
                 onMouseOver={() => setHoveredRestaurant(selectedRestaurant)}
                 onMouseOut={() => setHoveredRestaurant(null)}
               >
-                {(selectedRestaurant.direction === "right") && (
-                  <InfoWindowF
-                    position={{
-                      lat: selectedRestaurant.lat,
-                      lng: selectedRestaurant.lng,
-                    }}
+                <InfoWindowF
+                  position={{
+                    lat: selectedRestaurant.lat,
+                    lng: selectedRestaurant.lng,
+                  }}
+                >
+                  <div className={`${styles.selectedInfoWindowContent} ${hoveredRestaurant === selectedRestaurant ? styles.hovered : ''}`}
+                    onMouseOver={() => setHoveredRestaurant(selectedRestaurant)}
+                    onMouseOut={() => setHoveredRestaurant(null)}
                   >
-                    <div className={`${styles.selectedInfoWindowContent} ${hoveredRestaurant === selectedRestaurant ? styles.hovered : ''}`}
-                      onMouseOver={() => setHoveredRestaurant(selectedRestaurant)}
-                      onMouseOut={() => setHoveredRestaurant(null)}
-                    >
-                      {selectedRestaurant.name}
-                    </div>
-                  </InfoWindowF>
-                )}
+                    {selectedRestaurant.name}
+                  </div>
+                </InfoWindowF>
               </MarkerF>
               <RestaurantInfo restaurant={selectedRestaurant} />
+            </>
+          )}
+          {selectedRestaurant && (
+            <DirectionsService
+              options={{
+                origin: center,
+                destination: {
+                  lat: selectedRestaurant.lat,
+                  lng: selectedRestaurant.lng,
+                },
+                travelMode: google.maps.TravelMode.WALKING,
+              }}
+              callback={handleDirectionsCallback}
+            />
+          )}
+          {directionsResult && (
+            <>
+              <DirectionsRenderer
+                options={{
+                  suppressMarkers: true,
+                  preserveViewport: true,
+                  directions: directionsResult,
+                }}
+              />
             </>
           )}
         </GoogleMap >
