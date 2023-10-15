@@ -23,7 +23,7 @@
 }
 
 .hovered,
-.selectedInfoWindowContent:hover,
+.selectedInfoWindowContent,
 .infoWindowContent:hover {
     font-size: 18px;
     font-weight: bold;
