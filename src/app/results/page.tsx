@@ -67,8 +67,9 @@ const ResultPage: React.FC = () => {
   }
 
   const handleLastCardSwipe = () => {
+    const reversedRestaurantsWithDirection = [...restaurantsWithDirection].reverse();
     setRestaurantData({
-      restaurantsWithDirection,
+      restaurantsWithDirection: reversedRestaurantsWithDirection,
       latitude,
       longitude,
       radius

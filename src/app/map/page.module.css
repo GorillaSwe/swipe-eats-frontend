@@ -1,5 +1,24 @@
 .container {
-    width: 100%;
+    width: 90vw;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.restaurantInfo {
+    width: 30vw;
+    max-width: 400px;
+    height: 80vh;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+    box-shadow: 4px 2px 7px rgba(60, 64, 67, 0.3), 2px 2px 6px 2px rgba(60, 64, 67, 0.15);
+}
+
+.restaurantList {
+    height: 100%;
+    overflow: scroll;
+    /* padding: 20px; */
 }
 
 .container :global(.gm-style-iw) {
@@ -24,8 +43,9 @@
 
 .hovered,
 .selectedInfoWindowContent,
+.travelInfoWindowContent,
 .infoWindowContent:hover {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     padding: 15px;
 }
