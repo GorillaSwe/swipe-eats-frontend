@@ -6,6 +6,8 @@ import { useRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
 import styles from './page.module.css';
 import RestaurantInfo from "@/features/map/components/RestaurantInfo";
+import RestaurantListItem from "@/features/map/components/RestaurantListItem";
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 
 const DEFAULT_CENTER = {
   lat: 35.5649221,
@@ -38,7 +40,7 @@ const MapPage: React.FC = () => {
   const [mapCenter, setMapCenter] = useState(center);
 
   const containerStyle = {
-    width: '90vw',
+    width: '60vw',
     height: '80vh',
   }
 
@@ -74,8 +76,6 @@ const MapPage: React.FC = () => {
   }
 
   const handleDirectionsCallback = (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
-    console.log("handleDirectionsCallback called" + selectedRestaurant?.name);
-
     if (result && status === google.maps.DirectionsStatus.OK) {
       if (!previousPlaceId || previousPlaceId !== selectedRestaurant?.placeId) {
         setDirectionsResult(result);
@@ -92,6 +92,24 @@ const MapPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.restaurantInfo}>
+        <div className={styles.restaurantList}>
+          {restaurants?.map((restaurant, index) => (
+            restaurant.direction === "right" && (
+              <RestaurantListItem key={restaurant.placeId} restaurant={restaurant} setHoveredRestaurant={setHoveredRestaurant} setSelectedRestaurant={setSelectedRestaurant} />
+            )
+          ))}
+        </div>
+        {selectedRestaurant && (
+          <RestaurantInfo
+            restaurant={selectedRestaurant}
+            setSelectedRestaurant={() => setSelectedRestaurant(null)}
+            setDirectionsResult={() => setDirectionsResult(null)}
+            setTravelTime={() => setTravelTime(null)}
+            setPreviousPlaceId={() => setPreviousPlaceId(null)}
+          />
+        )}
+      </div>
       <LoadScript googleMapsApiKey={googleMapsApiKey}>
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -117,12 +135,12 @@ const MapPage: React.FC = () => {
               <InfoWindowF
                 position={center}
               >
-                <div className={styles.infoWindowContent}>{travelTime}</div>
+                <div className={styles.travelInfoWindowContent}><DirectionsWalkIcon />{travelTime}</div>
               </InfoWindowF>
             )}
           </MarkerF>
           {restaurants?.map((restaurant, index) => (
-            restaurant !== selectedRestaurant && (
+            restaurant !== selectedRestaurant && restaurant.direction == "right" && (
               <MarkerF
                 key={restaurant.placeId}
                 position={{
@@ -182,7 +200,6 @@ const MapPage: React.FC = () => {
                   </div>
                 </InfoWindowF>
               </MarkerF>
-              <RestaurantInfo restaurant={selectedRestaurant} />
             </>
           )}
           {selectedRestaurant && (

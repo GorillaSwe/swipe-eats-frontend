@@ -9,15 +9,30 @@ import GoogleIcon from '@mui/icons-material/Google';
 
 interface RestaurantInfoProps {
   restaurant: RestaurantData;
+  setSelectedRestaurant: (restaurant: RestaurantData | null) => void;
+  setDirectionsResult: (directionsResult: google.maps.DirectionsResult | null) => void;
+  setTravelTime: (travelTime: string | null) => void;
+  setPreviousPlaceId: (previousPlaceId: string | null) => void;
 }
 
-const RestaurantInfo: React.FC<RestaurantInfoProps> = ({ restaurant }) => {
+const RestaurantInfo: React.FC<RestaurantInfoProps> = ({ restaurant, setSelectedRestaurant, setDirectionsResult, setTravelTime, setPreviousPlaceId }) => {
   return (
     <div className={styles.container}>
       <div
         style={{ backgroundImage: restaurant.photos && restaurant.photos[0] ? `url(${restaurant.photos[0]})` : 'none' }}
         className={styles.image}
       >
+        <button
+          className={styles.button}
+          onClick={() => {
+            setSelectedRestaurant(null);
+            setDirectionsResult(null);
+            setTravelTime(null);
+            setPreviousPlaceId(null);
+          }}
+        >
+          ✖
+        </button>
       </div>
       <div className={styles.topContainer}>
         <h3 className={styles.name}>{restaurant.name}</h3>
