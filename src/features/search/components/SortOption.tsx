@@ -1,4 +1,4 @@
-import styles from './SortOption.module.css';
+import styles from './SortOption.module.scss';
 
 type SortOptionProps = {
   value: string;

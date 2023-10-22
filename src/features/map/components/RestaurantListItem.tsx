@@ -1,4 +1,4 @@
-import styles from './RestaurantListItem.module.css';
+import styles from './RestaurantListItem.module.scss';
 import { RestaurantData } from "@/types/RestaurantData";
 import StarRating from '@/components/ui/StarRating';
 import PriceLevel from '@/components/ui/PriceLevel';

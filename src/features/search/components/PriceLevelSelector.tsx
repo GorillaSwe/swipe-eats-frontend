@@ -1,6 +1,6 @@
 import { PRICE_LEVELS } from '@/const/priceLevels';
 import PriceLevelOption from './PriceLevelOption';
-import styles from './PriceLevelSelector.module.css';
+import styles from './PriceLevelSelector.module.scss';
 
 type PriceLevelSelectorProps = {
   selectedPriceLevels: number[];

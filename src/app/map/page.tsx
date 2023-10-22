@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { GoogleMap, LoadScript, MarkerF, CircleF, InfoWindowF, DirectionsService, DirectionsRenderer } from '@react-google-maps/api'
 import { useRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
-import styles from './page.module.css';
+import styles from './page.module.scss';
 import RestaurantInfo from "@/features/map/components/RestaurantInfo";
 import RestaurantListItem from "@/features/map/components/RestaurantListItem";
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';

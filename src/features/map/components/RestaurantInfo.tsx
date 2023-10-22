@@ -1,7 +1,7 @@
 import { RestaurantData } from "@/types/RestaurantData";
 import StarRating from '@/components/ui/StarRating';
 import PriceLevel from '@/components/ui/PriceLevel';
-import styles from './RestaurantInfo.module.css';
+import styles from './RestaurantInfo.module.scss';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PublicIcon from '@mui/icons-material/Public';
 import PhoneIcon from '@mui/icons-material/Phone';

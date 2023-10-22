@@ -1,0 +1,54 @@
+@import "~font-awesome/css/font-awesome.min.css";
+
+.container :global(.slick-prev) {
+    left: 0;
+    z-index: 1;
+}
+
+.container :global(.slick-next) {
+    right: 0;
+}
+
+.container :global(.slick-prev),
+.container :global(.slick-next) {
+    width: 40px;
+    height: 40px;
+}
+
+.container :global(.slick-prev:before),
+.container :global(.slick-next:before) {
+    font-size: 60px;
+    opacity: 1;
+    color: #000;
+    font-family: FontAwesome;
+}
+
+.container :global(.slick-prev:before) {
+    content: "\f0d9";
+}
+
+.container :global(.slick-next:before) {
+    content: "\f0da";
+}
+
+.container :global(.slick-prev.slick-disabled),
+.container :global(.slick-next.slick-disabled) {
+    opacity: 0;
+}
+
+.container :global(.slick-track) {
+    height: 500px;
+}
+
+.container {
+    max-width: 580px;
+
+    .image {
+        width: 580px;
+        height: 500px;
+        border-radius: 20px 20px 0 0;
+        background-size: cover;
+        background-position: center;
+        cursor: pointer;
+    }
+}

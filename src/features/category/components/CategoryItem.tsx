@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from './CategoryItem.module.css';
+import styles from './CategoryItem.module.scss';
 
 type CategoryItemProps = {
   value: string;
@@ -8,7 +8,7 @@ type CategoryItemProps = {
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ value, image }) => {
   return (
-    <li className={styles.item}>
+    <li className={styles.container}>
       <Link href={`/search?category=${value}`} className={styles.link}>
         <div
           style={{ backgroundImage: `url(${image})` }}

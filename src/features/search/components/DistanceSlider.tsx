@@ -1,4 +1,4 @@
-import styles from './DistanceSlider.module.css';
+import styles from './DistanceSlider.module.scss';
 
 type DistanceSliderProps = {
   selectedRadius: number;
