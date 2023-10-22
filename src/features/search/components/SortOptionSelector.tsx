@@ -1,6 +1,6 @@
 import { SORT_OPTIONS } from '@/const/sortOptions';
 import SortOption from "@/features/search/components/SortOption";
-import styles from './SortOptionSelector.module.css';
+import styles from './SortOptionSelector.module.scss';
 
 type SortOptionsProps = {
   selectedSort: string;

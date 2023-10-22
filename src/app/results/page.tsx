@@ -7,7 +7,7 @@ import { getRestaurantsInfo } from "@/features/results/api/getRestaurantsInfo";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { useSetRestaurantData } from '@/contexts/RestaurantContext';
 import { RestaurantData } from "@/types/RestaurantData";
-import styles from './page.module.css';
+import styles from './page.module.scss';
 import { AxiosError } from "axios";
 
 const ResultPage: React.FC = () => {

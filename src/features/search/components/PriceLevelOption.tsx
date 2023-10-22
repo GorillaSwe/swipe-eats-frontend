@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './PriceLevelOption.module.css';
+import styles from './PriceLevelOption.module.scss';
 
 type PriceLevelOptionProps = {
   level: number;

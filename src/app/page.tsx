@@ -1,6 +1,6 @@
 import CategoryItem from "@/features/category/components/CategoryItem";
 import { CATEGORIES } from "@/const/categories";
-import styles from './page.module.css';
+import styles from './page.module.scss';
 
 const CategorySelectionPage: React.FC = () => {
   return (

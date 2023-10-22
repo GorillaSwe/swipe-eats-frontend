@@ -1,0 +1,53 @@
+.container {
+    height: 160px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 20px;
+    border-bottom: solid 1px #707579;
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+
+    h3 {
+        font-weight: bold;
+    }
+
+    p {
+        color: #707579;
+        font-size: 14px;
+    }
+
+    span {
+        font-size: 14px;
+    }
+
+    .image {
+        width: 120px;
+        height: 120px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .leftContainer {
+        width: calc(100% - 120px);
+        text-align: left;
+
+        .vicinity {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .subContainer {
+            display: flex;
+        }
+    }
+
+    .rightContainer {
+        width: 120px;
+    }
+}

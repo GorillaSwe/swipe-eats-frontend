@@ -7,7 +7,7 @@ import SortOptionSelector from "@/features/search/components/SortOptionSelector"
 import DistanceSlider from "@/features/search/components/DistanceSlider";
 import useLocation from "@/features/search/hooks/useLocation";
 import LoadingScreen from "@/components/ui/LoadingScreen";
-import styles from './page.module.css';
+import styles from './page.module.scss';
 
 const DEFAULT_RADIUS = 100;
 const DEFAULT_SORT = "prominence";

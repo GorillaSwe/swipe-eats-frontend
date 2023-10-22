@@ -3,7 +3,7 @@ import { RestaurantData } from "@/types/RestaurantData";
 import TinderCard from '@/lib/TinderCard/index.js';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import styles from './CardSwiper.module.css';
+import styles from './CardSwiper.module.scss';
 import CardImageSlider from '@/features/results/components/CardImageSlider'
 import CardInfo from '@/features/results/components/CardInfo'
 import CardButtons from '@/features/results/components/CardButtons'

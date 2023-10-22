@@ -1,7 +1,7 @@
 import { RestaurantData } from "@/types/RestaurantData";
 import StarRating from '@/components/ui/StarRating';
 import PriceLevel from '@/components/ui/PriceLevel';
-import styles from './CardInfo.module.css';
+import styles from './CardInfo.module.scss';
 
 interface CardInfoProps {
   restaurant: RestaurantData;
