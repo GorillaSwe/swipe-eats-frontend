@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -5,9 +6,10 @@ import styles from './CardImageSlider.module.scss';
 
 interface CardImageSliderProps {
   photos: string[];
+  name: string;
 }
 
-const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos }) => {
+const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos, name }) => {
   const sliderSettings = {
     dots: false,
     slidesToShow: 1,
@@ -20,7 +22,14 @@ const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos }) => {
       {photos ? (
         photos.map((photo, photoIndex) => (
           <div key={photoIndex} className={styles.container}>
-            <div style={{ backgroundImage: 'url(' + photo + ')' }} className={styles.image}></div>
+            <div className={styles.image}>
+              <Image
+                src={photo}
+                alt={name}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           </div>
         ))
       ) : (
