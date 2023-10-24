@@ -26,6 +26,8 @@ const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos, name }) => {
               <Image
                 src={photo}
                 alt={name}
+                width={580}
+                height={500}
                 layout="fill"
                 objectFit="cover"
               />
