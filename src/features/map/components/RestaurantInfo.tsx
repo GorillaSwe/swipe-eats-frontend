@@ -26,6 +26,8 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({ restaurant, setSelected
             alt={restaurant.name}
             layout="fill"
             objectFit="cover"
+            priority={true}
+            placeholder="blur"
           />
         ) : null}
         <button
