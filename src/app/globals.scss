@@ -23,18 +23,42 @@
 }
 
 @keyframes popup {
-  0%   { transform: scale(1,1) }
-  10%  { transform: scale(1.1,1.1) }
-  30%  { transform: scale(.9,.9) }
-  50%  { transform: scale(1,1) }
-  57%  { transform: scale(1,1) }
-  64%  { transform: scale(1,1) }
-  100% { transform: scale(1,1) }
+  0% {
+    transform: scale(1, 1)
+  }
+
+  10% {
+    transform: scale(1.1, 1.1)
+  }
+
+  30% {
+    transform: scale(.9, .9)
+  }
+
+  50% {
+    transform: scale(1, 1)
+  }
+
+  57% {
+    transform: scale(1, 1)
+  }
+
+  64% {
+    transform: scale(1, 1)
+  }
+
+  100% {
+    transform: scale(1, 1)
+  }
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+head {
+  overflow-x: hidden;
 }
 
 body {
@@ -49,7 +73,7 @@ body {
   justify-content: center;
   width: 100vw;
   min-height: 100vh;
-  /* background: linear-gradient(#fff, #999); */
+  overflow-x: hidden;
   background: linear-gradient(#e66465, #9198e5);
 }
 
@@ -67,7 +91,7 @@ body>div {
 h1 {
   font-family: 'Damion', cursive;
   color: #fff;
-  text-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30);
+  text-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.30);
 }
 
 h2 {
@@ -76,4 +100,10 @@ h2 {
 
 h3 {
   color: #000;
+}
+
+img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
 }

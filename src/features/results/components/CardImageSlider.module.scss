@@ -46,9 +46,11 @@
     .image {
         width: 580px;
         height: 500px;
-        border-radius: 20px 20px 0 0;
-        background-size: cover;
-        background-position: center;
         cursor: pointer;
+        position: relative;
+
+        img {
+            border-radius: 20px 20px 0 0;
+        }
     }
 }
