@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './RestaurantListItem.module.scss';
 import { RestaurantData } from "@/types/RestaurantData";
 import StarRating from '@/components/ui/StarRating';
@@ -27,10 +28,15 @@ const RestaurantListItem: React.FC<RestaurantListItemProps> = ({ restaurant, set
         <p className={styles.vicinity}>{restaurant.vicinity}</p>
       </div>
       <div className={styles.rightContainer} >
-        <div
-          style={{ backgroundImage: restaurant.photos && restaurant.photos[0] ? `url(${restaurant.photos[0]})` : 'none' }}
-          className={styles.image}
-        >
+        <div className={styles.image}>
+          {restaurant.photos && restaurant.photos[0] && (
+            <Image
+              src={restaurant.photos[0]}
+              alt={restaurant.name}
+              layout="fill"
+              objectFit="cover"
+            />
+          )}
         </div>
       </div>
     </div>

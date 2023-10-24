@@ -116,7 +116,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
             onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
             swipeRequirementType='position'
           >
-            <CardImageSlider photos={restaurant.photos} />
+            <CardImageSlider photos={restaurant.photos} name={restaurant.name} />
             <CardInfo restaurant={restaurant} />
           </TinderCard>
         ))}

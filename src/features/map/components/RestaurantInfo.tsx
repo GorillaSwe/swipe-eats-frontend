@@ -6,6 +6,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PublicIcon from '@mui/icons-material/Public';
 import PhoneIcon from '@mui/icons-material/Phone';
 import GoogleIcon from '@mui/icons-material/Google';
+import Image from 'next/image';
 
 interface RestaurantInfoProps {
   restaurant: RestaurantData;
@@ -18,10 +19,15 @@ interface RestaurantInfoProps {
 const RestaurantInfo: React.FC<RestaurantInfoProps> = ({ restaurant, setSelectedRestaurant, setDirectionsResult, setTravelTime, setPreviousPlaceId }) => {
   return (
     <div className={styles.container}>
-      <div
-        style={{ backgroundImage: restaurant.photos && restaurant.photos[0] ? `url(${restaurant.photos[0]})` : 'none' }}
-        className={styles.image}
-      >
+      <div className={styles.image}>
+        {restaurant.photos && restaurant.photos[0] ? (
+          <Image
+            src={restaurant.photos[0]}
+            alt={restaurant.name}
+            layout="fill"
+            objectFit="cover"
+          />
+        ) : null}
         <button
           className={styles.button}
           onClick={() => {
