@@ -16,6 +16,8 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ value, image }) => {
             src={image}
             alt={value}
             quality={100}
+            priority={true}
+            placeholder="blur"
             fill
           />
         </div>

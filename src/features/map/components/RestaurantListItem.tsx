@@ -35,6 +35,8 @@ const RestaurantListItem: React.FC<RestaurantListItemProps> = ({ restaurant, set
               alt={restaurant.name}
               layout="fill"
               objectFit="cover"
+              priority={true}
+              placeholder="blur"
             />
           )}
         </div>
