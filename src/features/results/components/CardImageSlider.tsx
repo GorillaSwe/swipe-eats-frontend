@@ -6,10 +6,9 @@ import styles from './CardImageSlider.module.scss';
 
 interface CardImageSliderProps {
   photos: string[];
-  name: string;
 }
 
-const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos, name }) => {
+const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos }) => {
   const sliderSettings = {
     dots: false,
     slidesToShow: 1,
@@ -21,17 +20,8 @@ const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos, name }) => {
     <Slider className={styles.container} {...sliderSettings}>
       {photos ? (
         photos.map((photo, photoIndex) => (
-          <div key={photoIndex} className={styles.container}>
-            <div className={styles.image}>
-              <Image
-                src={photo}
-                alt={name}
-                width={580}
-                height={500}
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
+          <div key={photoIndex} className={styles.item}>
+            <div style={{ backgroundImage: 'url(' + photo + ')' }} className={styles.image}></div>
           </div>
         ))
       ) : (
