@@ -17,19 +17,18 @@ interface RestaurantInfoProps {
 }
 
 const RestaurantInfo: React.FC<RestaurantInfoProps> = ({ restaurant, setSelectedRestaurant, setDirectionsResult, setTravelTime, setPreviousPlaceId }) => {
+  const quotaPhoto = "/images/restaurants/quota.png";
+
   return (
     <div className={styles.container}>
       <div className={styles.image}>
-        {restaurant.photos && restaurant.photos[0] ? (
-          <Image
-            src={restaurant.photos[0]}
-            alt={restaurant.name}
-            layout="fill"
-            objectFit="cover"
-            priority={true}
-            placeholder="blur"
-          />
-        ) : null}
+        <Image
+          src={restaurant.photos && restaurant.photos[0] ? restaurant.photos[0] : quotaPhoto}
+          alt={restaurant.name}
+          layout="fill"
+          objectFit="cover"
+          priority={true}
+        />
         <button
           className={styles.button}
           onClick={() => {
