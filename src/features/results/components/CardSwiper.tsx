@@ -16,12 +16,6 @@ interface CardSwiperProps {
 
 const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLastCardSwipe }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(restaurants.length - 1)
-  const sliderSettings = {
-    dots: false,
-    slidesToShow: 1,
-    infinite: false,
-    useCSS: false,
-  };
   const currentIndexRef = useRef(currentIndex)
 
   /**
@@ -114,7 +108,6 @@ const CardSwiper: React.FC<CardSwiperProps> = ({ restaurants, onCardSwipe, onLas
             preventSwipe={['up', 'down']}
             onSwipe={(dir: string) => swiped(dir, restaurant.name, index)}
             onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
-            swipeRequirementType='position'
           >
             <CardImageSlider photos={restaurant.photos} />
             <CardInfo restaurant={restaurant} />
