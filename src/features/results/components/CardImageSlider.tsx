@@ -10,10 +10,9 @@ interface CardImageSliderProps {
 
 const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos }) => {
   const sliderSettings = {
-    dots: false,
+    dots: true,
     slidesToShow: 1,
     infinite: false,
-    useCSS: false,
   };
 
   const quotaPhoto = "/images/restaurants/quota.png";
