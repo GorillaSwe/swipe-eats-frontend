@@ -11,6 +11,8 @@ interface RestaurantListItemProps {
 }
 
 const RestaurantListItem: React.FC<RestaurantListItemProps> = ({ restaurant, setSelectedRestaurant, setHoveredRestaurant }) => {
+  const quotaPhoto = "/images/restaurants/quota.png";
+
   return (
     <div className={styles.container}
       onClick={() => setSelectedRestaurant(restaurant)}
@@ -29,16 +31,13 @@ const RestaurantListItem: React.FC<RestaurantListItemProps> = ({ restaurant, set
       </div>
       <div className={styles.rightContainer} >
         <div className={styles.image}>
-          {restaurant.photos && restaurant.photos[0] && (
-            <Image
-              src={restaurant.photos[0]}
-              alt={restaurant.name}
-              layout="fill"
-              objectFit="cover"
-              priority={true}
-              placeholder="blur"
-            />
-          )}
+          <Image
+            src={restaurant.photos && restaurant.photos[0] ? restaurant.photos[0] : quotaPhoto}
+            alt={restaurant.name}
+            layout="fill"
+            objectFit="cover"
+            priority={true}
+          />
         </div>
       </div>
     </div>
