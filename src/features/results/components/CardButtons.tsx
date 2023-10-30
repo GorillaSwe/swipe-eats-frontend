@@ -1,8 +1,9 @@
-import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import UndoIcon from "@mui/icons-material/Undo";
-import styles from './CardButtons.module.scss';
+import IconButton from "@mui/material/IconButton";
+
+import styles from "./CardButtons.module.scss";
 
 interface CardButtonsProps {
   canSwipe: boolean;
@@ -11,16 +12,30 @@ interface CardButtonsProps {
   goBack: () => void;
 }
 
-const CardButtons: React.FC<CardButtonsProps> = ({ canSwipe, canGoBack, swipe, goBack }) => {
+const CardButtons: React.FC<CardButtonsProps> = ({
+  canSwipe,
+  canGoBack,
+  swipe,
+  goBack,
+}) => {
   return (
     <div className={styles.container}>
-      <IconButton style={{ backgroundColor: canSwipe ? '#9198e5' : '#c3c4d3' }} onClick={() => swipe('left')}>
+      <IconButton
+        style={{ backgroundColor: canSwipe ? "#9198e5" : "#c3c4d3" }}
+        onClick={() => swipe("left")}
+      >
         <CloseIcon fontSize="large" />
       </IconButton>
-      <IconButton style={{ backgroundColor: canGoBack ? '#9198e5' : '#c3c4d3' }} onClick={() => goBack()}>
+      <IconButton
+        style={{ backgroundColor: canGoBack ? "#9198e5" : "#c3c4d3" }}
+        onClick={() => goBack()}
+      >
         <UndoIcon fontSize="large" />
       </IconButton>
-      <IconButton style={{ backgroundColor: canSwipe ? '#9198e5' : '#c3c4d3' }} onClick={() => swipe('right')}>
+      <IconButton
+        style={{ backgroundColor: canSwipe ? "#9198e5" : "#c3c4d3" }}
+        onClick={() => swipe("right")}
+      >
         <FavoriteIcon fontSize="large" />
       </IconButton>
     </div>

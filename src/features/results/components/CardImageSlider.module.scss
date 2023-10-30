@@ -1,103 +1,102 @@
 @import "~font-awesome/css/font-awesome.min.css";
 
 .container :global(.slick-prev) {
-    left: 0;
-    z-index: 1;
+  left: 0;
+  z-index: 1;
 }
 
 .container :global(.slick-next) {
-    right: 0;
-    z-index: 1;
+  right: 0;
+  z-index: 1;
 }
 
 .container :global(.slick-prev),
 .container :global(.slick-next) {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .container :global(.slick-prev:before),
 .container :global(.slick-next:before) {
-    font-size: 60px;
-    opacity: 1;
-    color: #fff;
-    font-family: FontAwesome;
+  font-size: 60px;
+  opacity: 1;
+  color: #fff;
+  font-family: FontAwesome;
 }
 
 .container :global(.slick-prev:before) {
-    content: "\f0d9";
+  content: "\f0d9";
 }
 
 .container :global(.slick-next:before) {
-    content: "\f0da";
+  content: "\f0da";
 }
 
 .container :global(.slick-prev.slick-disabled),
 .container :global(.slick-next.slick-disabled) {
-    display: none !important;
+  display: none !important;
 }
 
 .container :global(.slick-track) {
-    height: 500px;
+  height: 500px;
 }
 
 .container :global(.slick-dots) {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 0px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0px;
 }
 
 .container :global(.slick-dots) li {
-    margin: 0 2px;
+  margin: 0 2px;
 }
 
 .container :global(.slick-dots) li {
-    &:first-child {
-        @for $i from 1 through 12 {
-            &:nth-last-child(#{$i}) {
-
-                &,
-                &~li {
-                    width: calc(#{percentage(1/$i)} - 8px);
-                    margin: 0 2px;
-                }
-            }
+  &:first-child {
+    @for $i from 1 through 12 {
+      &:nth-last-child(#{$i}) {
+        &,
+        & ~ li {
+          width: calc(#{percentage(1 / $i)} - 8px);
+          margin: 0 2px;
         }
+      }
     }
+  }
 }
 
 .container :global(.slick-dots) button {
-    width: 100%;
-    height: 7px;
-    border-radius: 2px;
-    padding: 0px;
-    background-color: #505965;
+  width: 100%;
+  height: 7px;
+  border-radius: 2px;
+  padding: 0px;
+  background-color: #505965;
 }
 
 .container :global(.slick-dots) button:before {
-    font-size: 0;
+  font-size: 0;
 }
 
 .container :global(.slick-active) button {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .container {
-    max-width: 580px;
+  max-width: 580px;
 
-    .photo {
-        border-radius: 20px 20px 0 0;
-        background: linear-gradient(#e66465, #9198e5);
-    }
+  .photo {
+    border-radius: 20px 20px 0 0;
+    background: linear-gradient(#e66465, #9198e5);
+  }
 
-    .image {
-        width: 580px;
-        height: 500px;
-        background-size: cover;
-        background-position: center;
-        cursor: pointer;
-        border-radius: 20px 20px 0 0;
-    }
+  .image {
+    width: 580px;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border-radius: 20px 20px 0 0;
+  }
 }

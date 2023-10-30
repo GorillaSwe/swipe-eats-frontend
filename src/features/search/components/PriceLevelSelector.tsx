@@ -1,6 +1,7 @@
-import { PRICE_LEVELS } from '@/const/priceLevels';
-import PriceLevelOption from './PriceLevelOption';
-import styles from './PriceLevelSelector.module.scss';
+import { PRICE_LEVELS } from "@/const/priceLevels";
+
+import PriceLevelOption from "./PriceLevelOption";
+import styles from "./PriceLevelSelector.module.scss";
 
 type PriceLevelSelectorProps = {
   selectedPriceLevels: number[];
@@ -13,7 +14,9 @@ const PriceLevelSelector: React.FC<PriceLevelSelectorProps> = ({
 }) => {
   const handleLevelClick = (level: number) => {
     if (selectedPriceLevels.includes(level)) {
-      onSelectedPriceLevelsChange(selectedPriceLevels.filter((l) => l !== level));
+      onSelectedPriceLevelsChange(
+        selectedPriceLevels.filter((l) => l !== level)
+      );
     } else {
       onSelectedPriceLevelsChange([...selectedPriceLevels, level]);
     }

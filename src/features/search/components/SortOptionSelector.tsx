@@ -1,13 +1,17 @@
-import { SORT_OPTIONS } from '@/const/sortOptions';
+import { SORT_OPTIONS } from "@/const/sortOptions";
 import SortOption from "@/features/search/components/SortOption";
-import styles from './SortOptionSelector.module.scss';
+
+import styles from "./SortOptionSelector.module.scss";
 
 type SortOptionsProps = {
   selectedSort: string;
   onSelectedSortChange: (selectedSort: string) => void;
 };
 
-const SortOptionSelector: React.FC<SortOptionsProps> = ({ selectedSort, onSelectedSortChange }) => {
+const SortOptionSelector: React.FC<SortOptionsProps> = ({
+  selectedSort,
+  onSelectedSortChange,
+}) => {
   return (
     <div className={styles.container}>
       <h3 className={styles.title}>並び替え</h3>

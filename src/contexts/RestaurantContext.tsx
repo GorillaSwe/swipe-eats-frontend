@@ -1,7 +1,8 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useState } from 'react';
-import { RestaurantData as restaurant } from '@/types/RestaurantData';
+import { createContext, useContext, ReactNode, useState } from "react";
+
+import { RestaurantData as restaurant } from "@/types/RestaurantData";
 
 interface RestaurantData {
   restaurantsWithDirection: restaurant[];
@@ -17,7 +18,7 @@ const defaultState: RestaurantData = {
   radius: null,
 };
 
-const RestaurantUpdateContext = createContext<Function>(() => { });
+const RestaurantUpdateContext = createContext<Function>(() => {});
 const RestaurantContext = createContext<RestaurantData>(defaultState);
 
 export const useRestaurantData = () => useContext(RestaurantContext);

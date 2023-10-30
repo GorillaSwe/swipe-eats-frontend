@@ -1,19 +1,21 @@
-import './globals.scss'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { RestaurantProvider } from '@/contexts/RestaurantContext';
+import "./globals.scss";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['latin'] })
+import { RestaurantProvider } from "@/contexts/RestaurantContext";
+
+import type { Metadata } from "next";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Swipe Eats',
-  description: 'Swipe Eats',
-}
+  title: "Swipe Eats",
+  description: "Swipe Eats",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -21,5 +23,5 @@ export default function RootLayout({
         <RestaurantProvider>{children}</RestaurantProvider>
       </body>
     </html>
-  )
+  );
 }
