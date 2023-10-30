@@ -20,6 +20,9 @@
     "@react-spring/web": "^9.7.3",
     "axios": "^1.5.1",
     "axios-case-converter": "^1.1.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "font-awesome": "^4.7.0",
     "next": "latest",
     "react": "latest",
@@ -33,6 +36,7 @@
     "swiper": "^10.3.1"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",

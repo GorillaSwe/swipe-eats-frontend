@@ -1,8 +1,11 @@
-import CategoryItem from "@/features/category/components/CategoryItem";
-import { CATEGORIES } from "@/const/categories";
-import styles from './page.module.scss';
+import { NextPage } from "next";
 
-const CategorySelectionPage: React.FC = () => {
+import { CATEGORIES } from "@/const/categories";
+import CategoryItem from "@/features/category/components/CategoryItem";
+
+import styles from "./page.module.scss";
+
+const CategoryPage: NextPage = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>カテゴリを選択してください</h1>
@@ -19,4 +22,4 @@ const CategorySelectionPage: React.FC = () => {
   );
 };
 
-export default CategorySelectionPage;
+export default CategoryPage;

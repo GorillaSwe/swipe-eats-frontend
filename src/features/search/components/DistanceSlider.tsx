@@ -1,4 +1,4 @@
-import styles from './DistanceSlider.module.scss';
+import styles from "./DistanceSlider.module.scss";
 
 type DistanceSliderProps = {
   selectedRadius: number;
@@ -7,7 +7,10 @@ type DistanceSliderProps = {
 
 const valMap = [100, 500, 1000, 2000, 3000, 4000, 5000];
 
-const DistanceSlider: React.FC<DistanceSliderProps> = ({ selectedRadius, onRadiusChange }) => {
+const DistanceSlider: React.FC<DistanceSliderProps> = ({
+  selectedRadius,
+  onRadiusChange,
+}) => {
   const handleSliderChange = (event: React.MouseEvent<HTMLDivElement>) => {
     const slider = event.target as HTMLDivElement;
     const totalWidth = slider.clientWidth;
@@ -36,9 +39,12 @@ const DistanceSlider: React.FC<DistanceSliderProps> = ({ selectedRadius, onRadiu
         ))}
         <div
           className={styles.handle}
-          style={{ left: `${(valMap.indexOf(selectedRadius) / (valMap.length - 1)) * 100}%` }}
-        >
-        </div>
+          style={{
+            left: `${
+              (valMap.indexOf(selectedRadius) / (valMap.length - 1)) * 100
+            }%`,
+          }}
+        ></div>
       </div>
     </div>
   );

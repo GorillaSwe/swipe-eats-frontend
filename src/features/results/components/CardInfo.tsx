@@ -1,7 +1,8 @@
+import PriceLevel from "@/components/ui/PriceLevel";
+import StarRating from "@/components/ui/StarRating";
 import { RestaurantData } from "@/types/RestaurantData";
-import StarRating from '@/components/ui/StarRating';
-import PriceLevel from '@/components/ui/PriceLevel';
-import styles from './CardInfo.module.scss';
+
+import styles from "./CardInfo.module.scss";
 
 interface CardInfoProps {
   restaurant: RestaurantData;
@@ -15,7 +16,10 @@ const CardInfo: React.FC<CardInfoProps> = ({ restaurant }) => {
       <div className={styles.subContainer}>
         <p className={styles.rating}>{restaurant.rating} </p>
         <StarRating rating={restaurant.rating} />
-        <p className={styles.userRatingsTotal}>({restaurant.userRatingsTotal})</p><p>・</p>
+        <p className={styles.userRatingsTotal}>
+          ({restaurant.userRatingsTotal})
+        </p>
+        <p>・</p>
         <PriceLevel priceLevel={restaurant.priceLevel} />
       </div>
     </div>

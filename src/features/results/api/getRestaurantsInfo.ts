@@ -1,4 +1,4 @@
-import client from "@/lib/apiClient"
+import client from "@/lib/apiClient";
 
 export const getRestaurantsInfo = async (
   latitude: number,
@@ -12,9 +12,16 @@ export const getRestaurantsInfo = async (
     params: { latitude, longitude, category, radius, price, sort },
   });
 
-  if (response.status === 200 && response.data && response.data.message && response.data.message.length > 0) {
+  if (
+    response.status === 200 &&
+    response.data &&
+    response.data.message &&
+    response.data.message.length > 0
+  ) {
     return response.data;
   } else {
-    throw new Error(response.data.error || "該当するレストランが見つかりませんでした。");
+    throw new Error(
+      response.data.error || "該当するレストランが見つかりませんでした。"
+    );
   }
 };
