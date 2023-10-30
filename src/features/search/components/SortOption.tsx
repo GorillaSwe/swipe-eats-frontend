@@ -1,4 +1,4 @@
-import styles from './SortOption.module.scss';
+import styles from "./SortOption.module.scss";
 
 type SortOptionProps = {
   value: string;
@@ -7,9 +7,14 @@ type SortOptionProps = {
   onOptionChange: (value: string) => void;
 };
 
-const SortOption: React.FC<SortOptionProps> = ({ value, label, isSelected, onOptionChange }) => {
+const SortOption: React.FC<SortOptionProps> = ({
+  value,
+  label,
+  isSelected,
+  onOptionChange,
+}) => {
   return (
-    <label className={`${styles.label} ${isSelected ? styles.selected : ''}`}>
+    <label className={`${styles.label} ${isSelected ? styles.selected : ""}`}>
       <input
         type="radio"
         className={styles.button}
