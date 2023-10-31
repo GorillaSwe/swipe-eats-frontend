@@ -3,12 +3,12 @@ import SortOption from "@/features/search/components/SortOption";
 
 import styles from "./SortOptionSelector.module.scss";
 
-type SortOptionsProps = {
+type SortOptionProps = {
   selectedSort: string;
   onSelectedSortChange: (selectedSort: string) => void;
 };
 
-const SortOptionSelector: React.FC<SortOptionsProps> = ({
+const SortOptionSelector: React.FC<SortOptionProps> = ({
   selectedSort,
   onSelectedSortChange,
 }) => {
