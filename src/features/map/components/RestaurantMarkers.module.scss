@@ -1,0 +1,10 @@
+.infoWindow {
+  padding: 10px;
+}
+
+.hovered,
+.infoWindow:hover {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 15px;
+}

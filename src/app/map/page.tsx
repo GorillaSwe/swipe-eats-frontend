@@ -2,21 +2,16 @@
 
 import { useState } from "react";
 
-import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
-import {
-  GoogleMap,
-  LoadScript,
-  MarkerF,
-  CircleF,
-  InfoWindowF,
-  DirectionsService,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import { NextPage } from "next";
 
 import { useRestaurantData } from "@/contexts/RestaurantContext";
+import Directions from "@/features/map/components/Directions";
 import RestaurantInfo from "@/features/map/components/RestaurantInfo";
 import RestaurantListItem from "@/features/map/components/RestaurantListItem";
+import RestaurantMarkers from "@/features/map/components/RestaurantMarkers";
+import SelectedMarker from "@/features/map/components/SelectedMarker";
+import UserMarker from "@/features/map/components/UserMaker";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";
@@ -25,12 +20,6 @@ const DEFAULT_CENTER = {
   lat: 35.5649221,
   lng: 139.6559956,
 };
-
-const USER_MARKER_ICON = "/images/map/user.png";
-const LIKE_MARKER_ICON = "/images/map/heart.png";
-const NOPE_MARKER_ICON = "/images/map/cross.png";
-const OTHER_MARKER_ICON =
-  "https://labs.google.com/ridefinder/images/mm_20_black.png";
 
 const MapPage: NextPage = () => {
   const restaurantData = useRestaurantData();
@@ -58,17 +47,6 @@ const MapPage: NextPage = () => {
   const containerStyle = {
     width: "60vw",
     height: "80vh",
-  };
-
-  const getMarkerIcon = (direction: string) => {
-    switch (direction) {
-      case "right":
-        return LIKE_MARKER_ICON;
-      case "left":
-        return NOPE_MARKER_ICON;
-      default:
-        return OTHER_MARKER_ICON;
-    }
   };
 
   type ZoomLevels = {
@@ -141,128 +119,25 @@ const MapPage: NextPage = () => {
           center={mapCenter}
           zoom={getZoomSize(radius)}
         >
-          <CircleF
-            center={center}
-            radius={radius}
-            options={{
-              strokeColor: "#115EC3",
-              strokeOpacity: 0.2,
-              strokeWeight: 1,
-              fillColor: "#115EC3",
-              fillOpacity: 0.2,
-            }}
+          <UserMarker center={center} radius={radius} travelTime={travelTime} />
+          <RestaurantMarkers
+            restaurants={restaurants}
+            selectedRestaurant={selectedRestaurant}
+            hoveredRestaurant={hoveredRestaurant}
+            setHoveredRestaurant={setHoveredRestaurant}
+            setSelectedRestaurant={setSelectedRestaurant}
           />
-          <MarkerF position={center} icon={USER_MARKER_ICON}>
-            {travelTime && (
-              <InfoWindowF position={center}>
-                <div className={styles.travelInfoWindowContent}>
-                  <DirectionsWalkIcon />
-                  {travelTime}
-                </div>
-              </InfoWindowF>
-            )}
-          </MarkerF>
-          {restaurants?.map(
-            (restaurant, index) =>
-              restaurant !== selectedRestaurant &&
-              restaurant.direction == "right" && (
-                <MarkerF
-                  key={restaurant.placeId}
-                  position={{
-                    lat: restaurant.lat,
-                    lng: restaurant.lng,
-                  }}
-                  icon={getMarkerIcon(restaurant.direction)}
-                  onClick={() => {
-                    setSelectedRestaurant(restaurant);
-                  }}
-                  onMouseOver={() => setHoveredRestaurant(restaurant)}
-                  onMouseOut={() => setHoveredRestaurant(null)}
-                >
-                  {restaurant.direction === "right" &&
-                    (hoveredRestaurant === null ||
-                      hoveredRestaurant === restaurant) && (
-                      <InfoWindowF
-                        position={{
-                          lat: restaurant.lat,
-                          lng: restaurant.lng,
-                        }}
-                      >
-                        <div
-                          className={`${styles.infoWindowContent} ${
-                            hoveredRestaurant === restaurant
-                              ? styles.hovered
-                              : ""
-                          }`}
-                          onMouseOver={() => setHoveredRestaurant(restaurant)}
-                          onMouseOut={() => setHoveredRestaurant(null)}
-                          onClick={(event) => {
-                            setHoveredRestaurant(null);
-                            setSelectedRestaurant(restaurant);
-                          }}
-                        >
-                          {restaurant.name}
-                        </div>
-                      </InfoWindowF>
-                    )}
-                </MarkerF>
-              )
-          )}
-          {selectedRestaurant && (
-            <>
-              <MarkerF
-                position={{
-                  lat: selectedRestaurant.lat,
-                  lng: selectedRestaurant.lng,
-                }}
-                onMouseOver={() => setHoveredRestaurant(selectedRestaurant)}
-                onMouseOut={() => setHoveredRestaurant(null)}
-              >
-                <InfoWindowF
-                  position={{
-                    lat: selectedRestaurant.lat,
-                    lng: selectedRestaurant.lng,
-                  }}
-                >
-                  <div
-                    className={`${styles.selectedInfoWindowContent} ${
-                      hoveredRestaurant === selectedRestaurant
-                        ? styles.hovered
-                        : ""
-                    }`}
-                    onMouseOver={() => setHoveredRestaurant(selectedRestaurant)}
-                    onMouseOut={() => setHoveredRestaurant(null)}
-                  >
-                    {selectedRestaurant.name}
-                  </div>
-                </InfoWindowF>
-              </MarkerF>
-            </>
-          )}
-          {selectedRestaurant && (
-            <DirectionsService
-              options={{
-                origin: center,
-                destination: {
-                  lat: selectedRestaurant.lat,
-                  lng: selectedRestaurant.lng,
-                },
-                travelMode: google.maps.TravelMode.WALKING,
-              }}
-              callback={handleDirectionsCallback}
-            />
-          )}
-          {directionsResult && (
-            <>
-              <DirectionsRenderer
-                options={{
-                  suppressMarkers: true,
-                  preserveViewport: true,
-                  directions: directionsResult,
-                }}
-              />
-            </>
-          )}
+          <SelectedMarker
+            selectedRestaurant={selectedRestaurant}
+            hoveredRestaurant={hoveredRestaurant}
+            setHoveredRestaurant={setHoveredRestaurant}
+          />
+          <Directions
+            center={center}
+            selectedRestaurant={selectedRestaurant}
+            directionsResult={directionsResult}
+            handleDirectionsCallback={handleDirectionsCallback}
+          />
         </GoogleMap>
       </LoadScript>
     </div>
