@@ -25,7 +25,9 @@ export default function RootLayout({
       <UserProvider>
         <body className={inter.className}>
           <Header />
-          <RestaurantProvider>{children}</RestaurantProvider>
+          <main>
+            <RestaurantProvider>{children}</RestaurantProvider>
+          </main>
         </body>
       </UserProvider>
     </html>

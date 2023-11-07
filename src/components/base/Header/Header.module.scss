@@ -1,0 +1,65 @@
+.container {
+  width: 260px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  color: #fff;
+  background-color: #000000;
+  padding: 10px 10px 30px 10px;
+  font-size: 20px;
+
+  .linkContainer {
+    display: flex;
+    flex-flow: column;
+
+    a {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+
+      &:hover {
+        background-color: #131313;
+      }
+
+      svg {
+        margin: 5px;
+      }
+
+      span {
+        margin-left: 15px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .userContainer {
+    display: flex;
+    flex-flow: column;
+
+    a {
+      padding: 10px;
+      margin: 5px 0;
+      &:hover {
+        background-color: #131313;
+      }
+    }
+
+    .userInfoContainer {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+
+      .image {
+        margin: 5px;
+        border-radius: 20px;
+      }
+
+      span {
+        margin-left: 15px;
+        font-weight: bold;
+      }
+    }
+  }
+}
