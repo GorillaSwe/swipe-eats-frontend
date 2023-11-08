@@ -96,7 +96,7 @@ const ResultPage: NextPage = () => {
       longitude,
       radius,
     });
-    router.push(`/map`);
+    router.push(`/swipe/map`);
   };
 
   if (isLoading) {
@@ -113,7 +113,7 @@ const ResultPage: NextPage = () => {
           <div className={styles.buttons}>
             <button
               className={styles.button}
-              onClick={() => router.push(`/search/?category=${category}`)}
+              onClick={() => router.push(`/swipe/search/?category=${category}`)}
             >
               検索条件を変更
             </button>
