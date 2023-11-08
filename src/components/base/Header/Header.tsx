@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
 import HomeIcon from "@mui/icons-material/Home";
+import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import SwipeRightIcon from "@mui/icons-material/SwipeRight";
@@ -17,6 +18,7 @@ import styles from "./Header.module.scss";
 
 const Header: React.FC = () => {
   const { user, error, isLoading } = useUser();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   interface User {
     sub: string;
@@ -24,6 +26,29 @@ const Header: React.FC = () => {
     email: string;
     picture: string;
   }
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = useCallback(() => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    document.addEventListener("click", closeMenu);
+
+    return () => {
+      document.removeEventListener("click", closeMenu);
+    };
+  }, [closeMenu]);
+
+  const handleMenuClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    toggleMenu();
+  };
 
   useEffect(() => {
     if (!isLoading && !error && user?.sub) {
@@ -68,7 +93,20 @@ const Header: React.FC = () => {
             )}
             <span>{user.name}</span>
           </div>
-          <a href="/api/auth/logout">ログアウト</a>
+          <div className={styles.authContainer}>
+            <a href="/api/auth/logout" className={styles.authLink}>
+              ログアウト
+            </a>
+            <div className={styles.hamburger}>
+              <MenuIcon className={styles.hamburgerIcon} onClick={toggleMenu} />
+              <div
+                className={styles.menu}
+                style={{ display: isMenuOpen ? "block" : "none" }}
+              >
+                <a href="/api/auth/logout">ログアウト</a>
+              </div>
+            </div>
+          </div>
         </>
       );
     } else {
@@ -77,7 +115,20 @@ const Header: React.FC = () => {
           <div className={styles.userInfoContainer}>
             <span>ゲスト</span>
           </div>
-          <a href="/api/auth/login">ログイン</a>
+          <div className={styles.authContainer}>
+            <a href="/api/auth/login" className={styles.authLink}>
+              ログイン
+            </a>
+            <div className={styles.hamburger}>
+              <MenuIcon className={styles.hamburgerIcon} onClick={toggleMenu} />
+              <div
+                className={styles.menu}
+                style={{ display: isMenuOpen ? "block" : "none" }}
+              >
+                <a href="/api/auth/login">ログイン</a>
+              </div>
+            </div>
+          </div>
         </>
       );
     }
@@ -94,7 +145,7 @@ const Header: React.FC = () => {
           <SearchIcon />
           <span>検索</span>
         </Link>
-        <Link href="/swipe" className={styles.link}>
+        <Link href="/" className={styles.link}>
           <SwipeRightIcon />
           <span>スワイプ</span>
         </Link>
