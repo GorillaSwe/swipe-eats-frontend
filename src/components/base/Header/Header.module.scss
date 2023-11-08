@@ -1,0 +1,106 @@
+.container {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  color: #fff;
+  background-color: #000000;
+  padding: 10px 10px 30px 10px;
+  font-size: 20px;
+
+  .linkContainer {
+    display: flex;
+    flex-flow: column;
+
+    a {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+
+      &:hover {
+        background-color: #131313;
+      }
+
+      svg {
+        margin: 5px;
+      }
+
+      span {
+        margin-left: 15px;
+        font-weight: bold;
+
+        @media (max-width: 1264px) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .userContainer {
+    display: flex;
+    flex-flow: column;
+
+    a {
+      padding: 10px;
+      margin: 5px 0;
+      &:hover {
+        background-color: #131313;
+      }
+    }
+
+    .userInfoContainer {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+
+      .image {
+        border-radius: 20px;
+        width: 40px;
+        height: 40px;
+      }
+
+      span {
+        margin-left: 20px;
+        font-weight: bold;
+        font-size: 18px;
+
+        @media (max-width: 1264px) {
+          display: none;
+        }
+      }
+    }
+
+    .authContainer {
+      padding: 10px;
+      .authLink {
+        padding: 10px 50px;
+        @media (max-width: 1264px) {
+          display: none;
+        }
+      }
+      .hamburger {
+        display: none;
+        margin: 5px;
+        position: relative;
+
+        @media (max-width: 1264px) {
+          display: block;
+        }
+      }
+
+      .menu {
+        position: absolute;
+        top: -75%;
+        left: 150%;
+        background-color: #000000;
+        border: 1px solid #262626;
+        border-radius: 4px;
+        width: 200px;
+        padding: 20px;
+        z-index: 1000;
+        box-shadow: 0px 0px 10px 5px rgba(59, 59, 59, 0.3);
+      }
+    }
+  }
+}

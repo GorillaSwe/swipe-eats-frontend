@@ -70,18 +70,39 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   display: flex;
-  justify-content: center;
   width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
   background: linear-gradient(#e66465, #9198e5);
 }
 
+header {
+  width: 260px;
+  height: 100vh;
+  position: fixed;
+
+  @media (max-width: 1264px) {
+    width: 75px;
+  }
+}
+
+main {
+  width: calc(100% - 260px);
+  margin-left: 260px;
+  justify-content: center;
+  display: flex;
+
+  @media (max-width: 1264px) {
+    width: calc(100% - 75px);
+    margin-left: 75px;
+  }
+}
+
 * {
   user-select: none;
 }
 
-body > div {
+main > div {
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -11,7 +11,7 @@ type CategoryItemProps = {
 const CategoryItem: React.FC<CategoryItemProps> = ({ value, image }) => {
   return (
     <li className={styles.container}>
-      <Link href={`/search?category=${value}`} className={styles.link}>
+      <Link href={`/swipe/search?category=${value}`} className={styles.link}>
         <div className={styles.image}>
           <Image src={image} alt={value} quality={100} priority={true} fill />
         </div>

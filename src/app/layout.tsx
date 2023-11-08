@@ -1,6 +1,9 @@
 import "./globals.scss";
 import { Inter } from "next/font/google";
 
+import { UserProvider } from "@auth0/nextjs-auth0/client";
+
+import Header from "@/components/base/Header/Header";
 import { RestaurantProvider } from "@/contexts/RestaurantContext";
 
 import type { Metadata } from "next";
@@ -19,9 +22,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <RestaurantProvider>{children}</RestaurantProvider>
-      </body>
+      <UserProvider>
+        <body className={inter.className}>
+          <Header />
+          <main>
+            <RestaurantProvider>{children}</RestaurantProvider>
+          </main>
+        </body>
+      </UserProvider>
     </html>
   );
 }
