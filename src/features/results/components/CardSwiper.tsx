@@ -14,12 +14,14 @@ interface CardSwiperProps {
   restaurants: RestaurantData[];
   onCardSwipe: (index: number, direction: string) => void;
   onLastCardSwipe: () => void;
+  onCardRestore: (index: number) => void;
 }
 
 const CardSwiper: React.FC<CardSwiperProps> = ({
   restaurants,
   onCardSwipe,
   onLastCardSwipe,
+  onCardRestore,
 }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(
     restaurants.length - 1
@@ -68,6 +70,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({
     if (!canGoBack) return;
     const newIndex = currentIndex + 1;
     updateCurrentIndex(newIndex);
+    onCardRestore(newIndex);
     await childRefs[newIndex].current.restoreCard();
   };
 

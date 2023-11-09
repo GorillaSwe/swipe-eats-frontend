@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -16,39 +16,28 @@ import client from "@/lib/apiClient";
 
 import styles from "./Header.module.scss";
 
+interface User {
+  sub: string;
+  name: string;
+  email: string;
+  picture: string;
+}
+
 const Header: React.FC = () => {
   const { user, error, isLoading } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const guestImage = "/images/header/guest.png";
 
-  interface User {
-    sub: string;
-    name: string;
-    email: string;
-    picture: string;
-  }
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = useCallback(() => {
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-    }
-  }, [isMenuOpen]);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   useEffect(() => {
-    document.addEventListener("click", closeMenu);
-
-    return () => {
-      document.removeEventListener("click", closeMenu);
+    const closeMenu = (e: MouseEvent) => {
+      if (isMenuOpen) setIsMenuOpen(false);
     };
-  }, [closeMenu]);
 
-  const handleMenuClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    toggleMenu();
-  };
+    document.addEventListener("click", closeMenu);
+    return () => document.removeEventListener("click", closeMenu);
+  }, [isMenuOpen]);
 
   useEffect(() => {
     if (!isLoading && !error && user?.sub) {
@@ -56,7 +45,7 @@ const Header: React.FC = () => {
         sub: user.sub,
         name: user.name ?? "",
         email: user.email ?? "",
-        picture: user.picture ?? "",
+        picture: user.picture ?? guestImage,
       });
     }
   }, [user, isLoading, error]);
@@ -69,33 +58,61 @@ const Header: React.FC = () => {
     }
   };
 
-  const renderUserContent = () => {
-    if (isLoading) {
-      return <div>読み込み中...</div>;
-    }
-
-    if (error) {
-      return <div>エラー: {error.message}</div>;
-    }
-
-    if (user) {
-      return (
+  const renderFeedbackText = (isLoading: boolean, error?: Error) => (
+    <div>
+      {isLoading ? (
         <>
-          <div className={styles.userInfoContainer}>
-            {user.picture && (
-              <Image
-                src={user.picture}
-                alt={`${user.name}のプロフィール画像`}
-                width={40}
-                height={40}
-                className={styles.image}
-              />
-            )}
-            <span>{user.name}</span>
-          </div>
+          <span className={styles.largeText}>Loading...</span>
+          <span className={styles.middleText}>...</span>
+          <span className={styles.smallText}>...</span>
+        </>
+      ) : (
+        <>
+          <span className={styles.largeText}>Error: {error?.message}</span>
+          <span className={styles.middleText}>Err</span>
+          <span className={styles.smallText}></span>;
+        </>
+      )}
+    </div>
+  );
+
+  const renderUserImage = (
+    picture: string,
+    name: string,
+    imageSize: number,
+    isMobile: boolean
+  ) => (
+    <Image
+      src={picture}
+      alt={`${name}のプロフィール画像`}
+      width={imageSize}
+      height={imageSize}
+      className={styles.image}
+      onClick={isMobile ? toggleMenu : undefined}
+    />
+  );
+
+  const renderUserContent = (isMobile: boolean = false) => {
+    if (isLoading || error) {
+      return renderFeedbackText(isLoading, error);
+    }
+
+    const imageSize = isMobile ? 34 : 40;
+    const userImage = user?.picture ?? guestImage;
+    const userName = user?.name ?? "ゲスト";
+    const authLink = user ? "/api/auth/logout" : "/api/auth/login";
+    const authText = user ? "ログアウト" : "ログイン";
+
+    return (
+      <>
+        <div className={styles.userInfoContainer}>
+          {renderUserImage(userImage, userName, imageSize, isMobile)}
+          {!isMobile && <span>{userName}</span>}
+        </div>
+        {!isMobile ? (
           <div className={styles.authContainer}>
-            <a href="/api/auth/logout" className={styles.authLink}>
-              ログアウト
+            <a href={authLink} className={styles.authLink}>
+              {authText}
             </a>
             <div className={styles.hamburger}>
               <MenuIcon className={styles.hamburgerIcon} onClick={toggleMenu} />
@@ -103,35 +120,20 @@ const Header: React.FC = () => {
                 className={styles.menu}
                 style={{ display: isMenuOpen ? "block" : "none" }}
               >
-                <a href="/api/auth/logout">ログアウト</a>
+                <a href={authLink}>{authText}</a>
               </div>
             </div>
           </div>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <div className={styles.userInfoContainer}>
-            <span>ゲスト</span>
+        ) : (
+          <div
+            className={styles.menu}
+            style={{ display: isMenuOpen ? "block" : "none" }}
+          >
+            <a href={authLink}>{authText}</a>
           </div>
-          <div className={styles.authContainer}>
-            <a href="/api/auth/login" className={styles.authLink}>
-              ログイン
-            </a>
-            <div className={styles.hamburger}>
-              <MenuIcon className={styles.hamburgerIcon} onClick={toggleMenu} />
-              <div
-                className={styles.menu}
-                style={{ display: isMenuOpen ? "block" : "none" }}
-              >
-                <a href="/api/auth/login">ログイン</a>
-              </div>
-            </div>
-          </div>
-        </>
-      );
-    }
+        )}
+      </>
+    );
   };
 
   return (
@@ -155,6 +157,24 @@ const Header: React.FC = () => {
         </Link>
       </div>
       <div className={styles.userContainer}>{renderUserContent()}</div>
+
+      <div className={styles.mobileContainer}>
+        <Link href="/home" className={styles.link}>
+          <HomeIcon />
+        </Link>
+        <Link href="/search" className={styles.link}>
+          <SearchIcon />
+        </Link>
+        <Link href="/" className={styles.link}>
+          <SwipeRightIcon />
+        </Link>
+        <Link href="/profile" className={styles.link}>
+          <PersonIcon />
+        </Link>
+        <div className={styles.mobileUserContainer}>
+          {renderUserContent(true)}
+        </div>
+      </div>
     </header>
   );
 };

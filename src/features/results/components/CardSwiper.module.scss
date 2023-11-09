@@ -1,7 +1,13 @@
 .cardContainer {
   width: 580px;
-  max-width: 580px;
-  height: 650px;
+  height: 615px;
+
+  @media (max-width: 768px) {
+    max-width: 580px;
+    max-height: 615px;
+    width: 90vw;
+    height: 70vh;
+  }
 }
 
 .card {

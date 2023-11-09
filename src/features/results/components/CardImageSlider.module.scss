@@ -39,6 +39,10 @@
 
 .container :global(.slick-track) {
   height: 500px;
+  @media (max-width: 768px) {
+    height: 55vh;
+    max-height: 500px;
+  }
 }
 
 .container :global(.slick-dots) {
@@ -86,6 +90,11 @@
 .container {
   max-width: 580px;
 
+  @media (max-width: 768px) {
+    width: 90vw;
+    max-width: 580px;
+  }
+
   .photo {
     border-radius: 20px 20px 0 0;
     background: linear-gradient(#e66465, #9198e5);
@@ -98,5 +107,12 @@
     background-position: center;
     cursor: pointer;
     border-radius: 20px 20px 0 0;
+
+    @media (max-width: 768px) {
+      width: 90vw;
+      height: 55wh;
+      max-width: 580px;
+      max-height: 500px;
+    }
   }
 }

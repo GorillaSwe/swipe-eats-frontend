@@ -80,9 +80,15 @@ header {
   width: 260px;
   height: 100vh;
   position: fixed;
+  z-index: 1000;
 
   @media (max-width: 1264px) {
     width: 75px;
+  }
+  @media (max-width: 768px) {
+    width: 100vw;
+    height: 55px;
+    bottom: 0;
   }
 }
 
@@ -95,6 +101,11 @@ main {
   @media (max-width: 1264px) {
     width: calc(100% - 75px);
     margin-left: 75px;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 55px;
   }
 }
 
