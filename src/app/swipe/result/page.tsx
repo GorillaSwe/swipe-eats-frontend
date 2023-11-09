@@ -27,6 +27,7 @@ const ResultPage: NextPage = () => {
   const sort = searchParams.get("sort") || "prominence";
   const setRestaurantData = useSetRestaurantData();
 
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
   const [restaurantsWithDirection, setRestaurantsWithDirection] = useState<
     RestaurantData[]
@@ -79,6 +80,7 @@ const ResultPage: NextPage = () => {
   }, []);
 
   const handleCardSwipe = (index: number, direction: string) => {
+    index > 0 && setCurrentIndex(restaurants.length - index);
     setRestaurantsWithDirection((prev) => {
       const updatedRestaurants = [...prev];
       updatedRestaurants[index].direction = direction;
@@ -99,12 +101,24 @@ const ResultPage: NextPage = () => {
     router.push(`/swipe/map`);
   };
 
+  const handleCardRestore = (index: number) => {
+    setCurrentIndex(restaurants.length - index - 1);
+  };
+
   if (isLoading) {
     return <LoadingScreen />;
   }
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>検索結果</h1>
+      <h1 className={styles.title}>
+        検索結果：
+        {restaurants.length > 0 && (
+          <span className={styles.resultCount}>
+            {restaurants.length}件中 {currentIndex + 1}件目
+          </span>
+        )}
+      </h1>
       {error ? (
         <>
           <div className={styles.error}>
@@ -124,6 +138,7 @@ const ResultPage: NextPage = () => {
           restaurants={restaurants}
           onCardSwipe={handleCardSwipe}
           onLastCardSwipe={handleLastCardSwipe}
+          onCardRestore={handleCardRestore}
         />
       )}
     </div>

@@ -6,6 +6,10 @@
   display: inline-block;
   cursor: pointer;
 
+  @media (max-width: 768px) {
+    margin: 5px 15px;
+  }
+
   &:hover {
     background-color: #b9bac5;
   }

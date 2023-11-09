@@ -7,45 +7,73 @@
   padding: 10px 10px 30px 10px;
   font-size: 20px;
 
-  .linkContainer {
-    display: flex;
-    flex-flow: column;
-
-    a {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      margin: 5px 0;
-
-      &:hover {
-        background-color: #131313;
-      }
-
-      svg {
-        margin: 5px;
-      }
-
-      span {
-        margin-left: 15px;
-        font-weight: bold;
-
-        @media (max-width: 1264px) {
-          display: none;
-        }
-      }
-    }
+  @media (max-width: 768px) {
+    padding: 10px;
   }
 
+  .linkContainer,
   .userContainer {
     display: flex;
     flex-flow: column;
 
+    @media (max-width: 768px) {
+      display: none;
+    }
+
     a {
       padding: 10px;
       margin: 5px 0;
+
       &:hover {
         background-color: #131313;
       }
+    }
+
+    span {
+      margin-left: 15px;
+      font-weight: bold;
+
+      @media (max-width: 1264px) {
+        display: none;
+      }
+    }
+  }
+
+  .linkContainer {
+    a {
+      display: flex;
+      align-items: center;
+    }
+
+    svg {
+      margin: 5px;
+    }
+  }
+
+  .userContainer {
+    .largeText {
+      display: block;
+
+      @media (max-width: 1264px) {
+        display: none;
+      }
+    }
+
+    .middleText {
+      margin: 0;
+      display: none;
+
+      @media (max-width: 1264px) {
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    .smallText {
+      display: none;
     }
 
     .userInfoContainer {
@@ -56,29 +84,20 @@
 
       .image {
         border-radius: 20px;
-        width: 40px;
-        height: 40px;
-      }
-
-      span {
-        margin-left: 20px;
-        font-weight: bold;
-        font-size: 18px;
-
-        @media (max-width: 1264px) {
-          display: none;
-        }
       }
     }
 
     .authContainer {
       padding: 10px;
+
       .authLink {
         padding: 10px 50px;
+
         @media (max-width: 1264px) {
           display: none;
         }
       }
+
       .hamburger {
         display: none;
         margin: 5px;
@@ -101,6 +120,49 @@
         z-index: 1000;
         box-shadow: 0px 0px 10px 5px rgba(59, 59, 59, 0.3);
       }
+    }
+  }
+
+  .mobileContainer {
+    display: none;
+
+    @media (max-width: 768px) {
+      display: flex;
+      flex-flow: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .image {
+      border-radius: 17px;
+    }
+
+    svg {
+      margin: 5px;
+    }
+
+    .largeText,
+    .middleText {
+      display: none;
+    }
+
+    .smallText {
+      display: block;
+      width: 36px;
+      height: 36px;
+    }
+
+    .menu {
+      position: absolute;
+      top: -120%;
+      right: 3%;
+      background-color: #000000;
+      border: 1px solid #262626;
+      border-radius: 4px;
+      width: 200px;
+      padding: 20px;
+      z-index: 1000;
+      box-shadow: 0px 0px 10px 5px rgba(59, 59, 59, 0.3);
     }
   }
 }
