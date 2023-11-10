@@ -5,6 +5,10 @@
   align-items: center;
   height: 100vh;
 
+  @media (max-width: 768px) {
+    height: 50vh;
+  }
+
   .dot {
     position: relative;
     width: 2rem;
