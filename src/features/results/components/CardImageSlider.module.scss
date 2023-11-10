@@ -40,7 +40,7 @@
 .container :global(.slick-track) {
   height: 500px;
   @media (max-width: 768px) {
-    height: 55vh;
+    height: 50vh;
     max-height: 500px;
   }
 }
@@ -50,7 +50,8 @@
   margin: 0;
   padding: 0;
   position: absolute;
-  top: 0px;
+  top: 0;
+  bottom: 0;
 }
 
 .container :global(.slick-dots) li {
@@ -110,7 +111,7 @@
 
     @media (max-width: 768px) {
       width: 90vw;
-      height: 55wh;
+      height: 50wh;
       max-width: 580px;
       max-height: 500px;
     }
