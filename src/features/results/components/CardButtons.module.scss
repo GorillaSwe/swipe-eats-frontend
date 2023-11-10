@@ -4,6 +4,10 @@
   flex-wrap: wrap;
   justify-content: center;
 
+  @media (max-width: 768px) {
+    margin: 5px;
+  }
+
   button {
     color: #fff;
     width: 160px;
