@@ -37,9 +37,14 @@
   display: none !important;
 }
 
+.container :global(.slick-list) {
+  border-radius: 20px 20px 0 0;
+}
+
 .container :global(.slick-track) {
   height: 500px;
   @media (max-width: 768px) {
+    height: 50dvh;
     height: 50vh;
     max-height: 500px;
   }
