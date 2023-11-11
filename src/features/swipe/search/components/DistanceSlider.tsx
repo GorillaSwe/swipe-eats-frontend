@@ -11,6 +11,9 @@ const DistanceSlider: React.FC<DistanceSliderProps> = ({
   selectedRadius,
   onRadiusChange,
 }) => {
+  const selectedWidth =
+    (valMap.indexOf(selectedRadius) / (valMap.length - 1)) * 100;
+
   const handleSliderChange = (event: React.MouseEvent<HTMLDivElement>) => {
     const slider = event.target as HTMLDivElement;
     const totalWidth = slider.clientWidth;
@@ -28,6 +31,10 @@ const DistanceSlider: React.FC<DistanceSliderProps> = ({
     <div className={styles.container}>
       <h3 className={styles.title}>最長距離</h3>
       <div className={styles.slider} onClick={handleSliderChange}>
+        <div
+          className={styles.background}
+          style={{ width: `${selectedWidth}%` }}
+        ></div>
         {valMap.map((value, index) => (
           <label
             key={index}

@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 
 import { CATEGORIES } from "@/const/categories";
-import CategoryItem from "@/features/category/components/CategoryItem";
+import CategoryItem from "@/features/swipe/category/components/CategoryItem";
 
 import styles from "./page.module.scss";
 

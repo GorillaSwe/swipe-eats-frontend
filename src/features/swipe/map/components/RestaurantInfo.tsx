@@ -40,9 +40,10 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
               : quotaPhoto
           }
           alt={restaurant.name}
-          layout="fill"
           objectFit="cover"
           priority={true}
+          fill
+          sizes="100%"
         />
         <button
           className={styles.button}

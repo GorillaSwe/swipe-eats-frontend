@@ -6,12 +6,12 @@ import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import { NextPage } from "next";
 
 import { useRestaurantData } from "@/contexts/RestaurantContext";
-import Directions from "@/features/map/components/Directions";
-import RestaurantInfo from "@/features/map/components/RestaurantInfo";
-import RestaurantListItem from "@/features/map/components/RestaurantListItem";
-import RestaurantMarkers from "@/features/map/components/RestaurantMarkers";
-import SelectedMarker from "@/features/map/components/SelectedMarker";
-import UserMarker from "@/features/map/components/UserMaker";
+import Directions from "@/features/swipe/map/components/Directions";
+import RestaurantInfo from "@/features/swipe/map/components/RestaurantInfo";
+import RestaurantListItem from "@/features/swipe/map/components/RestaurantListItem";
+import RestaurantMarkers from "@/features/swipe/map/components/RestaurantMarkers";
+import SelectedMarker from "@/features/swipe/map/components/SelectedMarker";
+import UserMarker from "@/features/swipe/map/components/UserMarker";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";
