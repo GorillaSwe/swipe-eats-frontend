@@ -72,7 +72,6 @@ body {
   display: flex;
   width: 100vw;
   min-height: 100dvh;
-  min-height: 100vh;
   overflow-x: hidden;
   background: linear-gradient(#e66465, #9198e5);
 }
@@ -80,7 +79,6 @@ body {
 header {
   width: 260px;
   height: 100dvh;
-  height: 100vh;
   position: fixed;
   z-index: 1000;
 
