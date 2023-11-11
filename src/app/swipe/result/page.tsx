@@ -9,8 +9,8 @@ import { NextPage } from "next";
 
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { useSetRestaurantData } from "@/contexts/RestaurantContext";
-import { getRestaurantsInfo } from "@/features/results/api/getRestaurantsInfo";
-import CardSwiper from "@/features/results/components/CardSwiper";
+import { getRestaurantsInfo } from "@/features/swipe/result/api/getRestaurantsInfo";
+import CardSwiper from "@/features/swipe/result/components/CardSwiper";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";

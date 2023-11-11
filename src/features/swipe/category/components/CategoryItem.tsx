@@ -13,7 +13,14 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ value, image }) => {
     <li className={styles.container}>
       <Link href={`/swipe/search?category=${value}`} className={styles.link}>
         <div className={styles.image}>
-          <Image src={image} alt={value} quality={100} priority={true} fill />
+          <Image
+            src={image}
+            alt={value}
+            quality={100}
+            priority={true}
+            fill
+            sizes="350px"
+          />
         </div>
         <div className={styles.text}>
           <p>{value}</p>
