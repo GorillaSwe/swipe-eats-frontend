@@ -55,8 +55,7 @@ const RestaurantMarkers: React.FC<RestaurantMarkersProps> = ({
               onMouseOut={() => setHoveredRestaurant(null)}
             >
               {restaurant.direction === "right" &&
-                (hoveredRestaurant === null ||
-                  hoveredRestaurant === restaurant) && (
+                hoveredRestaurant === restaurant && (
                   <InfoWindowF
                     position={{
                       lat: restaurant.lat,
@@ -64,9 +63,7 @@ const RestaurantMarkers: React.FC<RestaurantMarkersProps> = ({
                     }}
                   >
                     <div
-                      className={`${styles.infoWindow} ${
-                        hoveredRestaurant === restaurant ? styles.hovered : ""
-                      }`}
+                      className={styles.infoWindow}
                       onMouseOver={() => setHoveredRestaurant(restaurant)}
                       onMouseOut={() => setHoveredRestaurant(null)}
                       onClick={(event) => {
