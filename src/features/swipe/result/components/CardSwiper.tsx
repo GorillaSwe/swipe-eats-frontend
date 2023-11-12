@@ -1,8 +1,8 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 
-import CardButtons from "@/features/results/components/CardButtons";
-import CardImageSlider from "@/features/results/components/CardImageSlider";
-import CardInfo from "@/features/results/components/CardInfo";
+import CardButtons from "@/features/swipe/result/components/CardButtons";
+import CardImageSlider from "@/features/swipe/result/components/CardImageSlider";
+import CardInfo from "@/features/swipe/result/components/CardInfo";
 import TinderCard from "@/lib/TinderCard/index.js";
 import { RestaurantData } from "@/types/RestaurantData";
 
