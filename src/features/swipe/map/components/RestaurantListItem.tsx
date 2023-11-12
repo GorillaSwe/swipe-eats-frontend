@@ -47,10 +47,10 @@ const RestaurantListItem: React.FC<RestaurantListItemProps> = ({
                 : quotaPhoto
             }
             alt={restaurant.name}
-            objectFit="cover"
             priority={true}
             fill
             sizes="120px"
+            style={{ objectFit: "cover" }}
           />
         </div>
       </div>

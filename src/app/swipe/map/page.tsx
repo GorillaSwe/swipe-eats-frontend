@@ -45,8 +45,8 @@ const MapPage: NextPage = () => {
   const [mapCenter, setMapCenter] = useState(center);
 
   const containerStyle = {
-    width: "60vw",
-    height: "80vh",
+    width: "100%",
+    height: "100%",
   };
 
   type ZoomLevels = {
@@ -55,13 +55,13 @@ const MapPage: NextPage = () => {
   };
 
   const ZOOM_LEVELS: ZoomLevels = {
-    100: 18,
-    500: 17,
-    1000: 16,
-    2000: 15,
-    3000: 14,
-    4000: 14,
-    5000: 13,
+    100: 17,
+    500: 16,
+    1000: 15,
+    2000: 14,
+    3000: 13,
+    4000: 13,
+    5000: 12,
     default: 16,
   };
 
@@ -83,7 +83,6 @@ const MapPage: NextPage = () => {
       setDirectionsResult(null);
       setTravelTime(null);
       setPreviousPlaceId(null);
-      console.error("Failed to get directions:", status);
     }
   };
 
@@ -113,33 +112,38 @@ const MapPage: NextPage = () => {
           />
         )}
       </div>
-      <LoadScript googleMapsApiKey={googleMapsApiKey}>
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={mapCenter}
-          zoom={getZoomSize(radius)}
-        >
-          <UserMarker center={center} radius={radius} travelTime={travelTime} />
-          <RestaurantMarkers
-            restaurants={restaurants}
-            selectedRestaurant={selectedRestaurant}
-            hoveredRestaurant={hoveredRestaurant}
-            setHoveredRestaurant={setHoveredRestaurant}
-            setSelectedRestaurant={setSelectedRestaurant}
-          />
-          <SelectedMarker
-            selectedRestaurant={selectedRestaurant}
-            hoveredRestaurant={hoveredRestaurant}
-            setHoveredRestaurant={setHoveredRestaurant}
-          />
-          <Directions
-            center={center}
-            selectedRestaurant={selectedRestaurant}
-            directionsResult={directionsResult}
-            handleDirectionsCallback={handleDirectionsCallback}
-          />
-        </GoogleMap>
-      </LoadScript>
+      <div className={styles.mapContainer}>
+        <LoadScript googleMapsApiKey={googleMapsApiKey}>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={mapCenter}
+            zoom={getZoomSize(radius)}
+          >
+            <UserMarker
+              center={center}
+              radius={radius}
+              travelTime={travelTime}
+            />
+            <RestaurantMarkers
+              restaurants={restaurants}
+              selectedRestaurant={selectedRestaurant}
+              hoveredRestaurant={hoveredRestaurant}
+              setHoveredRestaurant={setHoveredRestaurant}
+              setSelectedRestaurant={setSelectedRestaurant}
+            />
+            <SelectedMarker
+              selectedRestaurant={selectedRestaurant}
+              setHoveredRestaurant={setHoveredRestaurant}
+            />
+            <Directions
+              center={center}
+              selectedRestaurant={selectedRestaurant}
+              directionsResult={directionsResult}
+              handleDirectionsCallback={handleDirectionsCallback}
+            />
+          </GoogleMap>
+        </LoadScript>
+      </div>
     </div>
   );
 };
