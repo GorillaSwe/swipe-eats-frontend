@@ -52,7 +52,15 @@ const Header: React.FC = () => {
 
   const sendUserData = async (userData: User) => {
     try {
-      await client.post("/users", userData);
+      const tokenResponse = await fetch("/api/token");
+      const tokenData = await tokenResponse.json();
+      const token = tokenData.accessToken;
+
+      await client.post("/users", userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     } catch (err) {
       console.error("バックエンドへのデータ送信エラー:", err);
     }
