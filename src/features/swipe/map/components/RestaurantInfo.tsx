@@ -65,7 +65,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
           <p className={styles.userRatingsTotal}>
             ({restaurant.userRatingsTotal})
           </p>
-          <p>・</p>
+          {restaurant.priceLevel && <p>・</p>}
           <PriceLevel priceLevel={restaurant.priceLevel} />
         </div>
       </div>
