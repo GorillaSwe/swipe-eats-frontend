@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useSearchParams, useRouter } from "next/navigation";
 
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { AxiosError } from "axios";
 import { NextPage } from "next";
 
@@ -11,6 +12,7 @@ import LoadingScreen from "@/components/ui/LoadingScreen";
 import { useSetRestaurantData } from "@/contexts/RestaurantContext";
 import { getRestaurantsInfo } from "@/features/swipe/result/api/getRestaurantsInfo";
 import CardSwiper from "@/features/swipe/result/components/CardSwiper";
+import client from "@/lib/apiClient";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";
@@ -26,6 +28,7 @@ const ResultPage: NextPage = () => {
   const splittedPrice = price ? price.split(",").map(Number) : [];
   const sort = searchParams.get("sort") || "prominence";
   const setRestaurantData = useSetRestaurantData();
+  const { user } = useUser();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
@@ -88,7 +91,36 @@ const ResultPage: NextPage = () => {
     });
   };
 
-  const handleLastCardSwipe = () => {
+  const sendRestaurantsData = async (restaurants: RestaurantData[]) => {
+    if (user) {
+      try {
+        const tokenResponse = await fetch("/api/token");
+        const tokenData = await tokenResponse.json();
+        const token = tokenData.accessToken;
+
+        const likedRestaurants = restaurants.filter(
+          (r) => r.direction === "right"
+        );
+        await Promise.all(
+          likedRestaurants.map((restaurant) => {
+            return client.post(
+              "/favorites",
+              { placeId: restaurant.placeId },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+          })
+        );
+      } catch (err) {
+        console.error("バックエンドへのデータ送信エラー:", err);
+      }
+    }
+  };
+
+  const handleLastCardSwipe = async () => {
     const reversedRestaurantsWithDirection = [
       ...restaurantsWithDirection,
     ].reverse();
@@ -98,6 +130,7 @@ const ResultPage: NextPage = () => {
       longitude,
       radius,
     });
+    sendRestaurantsData(restaurantsWithDirection);
     router.push(`/swipe/map`);
   };
 
