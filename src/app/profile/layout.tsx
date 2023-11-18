@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import "./globals.scss";
+import "./layout.scss";
 
 export const metadata: Metadata = {
   title: "Swipe Eats",
@@ -11,5 +11,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="swipeResultContainer">{children}</div>;
+  return <div className="profileContainer">{children}</div>;
 }
