@@ -19,7 +19,7 @@ const CardInfo: React.FC<CardInfoProps> = ({ restaurant }) => {
         <p className={styles.userRatingsTotal}>
           ({restaurant.userRatingsTotal})
         </p>
-        <p>・</p>
+        {restaurant.priceLevel && <p>・</p>}
         <PriceLevel priceLevel={restaurant.priceLevel} />
       </div>
     </div>
