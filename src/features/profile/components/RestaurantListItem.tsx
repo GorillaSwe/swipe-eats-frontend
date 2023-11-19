@@ -28,6 +28,7 @@ const RestaurantListItem: React.FC<RestaurantListItemProps> = ({
               : quotaPhoto
           }
           alt={restaurant.name}
+          sizes="300px"
           fill
         />
       </div>

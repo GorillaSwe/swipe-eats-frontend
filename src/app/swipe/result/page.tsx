@@ -8,7 +8,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { AxiosError } from "axios";
 import { NextPage } from "next";
 
-import LoadingScreen from "@/components/ui/LoadingScreen";
+import LoadingScreen from "@/components/base/Loading/LoadingScreen";
 import { useSetRestaurantData } from "@/contexts/RestaurantContext";
 import { getRestaurantsInfo } from "@/features/swipe/result/api/getRestaurantsInfo";
 import CardSwiper from "@/features/swipe/result/components/CardSwiper";

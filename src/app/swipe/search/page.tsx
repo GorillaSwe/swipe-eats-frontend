@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 import { NextPage } from "next";
 
-import LoadingScreen from "@/components/ui/LoadingScreen";
+import LoadingScreen from "@/components/base/Loading/LoadingScreen";
 import DistanceSlider from "@/features/swipe/search/components/DistanceSlider";
 import PriceLevelSelector from "@/features/swipe/search/components/PriceLevelSelector";
 import SortOptionSelector from "@/features/swipe/search/components/SortOptionSelector";
