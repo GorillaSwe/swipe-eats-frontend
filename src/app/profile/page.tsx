@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { NextPage } from "next";
 
-import LoadingScreen from "@/components/ui/LoadingScreen";
-import LoginScreen from "@/components/ui/LoginScreen";
+import LoadingScreen from "@/components/base/Loading/LoadingScreen";
+import LoginScreen from "@/components/base/Login/LoginScreen";
 import RestaurantInfo from "@/features/profile/components/RestaurantInfo";
 import RestaurantListItem from "@/features/profile/components/RestaurantListItem";
 import UserInfo from "@/features/profile/components/UserInfo";
