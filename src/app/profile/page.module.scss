@@ -7,63 +7,6 @@
     margin: 30px 0;
   }
 
-  .userContainer {
-    width: 100%;
-    margin: 0 0 40px 0;
-    display: flex;
-    font-size: 20px;
-    font-weight: bold;
-
-    @media (max-width: 768px) {
-      margin: 0 0 20px 0;
-    }
-
-    .image {
-      border-radius: 75px;
-    }
-
-    .userLeftContainer {
-      margin: 0 50px;
-
-      @media (max-width: 768px) {
-        margin: 0 20px;
-      }
-    }
-
-    .userRightContainer {
-      margin-left: 60px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      row-gap: 30px;
-
-      @media (max-width: 1264px) {
-        margin-left: 0;
-      }
-
-      @media (max-width: 768px) {
-        row-gap: 10px;
-        font-size: 16px;
-      }
-
-      .userRightBottomContainer {
-        display: flex;
-        flex-direction: row;
-        column-gap: 20px;
-
-        @media (max-width: 768px) {
-          column-gap: 10px;
-        }
-
-        span {
-          @media (max-width: 768px) {
-            display: inline-block;
-          }
-        }
-      }
-    }
-  }
-
   .border {
     width: 100%;
     border-bottom: solid 1px #dbdbdb;
@@ -79,61 +22,6 @@
     @media (max-width: 768px) {
       margin-top: 15px;
       row-gap: 5px;
-    }
-
-    .restaurantListItem {
-      width: 300px;
-      height: 300px;
-      max-width: 300px;
-      max-height: 300px;
-
-      @media (max-width: 1264px) {
-        width: 28dvw;
-        height: 28dvw;
-      }
-
-      @media (max-width: 768px) {
-        width: 31dvw;
-        height: 31dvw;
-      }
-
-      .image {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        z-index: -1;
-      }
-
-      .name {
-        position: relative;
-        bottom: 20%;
-        height: 20%;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 0 15px;
-
-        @media (max-width: 768px) {
-          padding: 0 5px;
-        }
-
-        p {
-          color: #fff;
-          font-size: 20px;
-          font-weight: bold;
-          line-height: 60px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-
-          @media (max-width: 1072px) {
-            line-height: calc(28dvw * 0.2);
-          }
-
-          @media (max-width: 768px) {
-            font-size: 12px;
-            line-height: calc(31dvw * 0.2);
-          }
-        }
-      }
     }
   }
   .restaurantList::after {
