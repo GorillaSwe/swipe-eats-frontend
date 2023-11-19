@@ -43,25 +43,13 @@
   }
 
   .button {
-    position: absolute;
+    position: fixed;
     right: 1%;
     top: 1%;
-    font-size: 20px;
     color: #fff;
-    background-color: #000;
-    border-radius: 50%;
+    cursor: pointer;
     width: 30px;
     height: 30px;
-
-    @media (max-width: 1166px) {
-      position: fixed;
-      right: 21%;
-      top: 11%;
-    }
-
-    @media (max-width: 768px) {
-      right: 10%;
-    }
 
     &:hover {
       color: #b7b7b7;
