@@ -1,5 +1,8 @@
+import { useRef, useEffect } from "react";
+
 import Image from "next/image";
 
+import CloseIcon from "@mui/icons-material/Close";
 import GoogleIcon from "@mui/icons-material/Google";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -22,9 +25,27 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
 }) => {
   const quotaPhoto = "/images/restaurants/quota.png";
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setSelectedRestaurant(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setSelectedRestaurant]);
+
   return (
     <div className={styles.container}>
-      <div className={styles.restaurantContainer}>
+      <div className={styles.restaurantContainer} ref={containerRef}>
         <div className={styles.image}>
           <Image
             src={
@@ -38,14 +59,12 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
             sizes="100%"
             style={{ objectFit: "cover" }}
           />
-          <button
+          <CloseIcon
             className={styles.button}
             onClick={() => {
               setSelectedRestaurant(null);
             }}
-          >
-            ✖
-          </button>
+          />
         </div>
         <div className={styles.topContainer}>
           <h3 className={styles.name}>{restaurant.name}</h3>
