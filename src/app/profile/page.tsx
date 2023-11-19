@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from "react";
 
-import Link from "next/link";
-
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { NextPage } from "next";
 
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import LoginScreen from "@/components/ui/LoginScreen";
 import RestaurantInfo from "@/features/profile/components/RestaurantInfo";
 import RestaurantListItem from "@/features/profile/components/RestaurantListItem";
 import UserInfo from "@/features/profile/components/UserInfo";
@@ -57,12 +56,7 @@ const ProfilePage: NextPage = () => {
   }
 
   if (!user) {
-    return (
-      <div>
-        <h1>ログインが必要です</h1>
-        <Link href="/api/auth/login">ログインする</Link>
-      </div>
-    );
+    return <LoginScreen />;
   }
 
   const userName = user?.name ?? "ゲスト";
