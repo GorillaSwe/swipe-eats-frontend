@@ -9,6 +9,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { NextPage } from "next";
 
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import RestaurantInfo from "@/features/profile/components/RestaurantInfo";
 import client from "@/lib/apiClient";
 import { RestaurantData } from "@/types/RestaurantData";
 
@@ -18,6 +19,8 @@ const ProfilePage: NextPage = () => {
   const { user, isLoading } = useUser();
   const [favorites, setFavorites] = useState([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
+  const [selectedRestaurant, setSelectedRestaurant] =
+    useState<null | RestaurantData>(null);
   const guestImage = "/images/header/guest.png";
   const quotaPhoto = "/images/restaurants/quota.png";
 
@@ -97,28 +100,40 @@ const ProfilePage: NextPage = () => {
 
       <div className={styles.border}></div>
 
-      <div className={styles.restaurantList}>
-        {favorites.length > 0 ? (
-          favorites.map((restaurant: RestaurantData) => (
-            <div className={styles.restaurantListItem} key={restaurant.placeId}>
-              <div className={styles.image}>
-                <Image
-                  src={
-                    restaurant.photos && restaurant.photos[0]
-                      ? restaurant.photos[0]
-                      : quotaPhoto
-                  }
-                  alt={restaurant.name}
-                  fill
-                />
+      <div className={styles.restaurantInfo}>
+        <div className={styles.restaurantList}>
+          {favorites.length > 0 ? (
+            favorites.map((restaurant: RestaurantData) => (
+              <div
+                className={styles.restaurantListItem}
+                key={restaurant.placeId}
+                onClick={() => setSelectedRestaurant(restaurant)}
+              >
+                <div className={styles.image}>
+                  <Image
+                    src={
+                      restaurant.photos && restaurant.photos[0]
+                        ? restaurant.photos[0]
+                        : quotaPhoto
+                    }
+                    alt={restaurant.name}
+                    fill
+                  />
+                </div>
+                <div className={styles.name}>
+                  <p>{restaurant.name}</p>
+                </div>
               </div>
-              <div className={styles.name}>
-                <p>{restaurant.name}</p>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>お気に入りのレストランがありません。</p>
+            ))
+          ) : (
+            <p>お気に入りのレストランがありません。</p>
+          )}
+        </div>
+        {selectedRestaurant && (
+          <RestaurantInfo
+            restaurant={selectedRestaurant}
+            setSelectedRestaurant={() => setSelectedRestaurant(null)}
+          />
         )}
       </div>
     </div>
