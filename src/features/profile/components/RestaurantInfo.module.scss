@@ -73,6 +73,86 @@
 
   .subContainer {
     display: flex;
+    justify-content: space-between;
+
+    .subLeftContainer {
+      display: flex;
+    }
+
+    .subRightContainer {
+      svg {
+        color: #000;
+        cursor: pointer;
+      }
+
+      .deleteContainer {
+        height: 100dvh;
+        width: 100dvw;
+        background: rgba(0, 0, 0, 0.8);
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overscroll-behavior: contain;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        touch-action: none;
+
+        .deleteDialog {
+          background-color: #fff;
+          padding: 50px;
+          display: flex;
+          flex-flow: column;
+          row-gap: 20px;
+          border-radius: 20px;
+        }
+
+        .deleteTitle {
+          color: #000;
+          font-weight: bold;
+          font-size: 20px;
+        }
+
+        .deleteButton,
+        .cancelButton {
+          font-size: 18px;
+          font-weight: bold;
+          width: 160px;
+          padding: 10px;
+          margin: 10px;
+          border-radius: 5px;
+          transition: 200ms;
+          border: 1px #b7b7b7 solid;
+          box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+
+        .deleteButton {
+          color: #fff;
+          background-color: #f53b4c;
+        }
+        .cancelButton {
+          color: #494949;
+        }
+      }
+
+      .deleteContainer::before,
+      .deleteContainer::after {
+        content: "";
+        width: 1px;
+        height: calc(100dvh + 1px);
+        display: flex;
+      }
+      .deleteContainer::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 
   .name {

@@ -1,4 +1,5 @@
 export interface RestaurantData {
+  id: string;
   placeId: string;
   name: string;
   lat: number;
@@ -10,7 +11,7 @@ export interface RestaurantData {
   postalCode: string;
   website: string;
   url: string;
-  userRatingsTotal: number,
+  userRatingsTotal: number;
   formattedPhoneNumber: string;
   direction: string;
 }

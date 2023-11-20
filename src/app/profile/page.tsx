@@ -23,6 +23,14 @@ const ProfilePage: NextPage = () => {
     useState<null | RestaurantData>(null);
   const guestImage = "/images/header/guest.png";
 
+  const removeFavorite = (placeId: string) => {
+    setFavorites((currentFavorites) =>
+      currentFavorites.filter(
+        (restaurant: RestaurantData) => restaurant.placeId !== placeId
+      )
+    );
+  };
+
   useEffect(() => {
     if (!isLoading) {
       if (user) {
@@ -90,6 +98,7 @@ const ProfilePage: NextPage = () => {
           <RestaurantInfo
             restaurant={selectedRestaurant}
             setSelectedRestaurant={() => setSelectedRestaurant(null)}
+            removeFavorite={removeFavorite}
           />
         )}
       </div>
