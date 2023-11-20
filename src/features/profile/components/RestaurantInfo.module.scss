@@ -20,7 +20,7 @@
     overflow-y: scroll;
 
     @media (max-width: 768px) {
-      height: 80%;
+      height: 70%;
       width: 85%;
     }
   }
@@ -44,8 +44,8 @@
 
   .button {
     position: fixed;
-    right: 1%;
-    top: 1%;
+    right: 2%;
+    top: 2%;
     color: #fff;
     cursor: pointer;
     width: 30px;
