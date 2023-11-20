@@ -1,15 +1,17 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 import Image from "next/image";
 
 import CloseIcon from "@mui/icons-material/Close";
 import GoogleIcon from "@mui/icons-material/Google";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PhoneIcon from "@mui/icons-material/Phone";
 import PublicIcon from "@mui/icons-material/Public";
 
 import PriceLevel from "@/components/ui/PriceLevel";
 import StarRating from "@/components/ui/StarRating";
+import client from "@/lib/apiClient";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./RestaurantInfo.module.scss";
@@ -17,15 +19,28 @@ import styles from "./RestaurantInfo.module.scss";
 interface RestaurantInfoProps {
   restaurant: RestaurantData;
   setSelectedRestaurant: (restaurant: RestaurantData | null) => void;
+  removeFavorite: (restaurantId: string) => void;
 }
 
 const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
   restaurant,
   setSelectedRestaurant,
+  removeFavorite,
 }) => {
   const quotaPhoto = "/images/restaurants/quota.png";
-
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const toggleDialog = () => setIsDialogOpen((prev) => !prev);
+
+  useEffect(() => {
+    const closeDialog = (e: MouseEvent) => {
+      if (isDialogOpen) setIsDialogOpen(false);
+    };
+
+    document.addEventListener("click", closeDialog);
+    return () => document.removeEventListener("click", closeDialog);
+  }, [isDialogOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,6 +57,25 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setSelectedRestaurant]);
+
+  const handleDelete = async () => {
+    try {
+      const tokenResponse = await fetch("/api/token");
+      const tokenData = await tokenResponse.json();
+      const token = tokenData.accessToken;
+
+      await client.delete(`/favorites/${restaurant.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      removeFavorite(restaurant.placeId);
+      setIsDialogOpen(false);
+      setSelectedRestaurant(null);
+    } catch (error) {
+      console.error("削除に失敗しました: ", error);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -69,13 +103,48 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
         <div className={styles.topContainer}>
           <h3 className={styles.name}>{restaurant.name}</h3>
           <div className={styles.subContainer}>
-            <p className={styles.rating}>{restaurant.rating}</p>
-            <StarRating rating={restaurant.rating} />
-            <p className={styles.userRatingsTotal}>
-              ({restaurant.userRatingsTotal})
-            </p>
-            {restaurant.priceLevel && <p>・</p>}
-            <PriceLevel priceLevel={restaurant.priceLevel} />
+            <div className={styles.subLeftContainer}>
+              <p className={styles.rating}>{restaurant.rating}</p>
+              <StarRating rating={restaurant.rating} />
+              <p className={styles.userRatingsTotal}>
+                ({restaurant.userRatingsTotal})
+              </p>
+              {restaurant.priceLevel && <p>・</p>}
+              <PriceLevel priceLevel={restaurant.priceLevel} />
+            </div>
+            <div className={styles.subRightContainer}>
+              <MoreHorizIcon
+                className={styles.deleteDialogIcon}
+                onClick={toggleDialog}
+              />
+              <div
+                className={styles.deleteContainer}
+                style={{ display: isDialogOpen ? "flex" : "none" }}
+              >
+                <div className={styles.deleteDialog}>
+                  <div className={styles.deleteDialogTopContainer}>
+                    <p className={styles.deleteTitle}>
+                      お気に入りを削除しますか？
+                    </p>
+                  </div>
+                  <div className={styles.deleteDialogBottomContainer}>
+                    <button
+                      className={styles.cancelButton}
+                      onClick={() => setIsDialogOpen(false)}
+                    >
+                      キャンセル
+                    </button>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={handleDelete}
+                    >
+                      削除
+                    </button>
+                  </div>
+                </div>
+                <div className={styles.nonScroll}></div>
+              </div>
+            </div>
           </div>
         </div>
         <div className={styles.border}></div>
