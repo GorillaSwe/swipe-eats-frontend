@@ -77,6 +77,16 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
     }
   };
 
+  const getHostnameFromUrl = (urlString: string) => {
+    try {
+      const url = new URL(urlString);
+      return url.hostname;
+    } catch (error) {
+      console.error("URL解析エラー: ", error);
+      return urlString;
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.restaurantContainer} ref={containerRef}>
@@ -162,7 +172,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
               <div className={styles.textContainer}>
                 <p className={styles.website}>
                   <a href={restaurant.website} target="_blank">
-                    {restaurant.website}
+                    {getHostnameFromUrl(restaurant.website)}
                   </a>
                 </p>
               </div>
