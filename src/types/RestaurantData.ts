@@ -1,5 +1,4 @@
 export interface RestaurantData {
-  id: string;
   placeId: string;
   name: string;
   lat: number;
@@ -14,4 +13,5 @@ export interface RestaurantData {
   userRatingsTotal: number;
   formattedPhoneNumber: string;
   direction: string;
+  isFavorite: boolean;
 }
