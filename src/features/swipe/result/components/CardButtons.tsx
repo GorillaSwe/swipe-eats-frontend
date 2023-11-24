@@ -10,6 +10,7 @@ interface CardButtonsProps {
   canGoBack: boolean;
   swipe: (direction: string) => void;
   goBack: () => void;
+  onLastCardSwipe: () => void;
 }
 
 const CardButtons: React.FC<CardButtonsProps> = ({
@@ -17,6 +18,7 @@ const CardButtons: React.FC<CardButtonsProps> = ({
   canGoBack,
   swipe,
   goBack,
+  onLastCardSwipe,
 }) => {
   return (
     <div className={styles.container}>
@@ -47,7 +49,7 @@ const CardButtons: React.FC<CardButtonsProps> = ({
 
       <div
         className={`${styles.button} ${styles.skip} `}
-        onClick={() => goBack()}
+        onClick={() => onLastCardSwipe()}
       >
         <KeyboardDoubleArrowRightIcon fontSize="large" />
       </div>

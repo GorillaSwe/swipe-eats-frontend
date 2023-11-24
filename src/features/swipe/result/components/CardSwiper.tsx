@@ -130,6 +130,7 @@ const CardSwiper: React.FC<CardSwiperProps> = ({
         canGoBack={canGoBack}
         swipe={swipe}
         goBack={goBack}
+        onLastCardSwipe={onLastCardSwipe}
       />
     </div>
   );
