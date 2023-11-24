@@ -81,8 +81,16 @@
 
     .subRightContainer {
       svg {
-        color: #f53b4c;
         cursor: pointer;
+      }
+      .favoriteDialogIcon {
+        color: #f53b4c;
+      }
+      .deleteDialogIcon {
+        color: #b7b7b7;
+      }
+      .deleteDialogIcon:hover {
+        color: #000;
       }
 
       .deleteContainer {

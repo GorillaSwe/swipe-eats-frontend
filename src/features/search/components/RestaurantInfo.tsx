@@ -2,8 +2,10 @@ import { useRef, useEffect, useState } from "react";
 
 import Image from "next/image";
 
+import { useUser } from "@auth0/nextjs-auth0/client";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GoogleIcon from "@mui/icons-material/Google";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -17,19 +19,23 @@ import { RestaurantData } from "@/types/RestaurantData";
 import styles from "./RestaurantInfo.module.scss";
 
 interface RestaurantInfoProps {
-  restaurant: RestaurantData;
-  setSelectedRestaurant: (restaurant: RestaurantData | null) => void;
-  removeFavorite: (restaurantId: string) => void;
+  selectedRestaurant: RestaurantData;
+  setSelectedRestaurant: React.Dispatch<
+    React.SetStateAction<RestaurantData | null>
+  >;
+  setRestaurants: React.Dispatch<React.SetStateAction<RestaurantData[]>>;
 }
 
 const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
-  restaurant,
+  selectedRestaurant,
   setSelectedRestaurant,
-  removeFavorite,
+  setRestaurants,
 }) => {
   const quotaPhoto = "/images/restaurants/quota.png";
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(selectedRestaurant.isFavorite);
+  const { user } = useUser();
 
   const toggleDialog = () => setIsDialogOpen((prev) => !prev);
 
@@ -65,18 +71,55 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
       const token = tokenData.accessToken;
 
       await client.delete(
-        `/favorites/destroy_by_place_id/${restaurant.placeId}`,
+        `/favorites/destroy_by_place_id/${selectedRestaurant.placeId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      removeFavorite(restaurant.placeId);
-      setIsDialogOpen(false);
-      setSelectedRestaurant(null);
+
+      setIsFavorite(false);
+
+      setRestaurants((prevRestaurants) =>
+        prevRestaurants.map((r) =>
+          r.placeId === selectedRestaurant.placeId
+            ? { ...r, isFavorite: false }
+            : r
+        )
+      );
     } catch (error) {
       console.error("削除に失敗しました: ", error);
+    }
+  };
+
+  const handleAddToFavorites = async () => {
+    try {
+      const tokenResponse = await fetch("/api/token");
+      const tokenData = await tokenResponse.json();
+      const token = tokenData.accessToken;
+
+      await client.post(
+        `/favorites`,
+        { placeId: selectedRestaurant.placeId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setIsFavorite(true);
+
+      setRestaurants((prevRestaurants) =>
+        prevRestaurants.map((r) =>
+          r.placeId === selectedRestaurant.placeId
+            ? { ...r, isFavorite: true }
+            : r
+        )
+      );
+    } catch (error) {
+      console.error("お気に入り追加に失敗しました: ", error);
     }
   };
 
@@ -96,11 +139,11 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
         <div className={styles.image}>
           <Image
             src={
-              restaurant.photos && restaurant.photos[0]
-                ? restaurant.photos[0]
+              selectedRestaurant.photos && selectedRestaurant.photos[0]
+                ? selectedRestaurant.photos[0]
                 : quotaPhoto
             }
-            alt={restaurant.name}
+            alt={selectedRestaurant.name}
             priority={true}
             fill
             sizes="100%"
@@ -114,22 +157,30 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
           />
         </div>
         <div className={styles.topContainer}>
-          <h3 className={styles.name}>{restaurant.name}</h3>
+          <h3 className={styles.name}>{selectedRestaurant.name}</h3>
           <div className={styles.subContainer}>
             <div className={styles.subLeftContainer}>
-              <p className={styles.rating}>{restaurant.rating}</p>
-              <StarRating rating={restaurant.rating} />
+              <p className={styles.rating}>{selectedRestaurant.rating}</p>
+              <StarRating rating={selectedRestaurant.rating} />
               <p className={styles.userRatingsTotal}>
-                ({restaurant.userRatingsTotal})
+                ({selectedRestaurant.userRatingsTotal})
               </p>
-              {restaurant.priceLevel && <p>・</p>}
-              <PriceLevel priceLevel={restaurant.priceLevel} />
+              {selectedRestaurant.priceLevel && <p>・</p>}
+              <PriceLevel priceLevel={selectedRestaurant.priceLevel} />
             </div>
             <div className={styles.subRightContainer}>
-              <FavoriteIcon
-                className={styles.deleteDialogIcon}
-                onClick={toggleDialog}
-              />
+              {user &&
+                (isFavorite ? (
+                  <FavoriteIcon
+                    className={styles.favoriteDialogIcon}
+                    onClick={toggleDialog}
+                  />
+                ) : (
+                  <FavoriteBorderIcon
+                    className={styles.deleteDialogIcon}
+                    onClick={handleAddToFavorites}
+                  />
+                ))}
               <div
                 className={styles.deleteContainer}
                 style={{ display: isDialogOpen ? "flex" : "none" }}
@@ -165,37 +216,39 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
           <div className={styles.iconContainer}>
             <LocationOnIcon />
             <div className={styles.textContainer}>
-              <p className={styles.postalCode}>〒{restaurant.postalCode}</p>
-              <p className={styles.vicinity}>{restaurant.vicinity}</p>
+              <p className={styles.postalCode}>
+                〒{selectedRestaurant.postalCode}
+              </p>
+              <p className={styles.vicinity}>{selectedRestaurant.vicinity}</p>
             </div>
           </div>
-          {restaurant.website && (
+          {selectedRestaurant.website && (
             <div className={styles.iconContainer}>
               <PublicIcon />
               <div className={styles.textContainer}>
                 <p className={styles.website}>
-                  <a href={restaurant.website} target="_blank">
-                    {getHostnameFromUrl(restaurant.website)}
+                  <a href={selectedRestaurant.website} target="_blank">
+                    {getHostnameFromUrl(selectedRestaurant.website)}
                   </a>
                 </p>
               </div>
             </div>
           )}
-          {restaurant.url && (
+          {selectedRestaurant.url && (
             <div className={styles.iconContainer}>
               <GoogleIcon />
               <p className={styles.url}>
-                <a href={restaurant.url} target="_blank">
+                <a href={selectedRestaurant.url} target="_blank">
                   Google Mapで表示
                 </a>
               </p>
             </div>
           )}
-          {restaurant.formattedPhoneNumber && (
+          {selectedRestaurant.formattedPhoneNumber && (
             <div className={styles.iconContainer}>
               <PhoneIcon />
               <p className={styles.formattedPhoneNumber}>
-                {restaurant.formattedPhoneNumber}
+                {selectedRestaurant.formattedPhoneNumber}
               </p>
             </div>
           )}
