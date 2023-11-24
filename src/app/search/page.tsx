@@ -1,20 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+import { useUser } from "@auth0/nextjs-auth0/client";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
 import { NextPage } from "next";
 
+import LoadingScreen from "@/components/base/Loading/LoadingScreen";
 import RestaurantInfo from "@/features/search/components/RestaurantInfo";
 import RestaurantListItem from "@/features/search/components/RestaurantListItem";
+import useLocation from "@/features/swipe/search/hooks/useLocation";
 import client from "@/lib/apiClient";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";
 
 const SearchPage: NextPage<{}> = () => {
+  const { user } = useUser();
+
+  const { latitude, longitude } = useLocation();
   const [query, setQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<null | RestaurantData>(null);
@@ -23,29 +30,62 @@ const SearchPage: NextPage<{}> = () => {
     setQuery("");
   };
 
+  useEffect(() => {
+    if (latitude && longitude) {
+      setIsLoading(false);
+    }
+  }, [latitude, longitude]);
+
   const handleSearch = async () => {
-    try {
-      const tokenResponse = await fetch("/api/token");
-      const tokenData = await tokenResponse.json();
-      const token = tokenData.accessToken;
+    if (user) {
+      try {
+        const tokenResponse = await fetch("/api/token");
+        const tokenData = await tokenResponse.json();
+        const token = tokenData.accessToken;
 
-      const response = await client.get("/restaurants/search", {
-        params: { query },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        const response = await client.get("/restaurants/search", {
+          params: {
+            query,
+            latitude,
+            longitude,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (
-        response.status === 200 &&
-        response.data &&
-        response.data.message &&
-        response.data.message.length > 0
-      ) {
-        setRestaurants(response.data.message);
+        if (
+          response.status === 200 &&
+          response.data &&
+          response.data.message &&
+          response.data.message.length > 0
+        ) {
+          setRestaurants(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
       }
-    } catch (error) {
-      console.error("Error fetching data: ", error);
+    } else {
+      try {
+        const response = await client.get("/restaurants/search", {
+          params: {
+            query,
+            latitude,
+            longitude,
+          },
+        });
+
+        if (
+          response.status === 200 &&
+          response.data &&
+          response.data.message &&
+          response.data.message.length > 0
+        ) {
+          setRestaurants(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
     }
   };
 
@@ -57,6 +97,9 @@ const SearchPage: NextPage<{}> = () => {
     }
   };
 
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
   return (
     <div className={styles.container}>
       <div className={styles.searchContainer}>
