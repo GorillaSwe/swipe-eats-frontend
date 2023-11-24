@@ -13,7 +13,7 @@ interface RestaurantMarkersProps {
 }
 
 const LIKE_MARKER_ICON = "/images/map/heart.png";
-const NOPE_MARKER_ICON = "/images/map/cross.png";
+const NULL_MARKER_ICON = "/images/map/null.png";
 const OTHER_MARKER_ICON =
   "https://labs.google.com/ridefinder/images/mm_20_black.png";
 
@@ -24,14 +24,13 @@ const RestaurantMarkers: React.FC<RestaurantMarkersProps> = ({
   setHoveredRestaurant,
   setSelectedRestaurant,
 }) => {
-  const getMarkerIcon = (direction: string) => {
-    switch (direction) {
-      case "right":
-        return LIKE_MARKER_ICON;
-      case "left":
-        return NOPE_MARKER_ICON;
-      default:
-        return OTHER_MARKER_ICON;
+  const getMarkerIcon = (isFavorite: boolean | null) => {
+    if (isFavorite === true) {
+      return LIKE_MARKER_ICON;
+    } else if (isFavorite === null) {
+      return NULL_MARKER_ICON;
+    } else {
+      return OTHER_MARKER_ICON;
     }
   };
 
@@ -39,42 +38,40 @@ const RestaurantMarkers: React.FC<RestaurantMarkersProps> = ({
     <>
       {restaurants?.map(
         (restaurant, index) =>
-          restaurant !== selectedRestaurant &&
-          restaurant.direction === "right" && (
+          restaurant !== selectedRestaurant && (
             <MarkerF
               key={restaurant.placeId}
               position={{
                 lat: restaurant.lat,
                 lng: restaurant.lng,
               }}
-              icon={getMarkerIcon(restaurant.direction)}
+              icon={getMarkerIcon(restaurant.isFavorite)}
               onClick={() => {
                 setSelectedRestaurant(restaurant);
               }}
               onMouseOver={() => setHoveredRestaurant(restaurant)}
               onMouseOut={() => setHoveredRestaurant(null)}
             >
-              {restaurant.direction === "right" &&
-                hoveredRestaurant === restaurant && (
-                  <InfoWindowF
-                    position={{
-                      lat: restaurant.lat,
-                      lng: restaurant.lng,
+              {hoveredRestaurant === restaurant && (
+                <InfoWindowF
+                  position={{
+                    lat: restaurant.lat,
+                    lng: restaurant.lng,
+                  }}
+                >
+                  <div
+                    className={styles.infoWindow}
+                    onMouseOver={() => setHoveredRestaurant(restaurant)}
+                    onMouseOut={() => setHoveredRestaurant(null)}
+                    onClick={(event) => {
+                      setHoveredRestaurant(null);
+                      setSelectedRestaurant(restaurant);
                     }}
                   >
-                    <div
-                      className={styles.infoWindow}
-                      onMouseOver={() => setHoveredRestaurant(restaurant)}
-                      onMouseOut={() => setHoveredRestaurant(null)}
-                      onClick={(event) => {
-                        setHoveredRestaurant(null);
-                        setSelectedRestaurant(restaurant);
-                      }}
-                    >
-                      {restaurant.name}
-                    </div>
-                  </InfoWindowF>
-                )}
+                    {restaurant.name}
+                  </div>
+                </InfoWindowF>
+              )}
             </MarkerF>
           )
       )}

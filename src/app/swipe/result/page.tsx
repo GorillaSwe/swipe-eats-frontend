@@ -32,9 +32,6 @@ const ResultPage: NextPage = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
-  const [restaurantsWithDirection, setRestaurantsWithDirection] = useState<
-    RestaurantData[]
-  >([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,13 +50,13 @@ const ResultPage: NextPage = () => {
           splittedPrice,
           sort
         );
-        setRestaurants(res.message);
-        setRestaurantsWithDirection(
-          res.message.map((restaurant: any) => ({
+        const updatedRestaurants = res.message.map(
+          (restaurant: RestaurantData) => ({
             ...restaurant,
-            direction: "",
-          }))
+            isFavorite: null,
+          })
         );
+        setRestaurants(updatedRestaurants);
       } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         if (
@@ -84,9 +81,10 @@ const ResultPage: NextPage = () => {
 
   const handleCardSwipe = (index: number, direction: string) => {
     index > 0 && setCurrentIndex(restaurants.length - index);
-    setRestaurantsWithDirection((prev) => {
+    setRestaurants((prev) => {
       const updatedRestaurants = [...prev];
-      updatedRestaurants[index].direction = direction;
+      updatedRestaurants[index].isFavorite =
+        direction === "right" ? true : direction === "left" ? false : null;
       return updatedRestaurants;
     });
   };
@@ -99,8 +97,9 @@ const ResultPage: NextPage = () => {
         const token = tokenData.accessToken;
 
         const likedRestaurants = restaurants.filter(
-          (r) => r.direction === "right"
+          (r) => r.isFavorite === true
         );
+
         await Promise.all(
           likedRestaurants.map((restaurant) => {
             return client.post(
@@ -121,16 +120,13 @@ const ResultPage: NextPage = () => {
   };
 
   const handleLastCardSwipe = async () => {
-    const reversedRestaurantsWithDirection = [
-      ...restaurantsWithDirection,
-    ].reverse();
     setRestaurantData({
-      restaurantsWithDirection: reversedRestaurantsWithDirection,
+      restaurants: [...restaurants].reverse(),
       latitude,
       longitude,
       radius,
     });
-    sendRestaurantsData(restaurantsWithDirection);
+    sendRestaurantsData(restaurants);
     router.push(`/swipe/map`);
   };
 

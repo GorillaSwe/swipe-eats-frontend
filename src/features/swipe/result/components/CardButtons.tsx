@@ -1,7 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import UndoIcon from "@mui/icons-material/Undo";
-import IconButton from "@mui/material/IconButton";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import ReplayIcon from "@mui/icons-material/Replay";
 
 import styles from "./CardButtons.module.scss";
 
@@ -10,6 +10,7 @@ interface CardButtonsProps {
   canGoBack: boolean;
   swipe: (direction: string) => void;
   goBack: () => void;
+  onLastCardSwipe: () => void;
 }
 
 const CardButtons: React.FC<CardButtonsProps> = ({
@@ -17,27 +18,41 @@ const CardButtons: React.FC<CardButtonsProps> = ({
   canGoBack,
   swipe,
   goBack,
+  onLastCardSwipe,
 }) => {
   return (
     <div className={styles.container}>
-      <IconButton
-        style={{ backgroundColor: canSwipe ? "#9198e5" : "#c3c4d3" }}
+      <div
+        className={`${styles.button} ${styles.back} ${
+          canGoBack ? "" : styles.cannot
+        }`}
+        onClick={() => goBack()}
+      >
+        <ReplayIcon fontSize="large" />
+      </div>
+      <div
+        className={`${styles.button} ${styles.nope} ${
+          canSwipe ? "" : styles.cannot
+        }`}
         onClick={() => swipe("left")}
       >
         <CloseIcon fontSize="large" />
-      </IconButton>
-      <IconButton
-        style={{ backgroundColor: canGoBack ? "#9198e5" : "#c3c4d3" }}
-        onClick={() => goBack()}
-      >
-        <UndoIcon fontSize="large" />
-      </IconButton>
-      <IconButton
-        style={{ backgroundColor: canSwipe ? "#9198e5" : "#c3c4d3" }}
+      </div>
+      <div
+        className={`${styles.button} ${styles.like} ${
+          canSwipe ? "" : styles.cannot
+        }`}
         onClick={() => swipe("right")}
       >
         <FavoriteIcon fontSize="large" />
-      </IconButton>
+      </div>
+
+      <div
+        className={`${styles.button} ${styles.skip} `}
+        onClick={() => onLastCardSwipe()}
+      >
+        <KeyboardDoubleArrowRightIcon fontSize="large" />
+      </div>
     </div>
   );
 };
