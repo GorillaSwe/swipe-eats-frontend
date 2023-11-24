@@ -23,7 +23,7 @@ const DEFAULT_CENTER = {
 
 const MapPage: NextPage = () => {
   const restaurantData = useRestaurantData();
-  const restaurants = restaurantData.restaurantsWithDirection;
+  const restaurants = restaurantData.restaurants;
   const latitude = restaurantData.latitude;
   const longitude = restaurantData.longitude;
   const radius = restaurantData.radius || 500;
@@ -36,6 +36,24 @@ const MapPage: NextPage = () => {
     useState<google.maps.DirectionsResult | null>(null);
   const [travelTime, setTravelTime] = useState<string | null>(null);
   const [previousPlaceId, setPreviousPlaceId] = useState<string | null>(null);
+  const [filter, setFilter] = useState("favorites");
+
+  const favoriteCount = restaurants.filter((r) => r.isFavorite === true).length;
+  const nullCount = restaurants.filter((r) => r.isFavorite === null).length;
+  const allCount = restaurants.filter((r) => r.isFavorite !== false).length;
+
+  const visibleRestaurants = restaurants.filter((restaurant) => {
+    switch (filter) {
+      case "favorites":
+        return restaurant.isFavorite === true;
+      case "null":
+        return restaurant.isFavorite === null;
+      case "all":
+        return restaurant.isFavorite !== false;
+      default:
+        return true;
+    }
+  });
 
   const center = {
     lat: latitude ?? DEFAULT_CENTER.lat,
@@ -89,10 +107,39 @@ const MapPage: NextPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.restaurantInfo}>
+        <div className={styles.buttonContainer}>
+          <button
+            onClick={() => setFilter("favorites")}
+            className={`${styles.button} ${
+              filter === "favorites" ? styles.active : ""
+            }`}
+          >
+            お気に入り
+            <span>{favoriteCount}か所</span>
+          </button>
+          <button
+            onClick={() => setFilter("null")}
+            className={`${styles.button} ${
+              filter === "null" ? styles.active : ""
+            }`}
+          >
+            未評価
+            <span>{nullCount}か所</span>
+          </button>
+          <button
+            onClick={() => setFilter("all")}
+            className={`${styles.button} ${
+              filter === "all" ? styles.active : ""
+            }`}
+          >
+            すべて
+            <span>{allCount}か所</span>
+          </button>
+        </div>
         <div className={styles.restaurantList}>
-          {restaurants?.map(
+          {visibleRestaurants?.map(
             (restaurant, index) =>
-              restaurant.direction === "right" && (
+              restaurant.isFavorite !== false && (
                 <RestaurantListItem
                   key={restaurant.placeId}
                   restaurant={restaurant}
@@ -125,7 +172,7 @@ const MapPage: NextPage = () => {
               travelTime={travelTime}
             />
             <RestaurantMarkers
-              restaurants={restaurants}
+              restaurants={visibleRestaurants}
               selectedRestaurant={selectedRestaurant}
               hoveredRestaurant={hoveredRestaurant}
               setHoveredRestaurant={setHoveredRestaurant}
