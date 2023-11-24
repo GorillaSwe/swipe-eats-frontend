@@ -23,7 +23,9 @@ const DEFAULT_CENTER = {
 
 const MapPage: NextPage = () => {
   const restaurantData = useRestaurantData();
-  const restaurants = restaurantData.restaurants;
+  const [restaurants, setRestaurants] = useState<RestaurantData[]>(
+    restaurantData.restaurants
+  );
   const latitude = restaurantData.latitude;
   const longitude = restaurantData.longitude;
   const radius = restaurantData.radius || 500;
@@ -156,6 +158,7 @@ const MapPage: NextPage = () => {
             setDirectionsResult={() => setDirectionsResult(null)}
             setTravelTime={() => setTravelTime(null)}
             setPreviousPlaceId={() => setPreviousPlaceId(null)}
+            setRestaurants={setRestaurants}
           />
         )}
       </div>
