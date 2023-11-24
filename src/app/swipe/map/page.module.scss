@@ -27,8 +27,42 @@
       top: 30%;
     }
 
+    .buttonContainer {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      // background-color: #f2f2f2;
+      background-color: white;
+      box-shadow: 0px 5px 5px -6px rgba(0, 0, 0, 0.7);
+      padding: 10px 0;
+      height: 60px;
+    }
+
+    .button {
+      padding: 0f 20px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+
+      span {
+        font-size: 14px;
+        display: block;
+      }
+    }
+
+    .button:hover {
+      background-color: #e6e6e6;
+    }
+
+    .button.active {
+      color: #0080ff;
+      border-bottom-color: #0080ff;
+    }
+
     .restaurantList {
-      height: 100%;
+      height: calc(100% - 60px);
       overflow: scroll;
     }
   }

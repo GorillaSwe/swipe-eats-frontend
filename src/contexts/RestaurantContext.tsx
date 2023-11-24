@@ -5,14 +5,14 @@ import { createContext, useContext, ReactNode, useState } from "react";
 import { RestaurantData as restaurant } from "@/types/RestaurantData";
 
 interface RestaurantData {
-  restaurantsWithDirection: restaurant[];
+  restaurants: restaurant[];
   latitude: number | null;
   longitude: number | null;
   radius: number | null;
 }
 
 const defaultState: RestaurantData = {
-  restaurantsWithDirection: [],
+  restaurants: [],
   latitude: null,
   longitude: null,
   radius: null,

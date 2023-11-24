@@ -12,6 +12,5 @@ export interface RestaurantData {
   url: string;
   userRatingsTotal: number;
   formattedPhoneNumber: string;
-  direction: string;
-  isFavorite: boolean;
+  isFavorite: boolean | null;
 }
