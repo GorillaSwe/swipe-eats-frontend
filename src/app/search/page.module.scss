@@ -1,0 +1,47 @@
+.container {
+  width: 80%;
+  max-width: 500px;
+  height: 100dvh;
+
+  .searchContainer {
+    height: 10dvh;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+
+    .input {
+      width: 100%;
+      padding: 12px 40px 12px 40px;
+      background-color: #262626;
+      border-radius: 4px;
+      font-size: 16px;
+      color: #fff;
+
+      &::placeholder {
+        color: #a8a8a8;
+      }
+    }
+
+    .clearButton {
+      position: absolute;
+      right: 10px;
+      top: 13px;
+      color: #a8a8a8;
+      cursor: pointer;
+    }
+
+    .icon {
+      position: absolute;
+      left: 10px;
+      top: 13px;
+      color: #a8a8a8;
+      pointer-events: none;
+    }
+  }
+
+  .restaurantContainer {
+    height: 80dvh;
+    width: 100%;
+    overflow-y: scroll;
+  }
+}
