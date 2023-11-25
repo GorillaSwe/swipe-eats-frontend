@@ -15,7 +15,7 @@
     min-width: 320px;
     background-color: white;
     position: relative;
-    z-index: 1;
+    z-index: 2;
     box-shadow:
       4px 2px 7px rgba(60, 64, 67, 0.3),
       2px 2px 6px 2px rgba(60, 64, 67, 0.15);
@@ -31,7 +31,6 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      // background-color: #f2f2f2;
       background-color: white;
       box-shadow: 0px 5px 5px -6px rgba(0, 0, 0, 0.7);
       padding: 10px 0;
@@ -70,6 +69,7 @@
   .mapContainer {
     width: 70%;
     height: 95dvh;
+    z-index: 1;
 
     @media (max-width: 768px) {
       width: 100%;
