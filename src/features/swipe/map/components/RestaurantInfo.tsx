@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
+import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -37,7 +38,6 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
   setRestaurants,
 }) => {
   const quotaPhoto = "/images/restaurants/quota.png";
-  const containerRef = useRef<HTMLDivElement>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(restaurant.isFavorite);
   const { user } = useUser();
@@ -52,22 +52,6 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
     document.addEventListener("click", closeDialog);
     return () => document.removeEventListener("click", closeDialog);
   }, [isDialogOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        setSelectedRestaurant(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setSelectedRestaurant]);
 
   const getHostnameFromUrl = (urlString: string) => {
     try {
@@ -169,7 +153,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
           sizes="100%"
           style={{ objectFit: "cover" }}
         />
-        <button
+        <CloseIcon
           className={styles.button}
           onClick={() => {
             setSelectedRestaurant(null);
@@ -177,9 +161,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
             setTravelTime(null);
             setPreviousPlaceId(null);
           }}
-        >
-          ✖
-        </button>
+        />
       </div>
       <div className={styles.topContainer}>
         <h3 className={styles.name}>{restaurant.name}</h3>
