@@ -1,29 +1,42 @@
 import { useState, useEffect } from "react";
 
+const TOKYO_STATION_LAT = 35.681236; // 東京駅の緯度
+const TOKYO_STATION_LNG = 139.767125; // 東京駅の経度
+
 const useLocation = () => {
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
+  const [latitude, setLatitude] = useState<number>(TOKYO_STATION_LAT);
+  const [longitude, setLongitude] = useState<number>(TOKYO_STATION_LNG);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchCurrentPosition = async () => {
-      try {
-        const position = await getCurrentPosition();
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      } catch (error) {
-        console.error("位置情報の取得に失敗しました:", error);
-      }
+    const fetchCurrentPosition = () => {
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      };
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (error) => {
+          console.error("位置情報の取得中にエラーが発生しました: ", error);
+          setError(error.message);
+        },
+        options
+      );
     };
-    fetchCurrentPosition();
+
+    if (navigator.geolocation) {
+      fetchCurrentPosition();
+    } else {
+      setError("位置情報の取得がサポートされていません。");
+    }
   }, []);
 
-  const getCurrentPosition = (): Promise<GeolocationPosition> => {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject);
-    });
-  };
-
-  return { latitude, longitude };
+  return { latitude, longitude, error };
 };
 
 export default useLocation;
