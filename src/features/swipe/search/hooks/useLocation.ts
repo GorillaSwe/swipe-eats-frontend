@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-const TOKYO_STATION_LAT = 35.681236; // 東京駅の緯度
-const TOKYO_STATION_LNG = 139.767125; // 東京駅の経度
+const TOKYO_STATION_LAT = 35.681236;
+const TOKYO_STATION_LNG = 139.767125;
 
 const useLocation = () => {
   const [latitude, setLatitude] = useState<number>(TOKYO_STATION_LAT);
