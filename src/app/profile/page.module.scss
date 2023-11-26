@@ -12,6 +12,20 @@
     border-bottom: solid 1px #dbdbdb;
   }
 
+  .noRestaurants {
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+
+    @media (max-width: 768px) {
+      font-size: 25px;
+    }
+
+    span {
+      display: inline-block;
+    }
+  }
+
   .restaurantList {
     margin-top: 30px;
     display: flex;
