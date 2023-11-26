@@ -91,7 +91,9 @@ const ProfilePage: NextPage = () => {
               />
             ))
           ) : (
-            <p>お気に入りのレストランがありません。</p>
+            <div className={styles.noRestaurants}>
+              <h1>お気に入りがありません</h1>
+            </div>
           )}
         </div>
         {selectedRestaurant && (

@@ -8,6 +8,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { AxiosError } from "axios";
 import { NextPage } from "next";
 
+import ErrorScreen from "@/components/base/Error/ErrorScreen";
 import LoadingScreen from "@/components/base/Loading/LoadingScreen";
 import { useSetRestaurantData } from "@/contexts/RestaurantContext";
 import { getRestaurantsInfo } from "@/features/swipe/result/api/getRestaurantsInfo";
@@ -41,6 +42,12 @@ const ResultPage: NextPage = () => {
 
   useEffect(() => {
     const fetchRestaurants = async () => {
+      if (!latitude || !longitude) {
+        setError("位置情報がありません");
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const res = await getRestaurantsInfo(
           latitude,
@@ -59,24 +66,15 @@ const ResultPage: NextPage = () => {
         setRestaurants(updatedRestaurants);
       } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
-        if (
-          axiosError.response &&
-          axiosError.response.data &&
-          axiosError.response.data.error
-        ) {
-          setError(axiosError.response.data.error);
-        } else {
-          setError("不明なエラーが発生しました。");
-        }
+        setError(
+          axiosError.response?.data.error || "不明なエラーが発生しました"
+        );
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
-    if (latitude && longitude) {
-      fetchRestaurants();
-    } else {
-      setError("位置情報がありません。");
-    }
+    fetchRestaurants();
   }, []);
 
   const handleCardSwipe = (index: number, direction: string) => {
@@ -138,6 +136,16 @@ const ResultPage: NextPage = () => {
     return <LoadingScreen />;
   }
 
+  if (error) {
+    return <ErrorScreen error={error} category={category} />;
+  }
+
+  if (restaurants.length === 0) {
+    return (
+      <ErrorScreen error="レストランが見つかりません。" category={category} />
+    );
+  }
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
@@ -148,28 +156,12 @@ const ResultPage: NextPage = () => {
           </span>
         )}
       </h1>
-      {error ? (
-        <>
-          <div className={styles.error}>
-            <p>{error}</p>
-          </div>
-          <div className={styles.buttons}>
-            <button
-              className={styles.button}
-              onClick={() => router.push(`/swipe/search/?category=${category}`)}
-            >
-              検索条件を変更
-            </button>
-          </div>
-        </>
-      ) : (
-        <CardSwiper
-          restaurants={restaurants}
-          onCardSwipe={handleCardSwipe}
-          onLastCardSwipe={handleLastCardSwipe}
-          onCardRestore={handleCardRestore}
-        />
-      )}
+      <CardSwiper
+        restaurants={restaurants}
+        onCardSwipe={handleCardSwipe}
+        onLastCardSwipe={handleLastCardSwipe}
+        onCardRestore={handleCardRestore}
+      />
     </div>
   );
 };
