@@ -8,6 +8,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { AxiosError } from "axios";
 import { NextPage } from "next";
 
+import ErrorScreen from "@/components/base/Error/ErrorScreen";
 import LoadingScreen from "@/components/base/Loading/LoadingScreen";
 import { useSetRestaurantData } from "@/contexts/RestaurantContext";
 import { getRestaurantsInfo } from "@/features/swipe/result/api/getRestaurantsInfo";
@@ -66,7 +67,7 @@ const ResultPage: NextPage = () => {
         ) {
           setError(axiosError.response.data.error);
         } else {
-          setError("不明なエラーが発生しました。");
+          setError("不明なエラーが発生しました");
         }
       }
       setIsLoading(false);
@@ -75,7 +76,7 @@ const ResultPage: NextPage = () => {
     if (latitude && longitude) {
       fetchRestaurants();
     } else {
-      setError("位置情報がありません。");
+      setError("位置情報がありません");
     }
   }, []);
 
@@ -138,6 +139,10 @@ const ResultPage: NextPage = () => {
     return <LoadingScreen />;
   }
 
+  if (restaurants.length <= 0 || error) {
+    return <ErrorScreen error={error} category={category} />;
+  }
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
@@ -148,28 +153,12 @@ const ResultPage: NextPage = () => {
           </span>
         )}
       </h1>
-      {error ? (
-        <>
-          <div className={styles.error}>
-            <p>{error}</p>
-          </div>
-          <div className={styles.buttons}>
-            <button
-              className={styles.button}
-              onClick={() => router.push(`/swipe/search/?category=${category}`)}
-            >
-              検索条件を変更
-            </button>
-          </div>
-        </>
-      ) : (
-        <CardSwiper
-          restaurants={restaurants}
-          onCardSwipe={handleCardSwipe}
-          onLastCardSwipe={handleLastCardSwipe}
-          onCardRestore={handleCardRestore}
-        />
-      )}
+      <CardSwiper
+        restaurants={restaurants}
+        onCardSwipe={handleCardSwipe}
+        onLastCardSwipe={handleLastCardSwipe}
+        onCardRestore={handleCardRestore}
+      />
     </div>
   );
 };
