@@ -42,6 +42,12 @@ const ResultPage: NextPage = () => {
 
   useEffect(() => {
     const fetchRestaurants = async () => {
+      if (!latitude || !longitude) {
+        setError("位置情報がありません");
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const res = await getRestaurantsInfo(
           latitude,
@@ -60,24 +66,15 @@ const ResultPage: NextPage = () => {
         setRestaurants(updatedRestaurants);
       } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
-        if (
-          axiosError.response &&
-          axiosError.response.data &&
-          axiosError.response.data.error
-        ) {
-          setError(axiosError.response.data.error);
-        } else {
-          setError("不明なエラーが発生しました");
-        }
+        setError(
+          axiosError.response?.data.error || "不明なエラーが発生しました"
+        );
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
-    if (latitude && longitude) {
-      fetchRestaurants();
-    } else {
-      setError("位置情報がありません");
-    }
+    fetchRestaurants();
   }, []);
 
   const handleCardSwipe = (index: number, direction: string) => {
@@ -139,8 +136,14 @@ const ResultPage: NextPage = () => {
     return <LoadingScreen />;
   }
 
-  if (restaurants.length <= 0 || error) {
+  if (error) {
     return <ErrorScreen error={error} category={category} />;
+  }
+
+  if (restaurants.length === 0) {
+    return (
+      <ErrorScreen error="レストランが見つかりません。" category={category} />
+    );
   }
 
   return (

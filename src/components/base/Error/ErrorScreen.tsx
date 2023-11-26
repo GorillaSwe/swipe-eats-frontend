@@ -4,7 +4,7 @@ import styles from "./ErrorScreen.module.scss";
 
 type LoginScreenProps = {
   error: string | null;
-  category: string;
+  category: string | null;
 };
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ error, category }) => {
@@ -13,12 +13,18 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ error, category }) => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{errorMessage}</h1>
-      <Link
-        href={`/swipe/search/?category=${category}`}
-        className={styles.button}
-      >
-        検索条件を変更
-      </Link>
+      {category ? (
+        <Link
+          href={`/swipe/search/?category=${category}`}
+          className={styles.button}
+        >
+          検索条件を変更
+        </Link>
+      ) : (
+        <Link href={`/`} className={styles.button}>
+          検索条件を変更
+        </Link>
+      )}
     </div>
   );
 };
