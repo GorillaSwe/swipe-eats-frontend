@@ -16,13 +16,13 @@
     font-size: 30px;
     font-weight: bold;
     color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 
     @media (max-width: 768px) {
       font-size: 25px;
-    }
-
-    span {
-      display: inline-block;
     }
   }
 
