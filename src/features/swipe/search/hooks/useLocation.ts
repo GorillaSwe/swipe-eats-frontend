@@ -4,8 +4,8 @@ const TOKYO_STATION_LAT = 35.681236;
 const TOKYO_STATION_LNG = 139.767125;
 
 const useLocation = () => {
-  const [latitude, setLatitude] = useState<number>(TOKYO_STATION_LAT);
-  const [longitude, setLongitude] = useState<number>(TOKYO_STATION_LNG);
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,6 +24,8 @@ const useLocation = () => {
         (error) => {
           console.error("位置情報の取得中にエラーが発生しました: ", error);
           setError(error.message);
+          setLatitude(TOKYO_STATION_LAT);
+          setLongitude(TOKYO_STATION_LNG);
         },
         options
       );
@@ -33,6 +35,8 @@ const useLocation = () => {
       fetchCurrentPosition();
     } else {
       setError("位置情報の取得がサポートされていません。");
+      setLatitude(TOKYO_STATION_LAT);
+      setLongitude(TOKYO_STATION_LNG);
     }
   }, []);
 
