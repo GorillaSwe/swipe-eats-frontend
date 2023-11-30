@@ -1,0 +1,43 @@
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: solid 1px #707579;
+  width: 540px;
+  max-width: 540px;
+
+  @media (max-width: 768px) {
+    width: 90dvw;
+  }
+
+  .topContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    p {
+      display: inline-block;
+    }
+
+    .topLeftContainer {
+      display: flex;
+      flex-direction: row;
+      column-gap: 10px;
+
+      .userPicture {
+        width: 30px;
+        height: 30px;
+
+        img {
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
+  .bottomContainer {
+    .photo img {
+      width: 500px;
+      height: 300px;
+    }
+  }
+}
