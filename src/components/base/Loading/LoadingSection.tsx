@@ -1,6 +1,6 @@
-import styles from "./LoadingScreen.module.scss";
+import styles from "./LoadingSection.module.scss";
 
-const LoadingScreen: React.FC = () => {
+const LoadingSection: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.dot}></div>
@@ -12,4 +12,4 @@ const LoadingScreen: React.FC = () => {
   );
 };
 
-export default LoadingScreen;
+export default LoadingSection;

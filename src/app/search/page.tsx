@@ -7,7 +7,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
 import { NextPage } from "next";
 
-import LoadingScreen from "@/components/base/Loading/LoadingScreen";
+import LoadingSection from "@/components/base/Loading/LoadingSection";
 import RestaurantInfo from "@/features/search/components/RestaurantInfo";
 import RestaurantListItem from "@/features/search/components/RestaurantListItem";
 import useLocation from "@/features/swipe/search/hooks/useLocation";
@@ -98,7 +98,7 @@ const SearchPage: NextPage<{}> = () => {
   };
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <LoadingSection />;
   }
   return (
     <div className={styles.container}>

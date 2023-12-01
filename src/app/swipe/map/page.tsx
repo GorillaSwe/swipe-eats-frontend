@@ -5,7 +5,7 @@ import { useState } from "react";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import { NextPage } from "next";
 
-import ErrorScreen from "@/components/base/Error/ErrorScreen";
+import ErrorSection from "@/components/base/Error/ErrorSection";
 import { useRestaurantData } from "@/contexts/RestaurantContext";
 import Directions from "@/features/swipe/map/components/Directions";
 import RestaurantInfo from "@/features/swipe/map/components/RestaurantInfo";
@@ -113,7 +113,7 @@ const MapPage: NextPage = () => {
 
   if (visibleRestaurantsLength <= 0) {
     return (
-      <ErrorScreen error={"表示するレストランがありません"} category={null} />
+      <ErrorSection error={"表示するレストランがありません"} category={null} />
     );
   }
 
