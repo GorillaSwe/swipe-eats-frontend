@@ -2,26 +2,28 @@
 
 import { useState, useEffect } from "react";
 
+import { useRouter } from "next/navigation";
+
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { NextPage } from "next";
 
 import LoadingSection from "@/components/base/Loading/LoadingSection";
-import LoginSection from "@/components/base/Login/LoginSection";
-import RestaurantInfo from "@/features/profile/components/RestaurantInfo";
 import RestaurantListItem from "@/features/profile/components/RestaurantListItem";
 import UserInfo from "@/features/profile/components/UserInfo";
+import RestaurantInfo from "@/features/user/components/RestaurantInfo";
 import client from "@/lib/apiClient";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";
 
-const ProfilePage: NextPage = () => {
+const UserProfilePage = ({ params }: { params: { userSub: string } }) => {
   const { user, isLoading } = useUser();
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState<RestaurantData[]>([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<null | RestaurantData>(null);
   const guestImage = "/images/header/guest.png";
+  const userSub = params.userSub;
+  const router = useRouter();
 
   const removeFavorite = (placeId: string) => {
     setFavorites((currentFavorites) =>
@@ -32,43 +34,33 @@ const ProfilePage: NextPage = () => {
   };
 
   useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await client.get(`/favorites/other_index`, {
+          params: { userSub },
+        });
+        setFavorites(response.data);
+      } catch (error) {
+        console.error("お気に入りの取得に失敗しました。", error);
+      }
+      setLoadingFavorites(false);
+    };
+
     if (!isLoading) {
-      if (user) {
-        const fetchFavorites = async () => {
-          try {
-            const tokenResponse = await fetch("/api/token");
-            const tokenData = await tokenResponse.json();
-            const token = tokenData.accessToken;
-
-            const response = await client.get("/favorites", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            setFavorites(response.data);
-          } catch (error) {
-            console.error("お気に入りの取得に失敗しました。", error);
-          }
-          setLoadingFavorites(false);
-        };
-
-        fetchFavorites();
+      if (user && user.sub === decodeURIComponent(userSub)) {
+        router.push("/profile");
       } else {
-        setLoadingFavorites(false);
+        fetchFavorites();
       }
     }
-  }, [user, isLoading]);
+  }, [user, isLoading, userSub, router]);
 
-  if (isLoading || loadingFavorites) {
+  if (loadingFavorites) {
     return <LoadingSection />;
   }
 
-  if (!user) {
-    return <LoginSection />;
-  }
-
-  const userName = user?.name ?? "ゲスト";
-  const userImage = user?.picture ?? guestImage;
+  const userName = favorites[0].userName ?? "ゲスト";
+  const userImage = favorites[0].userPicture ?? guestImage;
 
   return (
     <div className={styles.container}>
@@ -108,4 +100,4 @@ const ProfilePage: NextPage = () => {
   );
 };
 
-export default ProfilePage;
+export default UserProfilePage;

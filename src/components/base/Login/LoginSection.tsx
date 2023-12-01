@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import styles from "./LoginScreen.module.scss";
+import styles from "./LoginSection.module.scss";
 
-const LoginScreen: React.FC = () => {
+const LoginSection: React.FC = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>ログインが必要です</h1>
@@ -13,4 +13,4 @@ const LoginScreen: React.FC = () => {
   );
 };
 
-export default LoginScreen;
+export default LoginSection;

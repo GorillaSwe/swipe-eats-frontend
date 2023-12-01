@@ -6,7 +6,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { NextPage } from "next";
 import InfiniteScroll from "react-infinite-scroller";
 
-import LoadingScreen from "@/components/base/Loading/LoadingScreen";
+import LoadingSection from "@/components/base/Loading/LoadingSection";
 import FavoriteInfo from "@/features/home/components/FavoriteInfo";
 import client from "@/lib/apiClient";
 import { RestaurantData } from "@/types/RestaurantData";
@@ -32,7 +32,7 @@ const HomePage: NextPage = () => {
       <InfiniteScroll
         loadMore={loadMore}
         hasMore={hasMore}
-        loader={<LoadingScreen />}
+        loader={<LoadingSection />}
       >
         <FavoriteInfo favorites={favorites} />
       </InfiniteScroll>

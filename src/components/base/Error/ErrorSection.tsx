@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-import styles from "./ErrorScreen.module.scss";
+import styles from "./ErrorSection.module.scss";
 
-type LoginScreenProps = {
+type ErrorSectionProps = {
   error: string | null;
   category: string | null;
 };
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ error, category }) => {
+const ErrorSection: React.FC<ErrorSectionProps> = ({ error, category }) => {
   const errorMessage = error || "レストランが見つかりません";
 
   return (
@@ -29,4 +29,4 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ error, category }) => {
   );
 };
 
-export default LoginScreen;
+export default ErrorSection;
