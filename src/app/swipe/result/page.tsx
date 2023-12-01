@@ -8,8 +8,8 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { AxiosError } from "axios";
 import { NextPage } from "next";
 
-import ErrorScreen from "@/components/base/Error/ErrorScreen";
-import LoadingScreen from "@/components/base/Loading/LoadingScreen";
+import ErrorSection from "@/components/base/Error/ErrorSection";
+import LoadingSection from "@/components/base/Loading/LoadingSection";
 import { useSetRestaurantData } from "@/contexts/RestaurantContext";
 import { getRestaurantsInfo } from "@/features/swipe/result/api/getRestaurantsInfo";
 import CardSwiper from "@/features/swipe/result/components/CardSwiper";
@@ -133,16 +133,16 @@ const ResultPage: NextPage = () => {
   };
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <LoadingSection />;
   }
 
   if (error) {
-    return <ErrorScreen error={error} category={category} />;
+    return <ErrorSection error={error} category={category} />;
   }
 
   if (restaurants.length === 0) {
     return (
-      <ErrorScreen error="レストランが見つかりません。" category={category} />
+      <ErrorSection error="レストランが見つかりません。" category={category} />
     );
   }
 

@@ -13,6 +13,7 @@ export interface RestaurantData {
   userRatingsTotal: number;
   formattedPhoneNumber: string;
   isFavorite: boolean | null;
+  userSub: string;
   userName: string;
   userPicture: string;
   createdAt: string;

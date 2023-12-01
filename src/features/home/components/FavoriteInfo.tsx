@@ -1,6 +1,7 @@
 import React from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { RestaurantData } from "@/types/RestaurantData";
 
@@ -24,17 +25,19 @@ const FavoriteInfo: React.FC<FavoriteInfoProps> = ({ favorites }) => {
       {favorites.map((favorite, index) => (
         <div key={index} className={styles.container}>
           <div className={styles.topContainer}>
-            <div className={styles.topLeftContainer}>
-              <div className={styles.userPicture}>
-                <Image
-                  src={favorite.userPicture}
-                  alt={favorite.userName}
-                  width={30}
-                  height={30}
-                />
+            <Link href={`/user/${favorite.userSub}`}>
+              <div className={styles.topLeftContainer}>
+                <div className={styles.userPicture}>
+                  <Image
+                    src={favorite.userPicture}
+                    alt={favorite.userName}
+                    width={30}
+                    height={30}
+                  />
+                </div>
+                <p>{favorite.userName}</p>
               </div>
-              <p>{favorite.userName}</p>
-            </div>
+            </Link>
             <div className={styles.topRightContainer}>
               <p>{formatDate(favorite.createdAt)}</p>
             </div>
