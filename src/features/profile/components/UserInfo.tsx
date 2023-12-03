@@ -6,12 +6,16 @@ interface UserInfoProps {
   userName: string;
   userImage: string;
   favoritesLength: number;
+  followingCount: number;
+  followersCount: number;
 }
 
 const UserInfo: React.FC<UserInfoProps> = ({
   userName,
   userImage,
   favoritesLength,
+  followingCount,
+  followersCount,
 }) => {
   const quotaPhoto = "/images/restaurants/quota.png";
 
@@ -32,11 +36,11 @@ const UserInfo: React.FC<UserInfoProps> = ({
         <div className={styles.rightBottomContainer}>
           <p className={styles.followingLength}>
             <span>フォロー中</span>
-            <span>0人</span>
+            <span>{followingCount}人</span>
           </p>
           <p className={styles.followerLength}>
             <span>フォロワー</span>
-            <span>0人</span>
+            <span>{followersCount}人</span>
           </p>
         </div>
       </div>
