@@ -22,6 +22,8 @@ const ProfilePage: NextPage = () => {
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<null | RestaurantData>(null);
   const guestImage = "/images/header/guest.png";
+  const [followingCount, setFollowingCount] = useState(0);
+  const [followersCount, setFollowersCount] = useState(0);
 
   const removeFavorite = (placeId: string) => {
     setFavorites((currentFavorites) =>
@@ -59,6 +61,24 @@ const ProfilePage: NextPage = () => {
     }
   }, [user, isLoading]);
 
+  useEffect(() => {
+    if (user) {
+      const fetchFollowCounts = async () => {
+        try {
+          const response = await client.get(`/follow_relationships/counts`, {
+            params: { userSub: user.sub },
+          });
+          setFollowingCount(response.data.followingCount);
+          setFollowersCount(response.data.followersCount);
+        } catch (error) {
+          console.error("フォロー関係の取得に失敗しました。", error);
+        }
+      };
+
+      fetchFollowCounts();
+    }
+  }, [user]);
+
   if (isLoading || loadingFavorites) {
     return <LoadingSection />;
   }
@@ -76,6 +96,8 @@ const ProfilePage: NextPage = () => {
         userName={userName}
         userImage={userImage}
         favoritesLength={favorites.length}
+        followingCount={followingCount}
+        followersCount={followersCount}
       />
 
       <div className={styles.border}></div>
