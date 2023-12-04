@@ -47,9 +47,9 @@ const UserProfilePage = ({ params }: { params: { userSub: string } }) => {
       } catch (error) {
         console.error("お気に入りの取得に失敗しました。", error);
       }
-
-      fetchFavoritesCounts();
     };
+
+    fetchFavoritesCounts();
   }, [userSub]);
 
   const removeFavorite = (placeId: string) => {
@@ -200,11 +200,6 @@ const UserProfilePage = ({ params }: { params: { userSub: string } }) => {
   if (loadingFavorites && !isLoading) {
     return <LoadingSection />;
   }
-
-  const userName =
-    favorites.length > 0 ? favorites[0].userName : defaultUserName;
-  const userImage =
-    favorites.length > 0 ? favorites[0].userPicture : guestImage;
 
   return (
     <div className={styles.container}>
