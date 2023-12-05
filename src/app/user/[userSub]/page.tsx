@@ -94,7 +94,7 @@ const UserProfilePage = ({ params }: { params: { userSub: string } }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await client.get(`/users/profile`, {
+      const response = await client.get(`/users/get_user_profile`, {
         params: { userSub },
       });
       setUserProfile(response.data);
