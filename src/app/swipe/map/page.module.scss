@@ -47,7 +47,7 @@
 
     @keyframes heightToFifty {
       from {
-        height: 0;
+        height: 50%;
       }
       to {
         height: 50%;
@@ -56,14 +56,14 @@
 
     .scrollHiddenContainerZero {
       @media (max-width: 768px) {
-        animation: heightToZero 1s ease-in-out;
+        animation: heightToZero 0.5s ease-out;
         height: 0;
       }
     }
 
     .scrollHiddenContainerFifty {
       @media (max-width: 768px) {
-        animation: heightToFifty 0.5s ease-in-out;
+        animation: heightToFifty 0.3s ease-out;
         height: 50%;
       }
     }
