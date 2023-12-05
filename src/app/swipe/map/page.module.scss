@@ -4,8 +4,8 @@
   flex-direction: row;
   position: relative;
   @media (max-width: 768px) {
-    height: calc(95dvh - 55px);
-    margin-top: 5dvh;
+    height: calc(100dvh - 70px);
+    margin-top: 15px;
   }
 
   .restaurantInfo {
@@ -13,7 +13,6 @@
     height: 95dvh;
     max-width: 400px;
     min-width: 320px;
-    background-color: white;
     position: relative;
     z-index: 2;
     box-shadow:
@@ -22,9 +21,51 @@
 
     @media (max-width: 768px) {
       width: 100%;
-      height: 40%;
+      height: 100%;
       max-width: 730px;
-      top: 30%;
+      overflow-y: scroll;
+      transition: height 0.5s ease-in-out;
+    }
+
+    .hiddenContainer {
+      @media (max-width: 768px) {
+        width: 1px;
+        height: 50%;
+        display: block;
+        background: transparent;
+      }
+    }
+
+    @keyframes heightToZero {
+      from {
+        height: 50%;
+      }
+      to {
+        height: 0;
+      }
+    }
+
+    @keyframes heightToFifty {
+      from {
+        height: 0;
+      }
+      to {
+        height: 50%;
+      }
+    }
+
+    .scrollHiddenContainerZero {
+      @media (max-width: 768px) {
+        animation: heightToZero 1s ease-in-out;
+        height: 0;
+      }
+    }
+
+    .scrollHiddenContainerFifty {
+      @media (max-width: 768px) {
+        animation: heightToFifty 0.5s ease-in-out;
+        height: 50%;
+      }
     }
 
     .buttonContainer {
@@ -33,6 +74,7 @@
       align-items: center;
       background-color: white;
       box-shadow: 0px 5px 5px -6px rgba(0, 0, 0, 0.7);
+      border-bottom: black 1px solid;
       padding: 10px 0;
       height: 60px;
     }
@@ -62,7 +104,15 @@
 
     .restaurantList {
       height: calc(100% - 60px);
+      background-color: white;
       overflow: scroll;
+      @media (max-width: 768px) {
+        overflow-y: hidden;
+        height: auto;
+        min-height: calc(
+          100% - 59px
+        ); //60pxにするとscrollHiddenContainerFiftyが起動する
+      }
     }
   }
 
@@ -73,9 +123,10 @@
 
     @media (max-width: 768px) {
       width: 100%;
-      height: 60%;
+      height: 50%;
       position: absolute;
       top: 0;
+      z-index: 3;
     }
   }
 }
