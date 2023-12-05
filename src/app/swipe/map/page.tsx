@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import { NextPage } from "next";
@@ -44,6 +44,8 @@ const MapPage: NextPage = () => {
   const favoriteCount = restaurants.filter((r) => r.isFavorite === true).length;
   const nullCount = restaurants.filter((r) => r.isFavorite === null).length;
   const allCount = restaurants.filter((r) => r.isFavorite !== false).length;
+  const [isHeightOver, setIsHeightOver] = useState(false);
+  const [zIndex, setZIndex] = useState(3);
 
   const visibleRestaurants = restaurants.filter((restaurant) => {
     switch (filter) {
@@ -94,6 +96,36 @@ const MapPage: NextPage = () => {
     return ZOOM_LEVELS[radius] || ZOOM_LEVELS.default;
   };
 
+  const restaurantInfoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const restaurantInfo = restaurantInfoRef.current;
+
+    if (!restaurantInfo) return;
+
+    const scrollAction = () => {
+      const currentScrollTop = restaurantInfo.scrollTop;
+      const halfWindowHeight = (window.innerHeight - 70) / 2;
+
+      if (isHeightOver) {
+        if (currentScrollTop === 0) {
+          setIsHeightOver(false);
+          setTimeout(() => setZIndex(2), 500);
+        }
+      } else {
+        if (currentScrollTop < halfWindowHeight) {
+          setIsHeightOver(true);
+          setZIndex(4);
+        }
+      }
+    };
+    restaurantInfo.addEventListener("scroll", scrollAction);
+
+    return () => {
+      restaurantInfo.removeEventListener("scroll", scrollAction);
+    };
+  }, [isHeightOver]);
+
   const handleDirectionsCallback = (
     result: google.maps.DirectionsResult | null,
     status: google.maps.DirectionsStatus
@@ -119,49 +151,75 @@ const MapPage: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.restaurantInfo}>
-        <div className={styles.buttonContainer}>
-          <button
-            onClick={() => setFilter("favorites")}
-            className={`${styles.button} ${
-              filter === "favorites" ? styles.active : ""
-            }`}
-          >
-            お気に入り
-            <span>{favoriteCount}か所</span>
-          </button>
-          <button
-            onClick={() => setFilter("null")}
-            className={`${styles.button} ${
-              filter === "null" ? styles.active : ""
-            }`}
-          >
-            未評価
-            <span>{nullCount}か所</span>
-          </button>
-          <button
-            onClick={() => setFilter("all")}
-            className={`${styles.button} ${
-              filter === "all" ? styles.active : ""
-            }`}
-          >
-            すべて
-            <span>{allCount}か所</span>
-          </button>
-        </div>
-        <div className={styles.restaurantList}>
-          {visibleRestaurants?.map(
-            (restaurant, index) =>
-              restaurant.isFavorite !== false && (
-                <RestaurantListItem
-                  key={restaurant.placeId}
-                  restaurant={restaurant}
-                  setHoveredRestaurant={setHoveredRestaurant}
-                  setSelectedRestaurant={setSelectedRestaurant}
-                />
-              )
-          )}
-        </div>
+      <div
+        className={styles.restaurantInfo}
+        style={{ zIndex: zIndex }}
+        ref={restaurantInfoRef}
+      >
+        <div
+          className={`${styles.hiddenContainer} ${
+            isHeightOver
+              ? styles.scrollHiddenContainerZero
+              : styles.scrollHiddenContainerFifty
+          }`}
+        ></div>
+
+        {!selectedRestaurant && (
+          <>
+            <div className={styles.buttonContainer}>
+              <button
+                onClick={() => {
+                  setFilter("favorites");
+                  setSelectedRestaurant(null);
+                }}
+                className={`${styles.button} ${
+                  filter === "favorites" ? styles.active : ""
+                }`}
+              >
+                お気に入り
+                <span>{favoriteCount}か所</span>
+              </button>
+              <button
+                onClick={() => {
+                  setFilter("null");
+                  setSelectedRestaurant(null);
+                }}
+                className={`${styles.button} ${
+                  filter === "null" ? styles.active : ""
+                }`}
+              >
+                未評価
+                <span>{nullCount}か所</span>
+              </button>
+              <button
+                onClick={() => {
+                  setFilter("all");
+                  setSelectedRestaurant(null);
+                }}
+                className={`${styles.button} ${
+                  filter === "all" ? styles.active : ""
+                }`}
+              >
+                すべて
+                <span>{allCount}か所</span>
+              </button>
+            </div>
+
+            <div className={styles.restaurantList}>
+              {visibleRestaurants?.map(
+                (restaurant, index) =>
+                  restaurant.isFavorite !== false && (
+                    <RestaurantListItem
+                      key={restaurant.placeId}
+                      restaurant={restaurant}
+                      setHoveredRestaurant={setHoveredRestaurant}
+                      setSelectedRestaurant={setSelectedRestaurant}
+                    />
+                  )
+              )}
+            </div>
+          </>
+        )}
         {selectedRestaurant && (
           <RestaurantInfo
             restaurant={selectedRestaurant}

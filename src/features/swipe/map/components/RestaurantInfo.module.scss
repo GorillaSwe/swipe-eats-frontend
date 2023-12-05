@@ -10,6 +10,10 @@
 
   @media (max-width: 768px) {
     max-width: 730px;
+    height: auto;
+    min-height: 101%; //101%にするとscrollHiddenContainerFiftyが起動する
+    position: static;
+    overflow: unset;
   }
 
   p,
@@ -39,10 +43,8 @@
     height: 30px;
 
     @media (max-width: 768px) {
-      position: fixed;
-      margin-top: 10px;
-      top: auto;
-      right: 5%;
+      top: 10px;
+      right: 10px;
     }
 
     &:hover {
