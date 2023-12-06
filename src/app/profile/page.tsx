@@ -105,12 +105,16 @@ const ProfilePage: NextPage = () => {
     }
   }, [user]);
 
-  if (isLoading || loadingFavorites) {
+  if (isLoading) {
     return <LoadingSection />;
   }
 
   if (!user) {
     return <LoginSection />;
+  }
+
+  if (loadingFavorites) {
+    return <LoadingSection />;
   }
 
   const userName = user?.name ?? "ゲスト";
