@@ -1,4 +1,4 @@
-import client from "@/lib/apiClient";
+import client from "@/lib/api/apiClient";
 
 export const getRestaurantsInfo = async (
   latitude: number,

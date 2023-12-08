@@ -12,7 +12,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import SwipeRightIcon from "@mui/icons-material/SwipeRight";
 
-import client from "@/lib/apiClient";
+import client from "@/lib/api/apiClient";
 
 import styles from "./Header.module.scss";
 

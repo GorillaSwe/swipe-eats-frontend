@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { formatDate } from "@/lib/formatDate";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./FavoriteInfo.module.scss";
@@ -12,14 +13,6 @@ type FavoriteInfoProps = {
 };
 
 const FavoriteInfo: React.FC<FavoriteInfoProps> = ({ favorites }) => {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    return `${year}/${month}/${day}`;
-  };
-
   return (
     <div>
       {favorites.map((favorite, index) => (

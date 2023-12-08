@@ -22,18 +22,14 @@ const RestaurantListItem: React.FC<RestaurantListItemProps> = ({
     >
       <div className={styles.image}>
         <Image
-          src={
-            restaurant.photos && restaurant.photos[0]
-              ? restaurant.photos[0]
-              : quotaPhoto
-          }
+          src={restaurant.photos?.[0] ? restaurant.photos[0] : quotaPhoto}
           alt={restaurant.name}
           sizes="300px"
           fill
         />
       </div>
-      <div className={styles.name}>
-        <p>{restaurant.name}</p>
+      <div className={styles.nameContainer}>
+        <p className={styles.name}>{restaurant.name}</p>
       </div>
     </div>
   );

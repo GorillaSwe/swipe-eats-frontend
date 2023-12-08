@@ -13,7 +13,7 @@ import PublicIcon from "@mui/icons-material/Public";
 
 import PriceLevel from "@/components/ui/PriceLevel";
 import StarRating from "@/components/ui/StarRating";
-import client from "@/lib/apiClient";
+import client from "@/lib/api/apiClient";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./RestaurantInfo.module.scss";

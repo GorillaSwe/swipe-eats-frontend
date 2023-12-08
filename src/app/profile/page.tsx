@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { NextPage } from "next";
@@ -8,43 +8,50 @@ import InfiniteScroll from "react-infinite-scroller";
 
 import LoadingSection from "@/components/base/Loading/LoadingSection";
 import LoginSection from "@/components/base/Login/LoginSection";
-import RestaurantInfo from "@/features/profile/components/RestaurantInfo";
-import RestaurantListItem from "@/features/profile/components/RestaurantListItem";
-import UserInfo from "@/features/profile/components/UserInfo";
-import client from "@/lib/apiClient";
+import RestaurantInfo from "@/components/base/RestaurantInfo/RestaurantInfo";
+import RestaurantListItem from "@/components/base/RestaurantListItem/RestaurantListItem";
+import UserInfo from "@/components/base/UserInfo/UserInfo";
+import { getFavoritesCounts, getFavoritesInfo } from "@/lib/api/favoritesInfo";
+import useAccessToken from "@/lib/api/useAccessToken";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";
 
 const ProfilePage: NextPage = () => {
-  const { user, isLoading } = useUser();
+  const { user, isLoading: isUserLoading } = useUser();
+  const token = useAccessToken();
+
   const [favorites, setFavorites] = useState<RestaurantData[]>([]);
-  const [loadingFavorites, setLoadingFavorites] = useState(true);
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<null | RestaurantData>(null);
-  const guestImage = "/images/header/guest.png";
-  const [followingCount, setFollowingCount] = useState(0);
-  const [followersCount, setFollowersCount] = useState(0);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const [favoritesCount, setFavoritesCount] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      const fetchFavoritesCounts = async () => {
-        try {
-          const response = await client.get(`/favorites/counts`, {
-            params: { userSub: user.sub },
-          });
-          setFavoritesCount(response.data.favoritesCount);
-        } catch (error) {
-          console.error("お気に入りの取得に失敗しました。", error);
-        }
-      };
+    const fetchFavoritesCounts = async () => {
+      if (user) {
+        const [favoritesCounts] = await Promise.all([
+          getFavoritesCounts(user.sub),
+        ]);
 
-      fetchFavoritesCounts();
-    }
+        setFavoritesCount(favoritesCounts);
+      }
+    };
+    fetchFavoritesCounts();
   }, [user]);
+
+  const loadFavorites = async (page: number) => {
+    try {
+      const fetchedFavorites = await getFavoritesInfo(token, page);
+      setFavorites((prev) => [...prev, ...fetchedFavorites]);
+      setHasMore(fetchedFavorites.length > 0);
+    } catch (error) {
+      console.error("Error fetching favorites: ", error);
+    } finally {
+      setDataLoaded(true);
+    }
+  };
 
   const removeFavorite = (placeId: string) => {
     setFavorites((currentFavorites) =>
@@ -55,55 +62,10 @@ const ProfilePage: NextPage = () => {
     setFavoritesCount((prev) => prev - 1);
   };
 
-  const fetchFavorites = async () => {
-    try {
-      const tokenResponse = await fetch("/api/token");
-      const tokenData = await tokenResponse.json();
-      const token = tokenData.accessToken;
+  const setRestaurants = () => {};
 
-      const response = await client.get("/favorites", {
-        params: { page },
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      setFavorites((prev) => [...prev, ...response.data.favorites]);
-      setHasMore(response.data.favorites.length > 0);
-      setPage((prev) => prev + 1);
-    } catch (error) {
-      console.error("お気に入りの取得に失敗しました。", error);
-    }
-    setLoadingFavorites(false);
-  };
-
-  useEffect(() => {
-    if (!isLoading && user) {
-      fetchFavorites();
-    }
-  }, [user, isLoading]);
-
-  const loadMore = () => {
-    if (!loadingFavorites) {
-      fetchFavorites();
-    }
-  };
-
-  useEffect(() => {
-    if (user) {
-      const fetchFollowCounts = async () => {
-        try {
-          const response = await client.get(`/follow_relationships/counts`, {
-            params: { userSub: user.sub },
-          });
-          setFollowingCount(response.data.followingCount);
-          setFollowersCount(response.data.followersCount);
-        } catch (error) {
-          console.error("フォロー関係の取得に失敗しました。", error);
-        }
-      };
-
-      fetchFollowCounts();
-    }
-  }, [user]);
+  const isLoading = isUserLoading || (user && !token);
+  const isEmpty = dataLoaded && favorites.length === 0;
 
   if (isLoading) {
     return <LoadingSection />;
@@ -113,33 +75,29 @@ const ProfilePage: NextPage = () => {
     return <LoginSection />;
   }
 
-  if (loadingFavorites) {
-    return <LoadingSection />;
-  }
-
-  const userName = user?.name ?? "ゲスト";
-  const userImage = user?.picture ?? guestImage;
-
   return (
     <div className={styles.container}>
       <UserInfo
-        userName={userName}
-        userImage={userImage}
-        favoritesLength={favoritesCount}
-        followingCount={followingCount}
-        followersCount={followersCount}
+        isMyInfo={true}
+        user={user}
+        userSub={user.sub}
+        favoritesCount={favoritesCount}
       />
 
       <div className={styles.border}></div>
 
       <InfiniteScroll
-        loadMore={loadMore}
+        loadMore={loadFavorites}
         hasMore={hasMore}
         loader={<LoadingSection />}
       >
         <div className={styles.restaurantInfo}>
           <div className={styles.restaurantList}>
-            {favorites.length > 0 ? (
+            {isEmpty ? (
+              <div className={styles.noRestaurants}>
+                <h1>お気に入りがありません</h1>
+              </div>
+            ) : (
               favorites.map((restaurant: RestaurantData) => (
                 <RestaurantListItem
                   restaurant={restaurant}
@@ -149,17 +107,15 @@ const ProfilePage: NextPage = () => {
                   key={restaurant.placeId}
                 />
               ))
-            ) : (
-              <div className={styles.noRestaurants}>
-                <h1>お気に入りがありません</h1>
-              </div>
             )}
           </div>
           {selectedRestaurant && (
             <RestaurantInfo
               restaurant={selectedRestaurant}
+              setRestaurants={setRestaurants}
               setSelectedRestaurant={() => setSelectedRestaurant(null)}
               removeFavorite={removeFavorite}
+              displayFavorite={true}
             />
           )}
         </div>

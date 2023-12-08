@@ -13,7 +13,7 @@ import LoadingSection from "@/components/base/Loading/LoadingSection";
 import { useSetRestaurantData } from "@/contexts/RestaurantContext";
 import { getRestaurantsInfo } from "@/features/swipe/result/api/getRestaurantsInfo";
 import CardSwiper from "@/features/swipe/result/components/CardSwiper";
-import client from "@/lib/apiClient";
+import client from "@/lib/api/apiClient";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";
