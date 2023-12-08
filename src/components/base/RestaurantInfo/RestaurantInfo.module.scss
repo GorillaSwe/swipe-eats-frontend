@@ -1,0 +1,112 @@
+.container {
+  height: 100dvh;
+  width: 100dvw;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overscroll-behavior: contain;
+  overflow-y: scroll;
+
+  .button {
+    position: fixed;
+    right: 2%;
+    top: 2%;
+    color: #fff;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+
+    &:hover {
+      color: #b7b7b7;
+    }
+  }
+
+  .restaurantContainer {
+    height: 80%;
+    width: 60%;
+    max-width: 700px;
+    background-color: #fff;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    @media (max-width: 768px) {
+      height: 70%;
+      width: 85%;
+    }
+  }
+
+  .restaurantContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .image {
+    width: 100%;
+    height: 450px;
+    position: relative;
+
+    @media (max-width: 768px) {
+      max-height: 400px;
+      height: 30dvh;
+    }
+  }
+
+  .details {
+    padding: 16px 24px;
+
+    .name {
+      font-weight: bold;
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+
+    .subDetails {
+      display: flex;
+      justify-content: space-between;
+
+      .ratingContainer {
+        display: flex;
+
+        .rating {
+          margin-right: 5px;
+        }
+
+        p {
+          color: #707579;
+          display: inline;
+        }
+      }
+
+      svg {
+        cursor: pointer;
+      }
+
+      .favoriteIcon {
+        color: #f53b4c;
+      }
+
+      .nonFavoriteIcon {
+        color: #b7b7b7;
+      }
+
+      .nonFavoriteIcon:hover {
+        color: #000;
+      }
+    }
+  }
+
+  .border {
+    border-bottom: 1px solid #dadce0;
+  }
+
+  .nonScroll {
+    height: calc(100vh + 1px);
+    width: 1px;
+    background-color: transparent;
+  }
+}

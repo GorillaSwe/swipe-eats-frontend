@@ -1,0 +1,39 @@
+.container {
+  width: 80%;
+  max-width: 500px;
+  height: 48px;
+  position: fixed;
+  margin: 30px 0 0 0;
+  z-index: 3;
+  top: 0;
+
+  .input {
+    width: 100%;
+    padding: 12px 40px;
+    background-color: #262626;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #fff;
+
+    &::placeholder {
+      color: #a8a8a8;
+    }
+  }
+
+  .cancelIcon,
+  .searchIcon {
+    position: absolute;
+    top: 13px;
+    color: #a8a8a8;
+  }
+
+  .cancelIcon {
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .searchIcon {
+    left: 10px;
+    pointer-events: none;
+  }
+}
