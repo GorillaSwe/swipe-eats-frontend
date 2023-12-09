@@ -7,11 +7,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
+import ConfirmationDialog from "@/components/base/ConfirmationDialog/ConfirmationDialog";
 import ContactInfo from "@/components/base/RestaurantInfo/ContactInfo";
-import DeleteDialog from "@/components/base/RestaurantInfo/DeleteDialog";
+import Border from "@/components/ui/Border";
+import NonScroll from "@/components/ui/NonScroll";
 import PriceLevel from "@/components/ui/PriceLevel";
 import StarRating from "@/components/ui/StarRating";
-import { addFavorites, deleteFavorites } from "@/lib/api/favoritesInfo";
+import { addFavorite, deleteFavorite } from "@/lib/api/favoritesInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
 import { RestaurantData } from "@/types/RestaurantData";
 
@@ -57,7 +59,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
 
   const handleDelete = async () => {
     try {
-      deleteFavorites(token, restaurant.placeId);
+      deleteFavorite(token, restaurant.placeId);
       removeFavorite(restaurant.placeId);
       setIsFavorite(false);
       setRestaurants((prevRestaurants) =>
@@ -74,7 +76,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
 
   const handleAddToFavorites = async () => {
     try {
-      addFavorites(token, restaurant.placeId);
+      addFavorite(token, restaurant.placeId);
       setIsFavorite(true);
       setRestaurants((prevRestaurants) =>
         prevRestaurants.map((r) =>
@@ -135,15 +137,17 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
           </div>
         </div>
         {isDialogOpen && (
-          <DeleteDialog
-            handleDelete={handleDelete}
+          <ConfirmationDialog
             setIsDialogOpen={() => setIsDialogOpen(false)}
+            handleAction={handleDelete}
+            title="お気に入りを削除しますか？"
+            confirmButtonText="削除"
           />
         )}
-        <div className={styles.border}></div>
+        <Border />
         <ContactInfo restaurant={restaurant} />
       </div>
-      <div className={styles.nonScroll}></div>
+      <NonScroll />
     </div>
   );
 };

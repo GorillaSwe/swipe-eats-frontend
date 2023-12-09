@@ -1,3 +1,5 @@
+@import "@/styles/mixins.scss";
+
 .container {
   width: 80%;
   height: 100%;
@@ -15,6 +17,14 @@
 
     @media (max-width: 768px) {
       height: calc(100dvh - 193px);
+    }
+
+    .empty {
+      @include titleStyle;
+
+      span {
+        display: block;
+      }
     }
   }
 

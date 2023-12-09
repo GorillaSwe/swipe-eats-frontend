@@ -42,30 +42,25 @@ const getHomeFavoritesInfo = async (
     });
     return response.data.favorites;
   } catch (error) {
-    console.error("Error fetching favorites data: ", error);
+    console.error("Error fetching home favorites data: ", error);
     return [];
   }
 };
 
-const getFavoritesCounts = async (userSub: string | null | undefined) => {
+const getFavoritesCount = async (userSub: string | null | undefined) => {
   try {
     const response = await client.get(`/favorites/counts`, {
       params: { userSub: userSub },
     });
-
-    if (response.status === 200) {
-      const data = await response.data;
-      return data.favoritesCount || 0;
-    }
-
-    throw new Error("Error fetching favorites counts");
+    const data = await response.data;
+    return data.favoritesCount || 0;
   } catch (error) {
-    console.error("Error fetching favorites counts data: ", error);
-    return [];
+    console.error("Error fetching favorites count data: ", error);
+    return 0;
   }
 };
 
-const addFavorites = async (token: string | null, placeId: string) => {
+const addFavorite = async (token: string | null, placeId: string) => {
   try {
     await client.post(
       `/favorites`,
@@ -78,11 +73,10 @@ const addFavorites = async (token: string | null, placeId: string) => {
     );
   } catch (error) {
     console.error("Error add favorite data: ", error);
-    return [];
   }
 };
 
-const deleteFavorites = async (token: string | null, placeId: string) => {
+const deleteFavorite = async (token: string | null, placeId: string) => {
   try {
     await client.delete(`/favorites/destroy_by_place_id/${placeId}`, {
       headers: {
@@ -91,7 +85,6 @@ const deleteFavorites = async (token: string | null, placeId: string) => {
     });
   } catch (error) {
     console.error("Error delete favorite data: ", error);
-    return [];
   }
 };
 
@@ -99,7 +92,7 @@ export {
   getFavoritesInfo,
   getOtherFavoritesInfo,
   getHomeFavoritesInfo,
-  getFavoritesCounts,
-  addFavorites,
-  deleteFavorites,
+  getFavoritesCount,
+  addFavorite,
+  deleteFavorite,
 };

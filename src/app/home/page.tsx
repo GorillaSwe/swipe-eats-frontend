@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import InfiniteScroll from "react-infinite-scroller";
 
 import LoadingSection from "@/components/base/Loading/LoadingSection";
+import PartialLoadingSection from "@/components/base/Loading/PartialLoadingSection";
 import FavoriteInfo from "@/features/home/components/FavoriteInfo";
 import { getHomeFavoritesInfo } from "@/lib/api/favoritesInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
@@ -22,20 +23,20 @@ const HomePage: NextPage = () => {
   const [hasMore, setHasMore] = useState(true);
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  const isLoading = isUserLoading || (user && !token);
+  const isEmpty = dataLoaded && favorites.length === 0;
+
   const loadFavorites = async (page: number) => {
     try {
       const fetchedFavorites = await getHomeFavoritesInfo(user, token, page);
       setFavorites((prev) => [...prev, ...fetchedFavorites]);
       setHasMore(fetchedFavorites.length > 0);
     } catch (error) {
-      console.error("Error fetching favorites: ", error);
+      console.error("Error fetching favorites data: ", error);
     } finally {
       setDataLoaded(true);
     }
   };
-
-  const isLoading = isUserLoading || (user && !token);
-  const isEmpty = dataLoaded && favorites.length === 0;
 
   if (isLoading) {
     return <LoadingSection />;
@@ -46,7 +47,7 @@ const HomePage: NextPage = () => {
       <InfiniteScroll
         loadMore={loadFavorites}
         hasMore={hasMore}
-        loader={<LoadingSection />}
+        loader={<PartialLoadingSection />}
       >
         {isEmpty ? (
           <h1 className={styles.message}>

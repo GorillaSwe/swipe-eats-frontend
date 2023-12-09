@@ -18,15 +18,10 @@ const searchRestaurants = async (
       },
       headers: user && token ? { Authorization: `Bearer ${token}` } : {},
     });
-
-    if (response.status === 200) {
-      const data = await response.data;
-      return data.message || [];
-    }
-
-    throw new Error("Error fetching restaurants");
+    const data = await response.data;
+    return data.message || [];
   } catch (error) {
-    console.error("Error fetching data: ", error);
+    console.error("Error fetching restaurants data: ", error);
     return [];
   }
 };

@@ -1,6 +1,6 @@
 import client from "@/lib/api/apiClient";
 
-const getFollowRelationships = async (
+const getFollowRelationship = async (
   userSub: string | null | undefined,
   token: string | null
 ) => {
@@ -13,37 +13,32 @@ const getFollowRelationships = async (
     });
     return response.data.isFollowing;
   } catch (error) {
-    console.error("Error fetching follow relationships data: ", error);
-    return [];
+    console.error("Error fetching follow relationship data: ", error);
+    return false;
   }
 };
 
-const getFollowRelationshipsCounts = async (
+const getFollowRelationshipsCount = async (
   userSub: string | null | undefined
 ) => {
   try {
     const response = await client.get(`/follow_relationships/counts`, {
       params: { userSub: userSub },
     });
-
-    if (response.status === 200) {
-      const data = await response.data;
-      return data || [];
-    }
-
-    throw new Error("Error fetching relationships counts");
+    const data = await response.data;
+    return data || [];
   } catch (error) {
-    console.error("Error fetching relaionships counts data: ", error);
+    console.error("Error fetching follow relaionships count data: ", error);
     return [];
   }
 };
 
-const followRelationships = async (
+const followRelationship = async (
   userSub: string | null | undefined,
   token: string | null
 ) => {
   try {
-    const response = await client.post(
+    await client.post(
       `/follow_relationships`,
       { userSub: userSub },
       {
@@ -54,16 +49,15 @@ const followRelationships = async (
     );
   } catch (error) {
     console.error("Error following: ", error);
-    return [];
   }
 };
 
-const unfollowRelationships = async (
+const unfollowRelationship = async (
   userSub: string | null | undefined,
   token: string | null
 ) => {
   try {
-    const response = await client.delete(
+    await client.delete(
       `/follow_relationships/destroy_by_user_sub/${userSub}`,
       {
         headers: {
@@ -73,13 +67,12 @@ const unfollowRelationships = async (
     );
   } catch (error) {
     console.error("Error unfollowing: ", error);
-    return [];
   }
 };
 
 export {
-  getFollowRelationships,
-  getFollowRelationshipsCounts,
-  followRelationships,
-  unfollowRelationships,
+  getFollowRelationship,
+  getFollowRelationshipsCount,
+  followRelationship,
+  unfollowRelationship,
 };

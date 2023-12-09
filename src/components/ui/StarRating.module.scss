@@ -1,25 +1,27 @@
+@import "@/styles/colors.scss";
+
 .container {
   display: flex;
   direction: row;
 
   .full {
-    color: #fbbd04;
+    color: $gold;
   }
 
   .grey {
-    color: #dadce0;
+    color: $lightGray;
   }
 
   .partialContainer {
     position: relative;
-    color: #dadce0;
+    color: $lightGray;
 
     .overlay {
       position: absolute;
       top: 0;
       left: 0;
       overflow: hidden;
-      color: #fbbd04;
+      color: $gold;
     }
   }
 }

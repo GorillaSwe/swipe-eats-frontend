@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import styles from "./LoginSection.module.scss";
+import styles from "@/styles/CommonSections.module.scss";
 
 const LoginSection: React.FC = () => {
   return (

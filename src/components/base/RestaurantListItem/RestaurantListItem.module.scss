@@ -1,3 +1,5 @@
+@import "@/styles/colors.scss";
+
 .container {
   width: 300px;
   height: 300px;
@@ -26,7 +28,7 @@
     position: relative;
     bottom: 20%;
     height: 20%;
-    background: rgba(0, 0, 0, 0.5);
+    background: $semiTransparentBlack50;
     padding: 0 15px;
 
     @media (max-width: 768px) {
@@ -34,7 +36,7 @@
     }
 
     .name {
-      color: #fff;
+      color: $white;
       font-size: 20px;
       font-weight: bold;
       line-height: 60px;

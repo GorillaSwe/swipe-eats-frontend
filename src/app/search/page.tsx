@@ -6,6 +6,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { NextPage } from "next";
 
 import LoadingSection from "@/components/base/Loading/LoadingSection";
+import PartialLoadingSection from "@/components/base/Loading/PartialLoadingSection";
 import RestaurantInfo from "@/components/base/RestaurantInfo/RestaurantInfo";
 import ButtonContainer from "@/features/search/components/ButtonContainer";
 import RestaurantListItem from "@/features/search/components/RestaurantListItem";
@@ -28,10 +29,12 @@ const SearchPage: NextPage<{}> = () => {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState("restaurants");
-  const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
   const [users, setUsers] = useState<UserData[]>([]);
+  const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<null | RestaurantData>(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isEmptyResult, setIsEmptyResult] = useState(false);
 
   useEffect(() => {
     if (latitude && longitude) {
@@ -40,6 +43,7 @@ const SearchPage: NextPage<{}> = () => {
   }, [latitude, longitude]);
 
   const handleSearch = async () => {
+    setIsSearching(true);
     if (filter === "restaurants") {
       const fetchedRestaurants = await searchRestaurants(
         token,
@@ -49,10 +53,13 @@ const SearchPage: NextPage<{}> = () => {
         user
       );
       setRestaurants(fetchedRestaurants);
+      setIsEmptyResult(fetchedRestaurants.length === 0);
     } else if (filter === "users") {
       const fetchedUsers = await searchUsers(query);
       setUsers(fetchedUsers);
+      setIsEmptyResult(fetchedUsers.length === 0);
     }
+    setIsSearching(false);
   };
 
   const removeFavorite = (placeId: string) => {};
@@ -70,30 +77,56 @@ const SearchPage: NextPage<{}> = () => {
       />
       <ButtonContainer filter={filter} setFilter={setFilter} />
 
-      {filter === "restaurants" ? (
+      {filter === "restaurants" && (
         <div className={styles.restaurantContainer}>
-          {restaurants.map((restaurant, index) => (
-            <RestaurantListItem
-              key={restaurant.placeId}
-              restaurant={restaurant}
-              setSelectedRestaurant={setSelectedRestaurant}
-            />
-          ))}
-          {selectedRestaurant && (
-            <RestaurantInfo
-              restaurant={selectedRestaurant}
-              setRestaurants={setRestaurants}
-              setSelectedRestaurant={() => setSelectedRestaurant(null)}
-              removeFavorite={removeFavorite}
-              displayFavorite={true}
-            />
+          {isSearching ? (
+            <PartialLoadingSection />
+          ) : (
+            <>
+              {restaurants.map((restaurant, index) => (
+                <RestaurantListItem
+                  key={restaurant.placeId}
+                  restaurant={restaurant}
+                  setSelectedRestaurant={setSelectedRestaurant}
+                />
+              ))}
+              {selectedRestaurant && (
+                <RestaurantInfo
+                  restaurant={selectedRestaurant}
+                  setRestaurants={setRestaurants}
+                  setSelectedRestaurant={() => setSelectedRestaurant(null)}
+                  removeFavorite={removeFavorite}
+                  displayFavorite={true}
+                />
+              )}
+              {isEmptyResult && (
+                <div className={styles.empty}>
+                  <span>レストランの検索結果が</span>
+                  <span>ありません。</span>
+                </div>
+              )}
+            </>
           )}
         </div>
-      ) : (
+      )}
+
+      {filter === "users" && (
         <div className={styles.userContainer}>
-          {users.map((user, index) => (
-            <UserListItem key={user.sub} user={user} />
-          ))}
+          {isSearching ? (
+            <PartialLoadingSection />
+          ) : (
+            <>
+              {users.map((user, index) => (
+                <UserListItem key={user.sub} user={user} />
+              ))}
+              {isEmptyResult && (
+                <div className={styles.empty}>
+                  <span>ユーザーの検索結果が</span>
+                  <span>ありません。</span>
+                </div>
+              )}
+            </>
+          )}
         </div>
       )}
     </div>
