@@ -1,15 +1,21 @@
 import { useEffect, useRef } from "react";
 
-import styles from "./DeleteDialog.module.scss";
+import NonScroll from "@/components/ui/NonScroll";
 
-interface DeleteDialogProps {
+import styles from "./ConfirmationDialog.module.scss";
+
+interface ConfirmationDialogProps {
   setIsDialogOpen: () => void;
-  handleDelete: () => void;
+  handleAction: () => void;
+  title: string;
+  confirmButtonText: string;
 }
 
-const DeleteDialog: React.FC<DeleteDialogProps> = ({
+const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   setIsDialogOpen,
-  handleDelete,
+  handleAction,
+  title,
+  confirmButtonText,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -32,19 +38,19 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({
   return (
     <div className={styles.container}>
       <div className={styles.dialog} ref={containerRef}>
-        <p className={styles.title}>お気に入りを削除しますか？</p>
+        <p className={styles.title}>{title}</p>
         <div className={styles.buttons}>
           <button className={styles.cancelButton} onClick={setIsDialogOpen}>
             キャンセル
           </button>
-          <button className={styles.deleteButton} onClick={handleDelete}>
-            削除
+          <button className={styles.actionButton} onClick={handleAction}>
+            {confirmButtonText}
           </button>
         </div>
       </div>
-      <div className={styles.nonScroll}></div>
+      <NonScroll />
     </div>
   );
 };
 
-export default DeleteDialog;
+export default ConfirmationDialog;

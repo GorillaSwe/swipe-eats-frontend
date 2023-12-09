@@ -1,3 +1,5 @@
+@import "@/styles/colors.scss";
+
 .container {
   width: 80%;
   max-width: 500px;
@@ -10,13 +12,13 @@
   .input {
     width: 100%;
     padding: 12px 40px;
-    background-color: #262626;
+    background-color: $veryDarkGray;
     border-radius: 4px;
     font-size: 16px;
-    color: #fff;
+    color: $white;
 
     &::placeholder {
-      color: #a8a8a8;
+      color: $mediumGray;
     }
   }
 
@@ -24,7 +26,7 @@
   .searchIcon {
     position: absolute;
     top: 13px;
-    color: #a8a8a8;
+    color: $mediumGray;
   }
 
   .cancelIcon {

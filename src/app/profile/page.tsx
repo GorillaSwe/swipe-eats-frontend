@@ -7,15 +7,16 @@ import { NextPage } from "next";
 import InfiniteScroll from "react-infinite-scroller";
 
 import LoadingSection from "@/components/base/Loading/LoadingSection";
+import PartialLoadingSection from "@/components/base/Loading/PartialLoadingSection";
 import LoginSection from "@/components/base/Login/LoginSection";
 import RestaurantInfo from "@/components/base/RestaurantInfo/RestaurantInfo";
 import RestaurantListItem from "@/components/base/RestaurantListItem/RestaurantListItem";
 import UserInfo from "@/components/base/UserInfo/UserInfo";
-import { getFavoritesCounts, getFavoritesInfo } from "@/lib/api/favoritesInfo";
+import Border from "@/components/ui/Border";
+import { getFavoritesCount, getFavoritesInfo } from "@/lib/api/favoritesInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
+import styles from "@/styles/UserProfilePage.module.scss";
 import { RestaurantData } from "@/types/RestaurantData";
-
-import styles from "./page.module.scss";
 
 const ProfilePage: NextPage = () => {
   const { user, isLoading: isUserLoading } = useUser();
@@ -28,13 +29,15 @@ const ProfilePage: NextPage = () => {
   const [hasMore, setHasMore] = useState(true);
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  const isLoading = isUserLoading || (user && !token);
+  const isEmpty = dataLoaded && favorites.length === 0;
+
   useEffect(() => {
     const fetchFavoritesCounts = async () => {
       if (user) {
         const [favoritesCounts] = await Promise.all([
-          getFavoritesCounts(user.sub),
+          getFavoritesCount(user.sub),
         ]);
-
         setFavoritesCount(favoritesCounts);
       }
     };
@@ -64,9 +67,6 @@ const ProfilePage: NextPage = () => {
 
   const setRestaurants = () => {};
 
-  const isLoading = isUserLoading || (user && !token);
-  const isEmpty = dataLoaded && favorites.length === 0;
-
   if (isLoading) {
     return <LoadingSection />;
   }
@@ -84,12 +84,12 @@ const ProfilePage: NextPage = () => {
         favoritesCount={favoritesCount}
       />
 
-      <div className={styles.border}></div>
+      <Border />
 
       <InfiniteScroll
         loadMore={loadFavorites}
         hasMore={hasMore}
-        loader={<LoadingSection />}
+        loader={<PartialLoadingSection />}
       >
         <div className={styles.restaurantInfo}>
           <div className={styles.restaurantList}>

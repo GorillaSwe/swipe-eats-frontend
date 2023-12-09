@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import styles from "./ErrorSection.module.scss";
+import styles from "@/styles/CommonSections.module.scss";
 
 type ErrorSectionProps = {
   error: string | null;

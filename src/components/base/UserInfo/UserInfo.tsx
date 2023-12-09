@@ -4,17 +4,17 @@ import Image from "next/image";
 
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 
-import UnfollowDialog from "@/components/base/UserInfo/UnfollowDialog";
 import {
-  followRelationships,
-  getFollowRelationships,
-  getFollowRelationshipsCounts,
-  unfollowRelationships,
+  followRelationship,
+  getFollowRelationship,
+  getFollowRelationshipsCount,
+  unfollowRelationship,
 } from "@/lib/api/followRelationshipsInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
-import { getUsersProfile } from "@/lib/api/usersInfo";
+import { getUserProfile } from "@/lib/api/usersInfo";
 
 import styles from "./UserInfo.module.scss";
+import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog";
 
 interface UserInfoProps {
   isMyInfo: boolean;
@@ -45,7 +45,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
       const checkFollowStatus = async () => {
         try {
           const [isFollowingRelationship] = await Promise.all([
-            getFollowRelationships(userSub, token),
+            getFollowRelationship(userSub, token),
           ]);
           setIsFollowing(isFollowingRelationship);
         } catch (error) {
@@ -59,7 +59,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
   const fetchFollowCounts = async () => {
     try {
       const [followCounts] = await Promise.all([
-        getFollowRelationshipsCounts(userSub),
+        getFollowRelationshipsCount(userSub),
       ]);
       setFollowingCount(followCounts.followingCount);
       setFollowersCount(followCounts.followersCount);
@@ -79,7 +79,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
     if (userSub) {
       const fetchUserProfile = async () => {
         try {
-          const [userProfile] = await Promise.all([getUsersProfile(userSub)]);
+          const [userProfile] = await Promise.all([getUserProfile(userSub)]);
           setUserProfile(userProfile);
         } catch (error) {
           console.error("ユーザープロフィールの取得に失敗しました。", error);
@@ -91,7 +91,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
 
   const handleFollow = async () => {
     try {
-      await followRelationships(userSub, token);
+      await followRelationship(userSub, token);
       setIsFollowing(true);
       await fetchFollowCounts();
     } catch (error) {
@@ -101,8 +101,9 @@ const UserInfo: React.FC<UserInfoProps> = ({
 
   const handleUnfollow = async () => {
     try {
-      await unfollowRelationships(userSub, token);
+      await unfollowRelationship(userSub, token);
       setIsFollowing(false);
+      setIsDialogOpen(false);
       await fetchFollowCounts();
     } catch (error) {
       console.error("Unable to unfollow", error);
@@ -134,9 +135,11 @@ const UserInfo: React.FC<UserInfoProps> = ({
                   フォロー中
                 </button>
                 {isDialogOpen && (
-                  <UnfollowDialog
-                    handleUnfollow={handleUnfollow}
+                  <ConfirmationDialog
                     setIsDialogOpen={() => setIsDialogOpen(false)}
+                    handleAction={handleUnfollow}
+                    title="フォローを解除しますか？"
+                    confirmButtonText="フォロー解除"
                   />
                 )}
               </>

@@ -7,106 +7,49 @@ import Link from "next/link";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
 import HomeIcon from "@mui/icons-material/Home";
-import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import SwipeRightIcon from "@mui/icons-material/SwipeRight";
 
-import client from "@/lib/api/apiClient";
+import useAccessToken from "@/lib/api/useAccessToken";
+import { createUser } from "@/lib/api/usersInfo";
 
 import styles from "./Header.module.scss";
 
-interface User {
-  sub: string;
-  name: string;
-  email: string;
-  picture: string;
-}
-
 const Header: React.FC = () => {
   const { user, error, isLoading } = useUser();
+  const token = useAccessToken();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const guestImage = "/images/header/guest.png";
-
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   useEffect(() => {
     const closeMenu = (e: MouseEvent) => {
       if (isMenuOpen) setIsMenuOpen(false);
     };
-
     document.addEventListener("click", closeMenu);
     return () => document.removeEventListener("click", closeMenu);
   }, [isMenuOpen]);
 
   useEffect(() => {
-    if (!isLoading && !error && user?.sub) {
-      sendUserData({
+    if (!isLoading && !error && user?.sub && token) {
+      createUser(token, {
         sub: user.sub,
         name: user.name ?? "",
-        email: user.email ?? "",
-        picture: user.picture ?? guestImage,
+        picture: user.picture ?? "",
       });
     }
-  }, [user, isLoading, error]);
+  }, [user, isLoading, error, token]);
 
-  const sendUserData = async (userData: User) => {
-    try {
-      const tokenResponse = await fetch("/api/token");
-      const tokenData = await tokenResponse.json();
-      const token = tokenData.accessToken;
-
-      await client.post("/users", userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (err) {
-      console.error("バックエンドへのデータ送信エラー:", err);
-    }
-  };
-
-  const renderFeedbackText = (isLoading: boolean, error?: Error) => (
-    <div>
-      {isLoading ? (
+  const renderUserContent = () => {
+    if (isLoading) {
+      return (
         <>
           <span className={styles.largeText}>Loading...</span>
-          <span className={styles.middleText}>...</span>
           <span className={styles.smallText}>...</span>
         </>
-      ) : (
-        <>
-          <span className={styles.largeText}>Error: {error?.message}</span>
-          <span className={styles.middleText}>Err</span>
-          <span className={styles.smallText}></span>;
-        </>
-      )}
-    </div>
-  );
-
-  const renderUserImage = (
-    picture: string,
-    name: string,
-    imageSize: number,
-    isMobile: boolean
-  ) => (
-    <Image
-      src={picture}
-      alt={`${name}のプロフィール画像`}
-      width={imageSize}
-      height={imageSize}
-      className={styles.image}
-      onClick={isMobile ? toggleMenu : undefined}
-    />
-  );
-
-  const renderUserContent = (isMobile: boolean = false) => {
-    if (isLoading || error) {
-      return renderFeedbackText(isLoading, error);
+      );
     }
 
-    const imageSize = isMobile ? 34 : 40;
-    const userImage = user?.picture ?? guestImage;
+    const userImage = user?.picture ?? "/images/header/guest.png";
     const userName = user?.name ?? "ゲスト";
     const authLink = user ? "/api/auth/logout" : "/api/auth/login";
     const authText = user ? "ログアウト" : "ログイン";
@@ -114,74 +57,61 @@ const Header: React.FC = () => {
     return (
       <>
         <div className={styles.userInfoContainer}>
-          {renderUserImage(userImage, userName, imageSize, isMobile)}
-          {!isMobile && <span>{userName}</span>}
+          <Image
+            src={userImage}
+            alt={`${userName}のプロフィール画像`}
+            width={34}
+            height={34}
+            className={styles.image}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          />
+          <span>{userName}</span>
         </div>
-        {!isMobile ? (
-          <div className={styles.authContainer}>
-            <a href={authLink} className={styles.authLink}>
-              {authText}
-            </a>
-            <div className={styles.hamburger}>
-              <MenuIcon className={styles.hamburgerIcon} onClick={toggleMenu} />
-              <div
-                className={styles.menu}
-                style={{ display: isMenuOpen ? "block" : "none" }}
-              >
+        <div className={styles.authContainer}>
+          <a href={authLink} className={styles.authLink}>
+            {authText}
+          </a>
+          <div className={styles.menuContainer}>
+            {isMenuOpen && (
+              <div className={styles.menu}>
                 <a href={authLink}>{authText}</a>
               </div>
-            </div>
+            )}
           </div>
-        ) : (
-          <div
-            className={styles.menu}
-            style={{ display: isMenuOpen ? "block" : "none" }}
-          >
-            <a href={authLink}>{authText}</a>
-          </div>
-        )}
+        </div>
       </>
     );
   };
 
+  const renderLink = (
+    href: string,
+    IconComponent: any,
+    text: string | undefined
+  ) => (
+    <Link href={href} className={styles.link}>
+      <IconComponent />
+      <span>{text}</span>
+    </Link>
+  );
+
   return (
     <header className={styles.container}>
-      <div className={styles.linkContainer}>
-        <Link href="/home" className={styles.link}>
-          <HomeIcon />
-          <span>ホーム</span>
-        </Link>
-        <Link href="/search" className={styles.link}>
-          <SearchIcon />
-          <span>検索</span>
-        </Link>
-        <Link href="/" className={styles.link}>
-          <SwipeRightIcon />
-          <span>スワイプ</span>
-        </Link>
-        <Link href="/profile" className={styles.link}>
-          <PersonIcon />
-          <span>プロフィール</span>
-        </Link>
+      <div className={styles.desktopContainer}>
+        <div className={styles.linkContainer}>
+          {renderLink("/home", HomeIcon, "ホーム")}
+          {renderLink("/search", SearchIcon, "検索")}
+          {renderLink("/", SwipeRightIcon, "スワイプ")}
+          {renderLink("/profile", PersonIcon, "プロフィール")}
+        </div>
+        <div className={styles.userContainer}>{renderUserContent()}</div>
       </div>
-      <div className={styles.userContainer}>{renderUserContent()}</div>
 
       <div className={styles.mobileContainer}>
-        <Link href="/home" className={styles.link}>
-          <HomeIcon />
-        </Link>
-        <Link href="/search" className={styles.link}>
-          <SearchIcon />
-        </Link>
-        <Link href="/" className={styles.link}>
-          <SwipeRightIcon />
-        </Link>
-        <Link href="/profile" className={styles.link}>
-          <PersonIcon />
-        </Link>
-        <div className={styles.mobileUserContainer}>
-          {renderUserContent(true)}
-        </div>
+        {renderLink("/home", HomeIcon, undefined)}
+        {renderLink("/search", SearchIcon, undefined)}
+        {renderLink("/", SwipeRightIcon, undefined)}
+        {renderLink("/profile", PersonIcon, undefined)}
+        <div className={styles.mobileUserContainer}>{renderUserContent()}</div>
       </div>
     </header>
   );

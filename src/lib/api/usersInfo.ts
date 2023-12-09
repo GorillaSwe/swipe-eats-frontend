@@ -1,6 +1,19 @@
 import client from "@/lib/api/apiClient";
+import { UserData } from "@/types/UserData";
 
-const getUsersProfile = async (userSub: string | null | undefined) => {
+const createUser = async (token: string | null, userData: UserData) => {
+  try {
+    await client.post(`/users`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error creaeting user data: ", error);
+  }
+};
+
+const getUserProfile = async (userSub: string | null | undefined) => {
   try {
     const response = await client.get(`/users/get_user_profile`, {
       params: { userSub },
@@ -17,17 +30,12 @@ const searchUsers = async (query: string) => {
     const response = await client.get("/users/search", {
       params: { query },
     });
-
-    if (response.status === 200) {
-      const data = await response.data;
-      return data.users || [];
-    }
-
-    throw new Error("Error fetching users");
+    const data = await response.data;
+    return data.users || [];
   } catch (error) {
-    console.error("Error fetching user data: ", error);
+    console.error("Error fetching users data: ", error);
     return [];
   }
 };
 
-export { getUsersProfile, searchUsers };
+export { createUser, getUserProfile, searchUsers };

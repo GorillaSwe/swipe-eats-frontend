@@ -1,7 +1,9 @@
+@import "@/styles/colors.scss";
+
 .container {
   height: 100dvh;
   width: 100dvw;
-  background: rgba(0, 0, 0, 0.5);
+  background: $semiTransparentBlack50;
   z-index: 1000;
   position: fixed;
   left: 0;
@@ -16,13 +18,13 @@
     position: fixed;
     right: 2%;
     top: 2%;
-    color: #fff;
+    color: $white;
     cursor: pointer;
     width: 30px;
     height: 30px;
 
     &:hover {
-      color: #b7b7b7;
+      color: $mediumGray;
     }
   }
 
@@ -30,7 +32,7 @@
     height: 80%;
     width: 60%;
     max-width: 700px;
-    background-color: #fff;
+    background-color: $white;
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -77,7 +79,7 @@
         }
 
         p {
-          color: #707579;
+          color: $gray;
           display: inline;
         }
       }
@@ -87,26 +89,16 @@
       }
 
       .favoriteIcon {
-        color: #f53b4c;
+        color: $brandRed;
       }
 
       .nonFavoriteIcon {
-        color: #b7b7b7;
+        color: $mediumGray;
       }
 
       .nonFavoriteIcon:hover {
-        color: #000;
+        color: $black;
       }
     }
-  }
-
-  .border {
-    border-bottom: 1px solid #dadce0;
-  }
-
-  .nonScroll {
-    height: calc(100vh + 1px);
-    width: 1px;
-    background-color: transparent;
   }
 }

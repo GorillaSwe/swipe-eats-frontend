@@ -1,9 +1,8 @@
+@import "@/styles/colors.scss";
+
 .container {
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-  color: #fff;
-  background-color: #000000;
+  color: $white;
+  background-color: $black;
   padding: 10px 10px 30px 10px;
   font-size: 20px;
 
@@ -11,21 +10,28 @@
     padding: 10px;
   }
 
-  .linkContainer,
-  .userContainer {
+  .desktopContainer {
     display: flex;
     flex-flow: column;
+    justify-content: space-between;
+    height: 100%;
 
     @media (max-width: 768px) {
       display: none;
     }
+  }
+
+  .linkContainer,
+  .userContainer {
+    display: flex;
+    flex-flow: column;
 
     a {
       padding: 10px;
       margin: 5px 0;
 
       &:hover {
-        background-color: #131313;
+        background-color: $veryDarkGray;
       }
     }
 
@@ -59,36 +65,30 @@
       }
     }
 
-    .middleText {
-      margin: 0;
+    .smallText {
       display: none;
 
       @media (max-width: 1264px) {
         display: block;
       }
-
-      @media (max-width: 768px) {
-        display: none;
-      }
-    }
-
-    .smallText {
-      display: none;
     }
 
     .userInfoContainer {
       display: flex;
       align-items: center;
-      padding: 10px;
+      padding: 5px;
       margin: 5px 0;
 
       .image {
-        border-radius: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
       }
     }
 
     .authContainer {
       padding: 10px;
+      position: relative;
 
       .authLink {
         padding: 10px 50px;
@@ -98,27 +98,24 @@
         }
       }
 
-      .hamburger {
+      .menuContainer {
         display: none;
-        margin: 5px;
-        position: relative;
 
         @media (max-width: 1264px) {
           display: block;
         }
       }
-
       .menu {
         position: absolute;
-        top: -75%;
-        left: 150%;
-        background-color: #000000;
-        border: 1px solid #262626;
+        top: -330%;
+        left: 75%;
+        background-color: $black;
+        border: 1px solid $veryDarkGray;
         border-radius: 4px;
         width: 200px;
         padding: 20px;
         z-index: 1000;
-        box-shadow: 0px 0px 10px 5px rgba(59, 59, 59, 0.3);
+        box-shadow: 0px 0px 10px 5px $semiTransparentBlack30;
       }
     }
   }
@@ -132,17 +129,21 @@
       justify-content: space-around;
       align-items: center;
     }
+    .userInfoContainer {
+      span {
+        display: none;
+      }
 
-    .image {
-      border-radius: 17px;
+      .image {
+        border-radius: 50%;
+      }
     }
 
     svg {
       margin: 5px;
     }
 
-    .largeText,
-    .middleText {
+    .largeText {
       display: none;
     }
 
@@ -151,18 +152,23 @@
       width: 36px;
       height: 36px;
     }
+    .authContainer {
+      .authLink {
+        display: none;
+      }
 
-    .menu {
-      position: absolute;
-      top: -120%;
-      right: 3%;
-      background-color: #000000;
-      border: 1px solid #262626;
-      border-radius: 4px;
-      width: 200px;
-      padding: 20px;
-      z-index: 1000;
-      box-shadow: 0px 0px 10px 5px rgba(59, 59, 59, 0.3);
+      .menu {
+        position: absolute;
+        top: -120%;
+        right: 3%;
+        background-color: $black;
+        border: 1px solid $veryDarkGray;
+        border-radius: 4px;
+        width: 200px;
+        padding: 20px;
+        z-index: 1000;
+        box-shadow: 0px 0px 10px 5px $semiTransparentBlack30;
+      }
     }
   }
 }
