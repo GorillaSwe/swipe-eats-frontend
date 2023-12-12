@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import NonScroll from "@/components/ui/NonScroll";
+import NonScroll from "@/components/ui/NonScroll/NonScroll";
 
 import styles from "./ConfirmationDialog.module.scss";
 

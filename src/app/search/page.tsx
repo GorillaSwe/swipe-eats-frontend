@@ -8,14 +8,14 @@ import { NextPage } from "next";
 import LoadingSection from "@/components/base/Loading/LoadingSection";
 import PartialLoadingSection from "@/components/base/Loading/PartialLoadingSection";
 import RestaurantInfo from "@/components/base/RestaurantInfo/RestaurantInfo";
+import RestaurantListItem from "@/components/base/RestaurantListItem/RestaurantListItem";
 import ButtonContainer from "@/features/search/components/ButtonContainer";
-import RestaurantListItem from "@/features/search/components/RestaurantListItem";
 import SearchBar from "@/features/search/components/SearchBar";
 import UserListItem from "@/features/search/components/UserListItem";
-import useLocation from "@/features/swipe/search/hooks/useLocation";
 import { searchRestaurants } from "@/lib/api/restaurantsInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
 import { searchUsers } from "@/lib/api/usersInfo";
+import useLocation from "@/lib/useLocation";
 import { RestaurantData } from "@/types/RestaurantData";
 import { UserData } from "@/types/UserData";
 
@@ -34,7 +34,9 @@ const SearchPage: NextPage<{}> = () => {
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<null | RestaurantData>(null);
   const [isSearching, setIsSearching] = useState(false);
-  const [isEmptyResult, setIsEmptyResult] = useState(false);
+  const [isRestaurantsEmptyResult, setIsRestaurantsEmptyResult] =
+    useState(false);
+  const [isUsersEmptyResult, setIsUsersEmptyResult] = useState(false);
 
   useEffect(() => {
     if (latitude && longitude) {
@@ -53,16 +55,17 @@ const SearchPage: NextPage<{}> = () => {
         user
       );
       setRestaurants(fetchedRestaurants);
-      setIsEmptyResult(fetchedRestaurants.length === 0);
+      setIsRestaurantsEmptyResult(fetchedRestaurants.length === 0);
     } else if (filter === "users") {
       const fetchedUsers = await searchUsers(query);
       setUsers(fetchedUsers);
-      setIsEmptyResult(fetchedUsers.length === 0);
+      setIsUsersEmptyResult(fetchedUsers.length === 0);
     }
     setIsSearching(false);
   };
 
-  const removeFavorite = (placeId: string) => {};
+  const removeFavorite = () => {};
+  const setHoveredRestaurant = () => {};
 
   if (isLoading) {
     return <LoadingSection />;
@@ -88,6 +91,7 @@ const SearchPage: NextPage<{}> = () => {
                   key={restaurant.placeId}
                   restaurant={restaurant}
                   setSelectedRestaurant={setSelectedRestaurant}
+                  setHoveredRestaurant={setHoveredRestaurant}
                 />
               ))}
               {selectedRestaurant && (
@@ -99,7 +103,7 @@ const SearchPage: NextPage<{}> = () => {
                   displayFavorite={true}
                 />
               )}
-              {isEmptyResult && (
+              {isRestaurantsEmptyResult && (
                 <div className={styles.empty}>
                   <span>レストランの検索結果が</span>
                   <span>ありません。</span>
@@ -119,7 +123,7 @@ const SearchPage: NextPage<{}> = () => {
               {users.map((user, index) => (
                 <UserListItem key={user.sub} user={user} />
               ))}
-              {isEmptyResult && (
+              {isUsersEmptyResult && (
                 <div className={styles.empty}>
                   <span>ユーザーの検索結果が</span>
                   <span>ありません。</span>

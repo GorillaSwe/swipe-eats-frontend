@@ -12,6 +12,22 @@
   }
 }
 
+@mixin fullScreenContainer {
+  height: 100dvh;
+  width: 100dvw;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overscroll-behavior: contain;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: none;
+}
+
 @mixin titleStyle {
   font-size: 30px;
   font-weight: bold;
@@ -20,5 +36,64 @@
 
   @media (max-width: 768px) {
     font-size: 22px;
+  }
+}
+
+@mixin buttonStyle {
+  font-size: 18px;
+  font-weight: bold;
+  width: 160px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  transition: 200ms;
+  box-shadow: 0px 0px 30px 0px $semiTransparentBlack10;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+@mixin swipeSearchTitleStyle {
+  color: $white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
+  margin: 0 0 10px 10px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+@mixin swipeSearchOptionLabelStyle {
+  .label {
+    margin: 0 15px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: $blueGray;
+    display: inline-block;
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+      margin: 5px 15px;
+    }
+
+    &:hover {
+      background-color: $mediumGray;
+    }
+
+    &.selected {
+      background-color: $veryDarkGray;
+      color: $lightGray;
+
+      &:hover {
+        background-color: $darkGray;
+      }
+    }
+
+    .button {
+      display: none;
+    }
   }
 }

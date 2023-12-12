@@ -2,6 +2,26 @@ import { UserProfile } from "@auth0/nextjs-auth0/client";
 
 import client from "@/lib/api/apiClient";
 
+const getRestaurants = async (
+  latitude: number,
+  longitude: number,
+  category: string,
+  radius: number,
+  price: number[],
+  sort: string
+) => {
+  const response = await client.get("/restaurants", {
+    params: { latitude, longitude, category, radius, price, sort },
+  });
+
+  if (response.status === 200 && response.data.message.length > 0) {
+    return response.data;
+  } else {
+    console.error("Error fetching restaurants data: ", response.data.error);
+    throw new Error(response.data.error || "レストランが見つかりません");
+  }
+};
+
 const searchRestaurants = async (
   token: string | null,
   query: string,
@@ -26,4 +46,4 @@ const searchRestaurants = async (
   }
 };
 
-export { searchRestaurants };
+export { getRestaurants, searchRestaurants };

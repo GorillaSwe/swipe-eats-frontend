@@ -1,18 +1,10 @@
 @import "@/styles/colors.scss";
+@import "@/styles/mixins.scss";
 
 .container {
-  height: 100dvh;
-  width: 100dvw;
-  background: $semiTransparentBlack50;
+  @include fullScreenContainer;
   z-index: 1000;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overscroll-behavior: contain;
-  overflow-y: scroll;
+  background: $semiTransparentBlack50;
 
   .button {
     position: fixed;

@@ -1,3 +1,5 @@
+@import "@/styles/colors.scss";
+
 .container {
   margin: 20px;
   display: flex;
@@ -10,11 +12,11 @@
   }
 
   .button {
-    color: #fff;
+    color: $white;
     margin: 10px;
     border-radius: 50%;
     transition: 200ms;
-    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 30px 0px $semiTransparentBlack10;
     cursor: pointer;
 
     @media (max-width: 768px) {
@@ -27,26 +29,26 @@
 
     &.back {
       padding: 10px;
-      background: linear-gradient(1deg, #f5a80d 0%, #ffcf71 60%);
+      background: linear-gradient(1deg, $gold 0%, $dotYellow 60%);
     }
 
     &.like {
       padding: 15px;
-      background: linear-gradient(1deg, rgb(230, 0, 0) 0%, #e66465 60%);
+      background: linear-gradient(1deg, $dotRed 0%, $brandRed 60%);
     }
 
     &.nope {
       padding: 15px;
-      background: linear-gradient(1deg, #003454 0%, #2f4858 60%);
+      background: linear-gradient(1deg, $nopeUp 0%, $nopeDown 60%);
     }
 
     &.skip {
       padding: 10px;
-      background: linear-gradient(1deg, #ac24aa 0%, #ac5fab 60%);
+      background: linear-gradient(1deg, $lightPurple 0%, $dotPurple 60%);
     }
 
     &.cannot {
-      background: #b9bfc8;
+      background: $blueGray;
       cursor: default;
     }
   }
