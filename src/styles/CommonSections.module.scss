@@ -1,0 +1,20 @@
+@import "@/styles/mixins.scss";
+@import "@/styles/colors.scss";
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .title {
+    @include titleStyle;
+  }
+
+  .button {
+    @include buttonStyle;
+    color: $white;
+    background-color: $lightPurple;
+  }
+}

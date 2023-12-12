@@ -1,3 +1,5 @@
+@import "@/styles/colors.scss";
+
 .container {
   display: flex;
   justify-content: center;
@@ -24,7 +26,7 @@
     }
 
     &:nth-child(1) {
-      background-color: #4285f5;
+      background-color: $dotBlue;
 
       &::before {
         animation-delay: 0.2s;
@@ -32,7 +34,7 @@
     }
 
     &:nth-child(2) {
-      background-color: #ea4436;
+      background-color: $dotRed;
 
       &::before {
         animation-delay: 0.4s;
@@ -40,7 +42,7 @@
     }
 
     &:nth-child(3) {
-      background-color: #fbbd06;
+      background-color: $dotYellow;
 
       &::before {
         animation-delay: 0.6s;
@@ -48,7 +50,7 @@
     }
 
     &:nth-child(4) {
-      background-color: #34a952;
+      background-color: $dotGreen;
 
       &::before {
         animation-delay: 0.8s;
@@ -56,7 +58,7 @@
     }
 
     &:nth-child(5) {
-      background-color: #cf9fff;
+      background-color: $dotPurple;
 
       &::before {
         animation-delay: 1s;

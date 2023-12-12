@@ -1,0 +1,85 @@
+@import "@/styles/colors.scss";
+@import "@/styles/mixins.scss";
+
+.container {
+  width: 100%;
+  margin: 0 0 40px 0;
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    margin: 0 0 20px 0;
+  }
+}
+
+.image {
+  border-radius: 50%;
+  margin: 0 50px;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    margin: 0 20px;
+  }
+}
+
+.infoContainer {
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 30px;
+
+  @media (max-width: 1264px) {
+    margin-left: 0;
+  }
+
+  @media (max-width: 768px) {
+    row-gap: 10px;
+    font-size: 16px;
+  }
+
+  .infoTopContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .button {
+      @include buttonStyle;
+      color: $white;
+      margin: 0 0 0 20px;
+      background-color: $lightBlue;
+      border-radius: 5px;
+      transition: 200ms;
+      box-shadow: 0px 0px 30px 0px $semiTransparentBlack10;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+        width: auto;
+      }
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+.countsContainer {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+
+  @media (max-width: 768px) {
+    column-gap: 10px;
+  }
+
+  span {
+    @media (max-width: 768px) {
+      display: inline-block;
+    }
+  }
+}

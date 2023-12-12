@@ -1,7 +1,10 @@
+@import "@/styles/colors.scss";
+@import "@/styles/mixins.scss";
+
 .container {
   width: 650px;
   padding: 30px 10px;
-  margin: 25px 0;
+  margin: 10px 0 25px 0;
 
   @media (max-width: 768px) {
     width: 90vw;
@@ -9,18 +12,14 @@
   }
 
   .title {
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: left;
-    margin: 0 0 20px 20px;
+    @include swipeSearchTitleStyle;
   }
 
   .slider {
     height: 15px;
     width: 550px;
     margin: 0 auto;
-    background: #c3c4d3;
+    background: $mediumGray;
     border-radius: 50px;
     position: relative;
     cursor: pointer;
@@ -30,7 +29,7 @@
     }
 
     .background {
-      background: rgb(51, 51, 51);
+      background: $veryDarkGray;
       height: 100%;
       border-radius: 50px 0 0 50px;
       position: absolute;
@@ -48,7 +47,7 @@
 
     .handle {
       border-radius: 100%;
-      background: #000000;
+      background: $black;
       width: 15px;
       height: 15px;
       cursor: grab;

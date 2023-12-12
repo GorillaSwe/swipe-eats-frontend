@@ -5,7 +5,7 @@ type DistanceSliderProps = {
   onRadiusChange: (radius: number) => void;
 };
 
-const valMap = [100, 500, 1000, 2000, 3000, 4000, 5000];
+const valMap = [100, 300, 500, 1000, 2000];
 
 const DistanceSlider: React.FC<DistanceSliderProps> = ({
   selectedRadius,

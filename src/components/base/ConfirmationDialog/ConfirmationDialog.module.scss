@@ -1,0 +1,50 @@
+@import "@/styles/colors.scss";
+@import "@/styles/mixins.scss";
+
+.container {
+  @include fullScreenContainer;
+  background: $semiTransparentBlack80;
+
+  .dialog {
+    background-color: $white;
+    padding: 50px;
+    display: flex;
+    flex-flow: column;
+    row-gap: 20px;
+    border-radius: 20px;
+    @media (max-width: 500px) {
+      padding: 30px;
+    }
+  }
+
+  .title {
+    color: $black;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .buttons {
+    @media (max-width: 500px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .actionButton,
+    .cancelButton {
+      @include buttonStyle;
+      border: 1px $mediumGray solid;
+    }
+
+    .actionButton {
+      color: $white;
+      background-color: $brandRed;
+    }
+
+    .cancelButton {
+      color: $gray;
+      background-color: $white;
+    }
+  }
+}

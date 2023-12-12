@@ -1,7 +1,9 @@
+@import "@/styles/colors.scss";
+
 .container {
-  background-color: #fff;
+  background-color: $white;
   padding: 20px;
-  border-bottom: solid 1px #707579;
+  border-bottom: solid 1px $gray;
   width: 540px;
   max-width: 540px;
 

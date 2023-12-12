@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -7,6 +9,19 @@ import styles from "./CardImageSlider.module.scss";
 interface CardImageSliderProps {
   photos: string[];
 }
+
+const CardImage: React.FC<{ photo: string }> = ({ photo }) => (
+  <div className={styles.item}>
+    <Image
+      src={photo}
+      alt="Restaurant Image"
+      width={580}
+      height={500}
+      priority={true}
+      className={styles.image}
+    />
+  </div>
+);
 
 const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos }) => {
   const sliderSettings = {
@@ -20,21 +35,9 @@ const CardImageSlider: React.FC<CardImageSliderProps> = ({ photos }) => {
   return (
     <Slider className={styles.container} {...sliderSettings}>
       {photos && photos.length > 0 ? (
-        photos.map((photo, photoIndex) => (
-          <div key={photoIndex} className={styles.item}>
-            <div
-              style={{ backgroundImage: "url(" + photo + ")" }}
-              className={styles.image}
-            ></div>
-          </div>
-        ))
+        photos.map((photo, index) => <CardImage key={index} photo={photo} />)
       ) : (
-        <div className={styles.item}>
-          <div
-            style={{ backgroundImage: "url(" + quotaPhoto + ")" }}
-            className={styles.image}
-          ></div>
-        </div>
+        <CardImage photo={quotaPhoto} />
       )}
     </Slider>
   );

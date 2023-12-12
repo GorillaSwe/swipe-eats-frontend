@@ -23,7 +23,7 @@ const SortOption: React.FC<SortOptionProps> = ({
         checked={isSelected}
         onChange={() => onOptionChange(value)}
       />
-      <p>{label}</p>
+      <p className={styles.text}>{label}</p>
     </label>
   );
 };

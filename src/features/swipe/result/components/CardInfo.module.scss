@@ -1,9 +1,11 @@
+@import "@/styles/colors.scss";
+
 .container {
   width: 580px;
   max-width: 580px;
   height: 115px;
   min-height: 115px;
-  background-color: #fff;
+  background-color: $white;
   border-radius: 0 0 20px 20px;
   overflow: scroll;
 
@@ -13,11 +15,11 @@
 
   p,
   a {
-    color: #707579;
+    color: $gray;
   }
 
   .name {
-    margin-top: 7px;
+    margin-top: 7px 10px 0 10px;
     font-weight: bold;
     font-size: 30px;
     white-space: nowrap;
@@ -31,7 +33,7 @@
     text-overflow: ellipsis;
   }
 
-  .subContainer {
+  .ratingContainer {
     display: flex;
     align-items: center;
     justify-content: center;

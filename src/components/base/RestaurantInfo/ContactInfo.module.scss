@@ -1,0 +1,23 @@
+@import "@/styles/colors.scss";
+
+.container {
+  padding: 16px 24px;
+  text-align: left;
+
+  p,
+  a {
+    color: $black;
+    font-size: 14px;
+  }
+
+  .iconContainer {
+    margin: 10px 0 20px 0;
+    display: flex;
+
+    svg {
+      color: $darkBlue;
+      font-size: 24px;
+      margin-right: 15px;
+    }
+  }
+}

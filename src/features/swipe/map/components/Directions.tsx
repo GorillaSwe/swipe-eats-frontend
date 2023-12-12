@@ -21,31 +21,33 @@ const Directions: React.FC<DirectionsProps> = ({
   directionsResult,
   handleDirectionsCallback,
 }) => {
+  const serviceOptions = selectedRestaurant
+    ? {
+        origin: center,
+        destination: {
+          lat: selectedRestaurant.lat,
+          lng: selectedRestaurant.lng,
+        },
+        travelMode: google.maps.TravelMode.WALKING,
+      }
+    : null;
+
   return (
     <>
-      {selectedRestaurant && (
+      {serviceOptions && (
         <DirectionsService
-          options={{
-            origin: center,
-            destination: {
-              lat: selectedRestaurant.lat,
-              lng: selectedRestaurant.lng,
-            },
-            travelMode: google.maps.TravelMode.WALKING,
-          }}
+          options={serviceOptions}
           callback={handleDirectionsCallback}
         />
       )}
       {directionsResult && (
-        <>
-          <DirectionsRenderer
-            options={{
-              suppressMarkers: true,
-              preserveViewport: true,
-              directions: directionsResult,
-            }}
-          />
-        </>
+        <DirectionsRenderer
+          options={{
+            suppressMarkers: true,
+            preserveViewport: true,
+            directions: directionsResult,
+          }}
+        />
       )}
     </>
   );

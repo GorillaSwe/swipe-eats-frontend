@@ -1,0 +1,96 @@
+@import "@/styles/colors.scss";
+@import "@/styles/mixins.scss";
+
+.container {
+  @include fullScreenContainer;
+  z-index: 1000;
+  background: $semiTransparentBlack50;
+
+  .button {
+    position: fixed;
+    right: 2%;
+    top: 2%;
+    color: $white;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+
+    &:hover {
+      color: $mediumGray;
+    }
+  }
+
+  .restaurantContainer {
+    height: 80%;
+    width: 60%;
+    max-width: 700px;
+    background-color: $white;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    @media (max-width: 768px) {
+      height: 70%;
+      width: 85%;
+    }
+  }
+
+  .restaurantContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .image {
+    width: 100%;
+    height: 450px;
+    position: relative;
+
+    @media (max-width: 768px) {
+      max-height: 400px;
+      height: 30dvh;
+    }
+  }
+
+  .details {
+    padding: 16px 24px;
+
+    .name {
+      font-weight: bold;
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+
+    .subDetails {
+      display: flex;
+      justify-content: space-between;
+
+      .ratingContainer {
+        display: flex;
+
+        .rating {
+          margin-right: 5px;
+        }
+
+        p {
+          color: $gray;
+          display: inline;
+        }
+      }
+
+      svg {
+        cursor: pointer;
+      }
+
+      .favoriteIcon {
+        color: $brandRed;
+      }
+
+      .nonFavoriteIcon {
+        color: $mediumGray;
+      }
+
+      .nonFavoriteIcon:hover {
+        color: $black;
+      }
+    }
+  }
+}

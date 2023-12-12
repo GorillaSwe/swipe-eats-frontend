@@ -10,7 +10,7 @@ import LoadingSection from "@/components/base/Loading/LoadingSection";
 import DistanceSlider from "@/features/swipe/search/components/DistanceSlider";
 import PriceLevelSelector from "@/features/swipe/search/components/PriceLevelSelector";
 import SortOptionSelector from "@/features/swipe/search/components/SortOptionSelector";
-import useLocation from "@/features/swipe/search/hooks/useLocation";
+import useLocation from "@/lib/useLocation";
 
 import styles from "./page.module.scss";
 
@@ -19,14 +19,14 @@ const DEFAULT_SORT = "prominence";
 
 const SearchPage: NextPage = () => {
   const { latitude, longitude } = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState<string>();
-  const [selectedRadius, setSelectedRadius] = useState<number>(DEFAULT_RADIUS);
-  const [selectedPriceLevels, setSelectedPriceLevels] = useState<number[]>([]);
-  const [selectedSort, setSelectedSort] = useState<string>(DEFAULT_SORT);
-  const [isLoading, setIsLoading] = useState(true);
-
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [selectedSort, setSelectedSort] = useState<string>(DEFAULT_SORT);
+  const [selectedRadius, setSelectedRadius] = useState<number>(DEFAULT_RADIUS);
+  const [selectedPriceLevels, setSelectedPriceLevels] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const category = searchParams.get("category");
@@ -35,7 +35,7 @@ const SearchPage: NextPage = () => {
     } else {
       router.push("/");
     }
-  }, []);
+  }, [searchParams, router]);
 
   useEffect(() => {
     if (latitude && longitude) {
