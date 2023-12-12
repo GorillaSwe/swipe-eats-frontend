@@ -10,9 +10,9 @@ import LoadingSection from "@/components/base/Loading/LoadingSection";
 import PartialLoadingSection from "@/components/base/Loading/PartialLoadingSection";
 import LoginSection from "@/components/base/Login/LoginSection";
 import RestaurantInfo from "@/components/base/RestaurantInfo/RestaurantInfo";
-import RestaurantListItem from "@/components/base/RestaurantListItem/RestaurantListItem";
+import RestaurantListItemCard from "@/components/base/RestaurantListItemCard/RestaurantListItemCard";
 import UserInfo from "@/components/base/UserInfo/UserInfo";
-import Border from "@/components/ui/Border";
+import Border from "@/components/ui/Border/Border";
 import { getFavoritesCount, getFavoritesInfo } from "@/lib/api/favoritesInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
 import styles from "@/styles/UserProfilePage.module.scss";
@@ -99,7 +99,7 @@ const ProfilePage: NextPage = () => {
               </div>
             ) : (
               favorites.map((restaurant: RestaurantData) => (
-                <RestaurantListItem
+                <RestaurantListItemCard
                   restaurant={restaurant}
                   setSelectedRestaurant={() =>
                     setSelectedRestaurant(restaurant)

@@ -1,3 +1,5 @@
+@import "@/styles/colors.scss";
+
 .container {
   width: 350px;
   height: 250px;
@@ -9,7 +11,7 @@
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px $semiTransparentBlack30;
   }
 
   .link {
@@ -31,7 +33,7 @@
   }
 
   .text {
-    background-color: #e1e1e1;
+    background-color: $lightGray;
     height: 50px;
     border-radius: 0 0 20px 20px;
 
@@ -40,7 +42,7 @@
       font-size: 20px;
       font-weight: bold;
       line-height: 50px;
-      color: #000;
+      color: $black;
     }
   }
 }

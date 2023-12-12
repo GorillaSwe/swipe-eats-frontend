@@ -11,25 +11,25 @@ import { NextPage } from "next";
 import ErrorSection from "@/components/base/Error/ErrorSection";
 import LoadingSection from "@/components/base/Loading/LoadingSection";
 import { useSetRestaurantData } from "@/contexts/RestaurantContext";
-import { getRestaurantsInfo } from "@/features/swipe/result/api/getRestaurantsInfo";
 import CardSwiper from "@/features/swipe/result/components/CardSwiper";
-import client from "@/lib/api/apiClient";
+import { addFavorite } from "@/lib/api/favoritesInfo";
+import { getRestaurants } from "@/lib/api/restaurantsInfo";
+import useAccessToken from "@/lib/api/useAccessToken";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./page.module.scss";
 
 const ResultPage: NextPage = () => {
+  const token = useAccessToken();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const setRestaurantData = useSetRestaurantData();
+  const { user } = useUser();
+
   const latitude = parseFloat(searchParams.get("latitude") || "");
   const longitude = parseFloat(searchParams.get("longitude") || "");
   const category = searchParams.get("category") || "";
   const radius = parseInt(searchParams.get("radius") || "100");
-  const price = searchParams.get("price") || "";
-  const splittedPrice = price ? price.split(",").map(Number) : [];
-  const sort = searchParams.get("sort") || "prominence";
-  const setRestaurantData = useSetRestaurantData();
-  const { user } = useUser();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
@@ -42,14 +42,16 @@ const ResultPage: NextPage = () => {
 
   useEffect(() => {
     const fetchRestaurants = async () => {
-      if (!latitude || !longitude) {
-        setError("位置情報がありません");
-        setIsLoading(false);
-        return;
-      }
-
       try {
-        const res = await getRestaurantsInfo(
+        const price = searchParams.get("price") || "";
+        const splittedPrice = price ? price.split(",").map(Number) : [];
+        const sort = searchParams.get("sort") || "prominence";
+
+        if (!latitude || !longitude) {
+          throw new Error("位置情報がありません");
+        }
+
+        const res = await getRestaurants(
           latitude,
           longitude,
           category,
@@ -57,13 +59,8 @@ const ResultPage: NextPage = () => {
           splittedPrice,
           sort
         );
-        const updatedRestaurants = res.message.map(
-          (restaurant: RestaurantData) => ({
-            ...restaurant,
-            isFavorite: null,
-          })
-        );
-        setRestaurants(updatedRestaurants);
+
+        setRestaurants(res.message);
       } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         setError(
@@ -75,7 +72,7 @@ const ResultPage: NextPage = () => {
     };
 
     fetchRestaurants();
-  }, []);
+  }, [searchParams, latitude, longitude, category, radius]);
 
   const handleCardSwipe = (index: number, direction: string) => {
     index > 0 && setCurrentIndex(restaurants.length - index);
@@ -90,25 +87,12 @@ const ResultPage: NextPage = () => {
   const sendRestaurantsData = async (restaurants: RestaurantData[]) => {
     if (user) {
       try {
-        const tokenResponse = await fetch("/api/token");
-        const tokenData = await tokenResponse.json();
-        const token = tokenData.accessToken;
-
         const likedRestaurants = restaurants.filter(
           (r) => r.isFavorite === true
         );
-
         await Promise.all(
           likedRestaurants.map((restaurant) => {
-            return client.post(
-              "/favorites",
-              { placeId: restaurant.placeId },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
+            addFavorite(token, restaurant.placeId);
           })
         );
       } catch (err) {

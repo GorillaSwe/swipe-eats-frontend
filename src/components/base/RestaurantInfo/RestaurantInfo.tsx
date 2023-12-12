@@ -9,10 +9,10 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import ConfirmationDialog from "@/components/base/ConfirmationDialog/ConfirmationDialog";
 import ContactInfo from "@/components/base/RestaurantInfo/ContactInfo";
-import Border from "@/components/ui/Border";
-import NonScroll from "@/components/ui/NonScroll";
-import PriceLevel from "@/components/ui/PriceLevel";
-import StarRating from "@/components/ui/StarRating";
+import Border from "@/components/ui/Border/Border";
+import NonScroll from "@/components/ui/NonScroll/NonScroll";
+import PriceLevel from "@/components/ui/PriceLevel/PriceLevel";
+import StarRating from "@/components/ui/StarRating/StarRating";
 import { addFavorite, deleteFavorite } from "@/lib/api/favoritesInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
 import { RestaurantData } from "@/types/RestaurantData";

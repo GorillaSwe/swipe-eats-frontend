@@ -10,9 +10,9 @@ import InfiniteScroll from "react-infinite-scroller";
 import LoadingSection from "@/components/base/Loading/LoadingSection";
 import PartialLoadingSection from "@/components/base/Loading/PartialLoadingSection";
 import RestaurantInfo from "@/components/base/RestaurantInfo/RestaurantInfo";
-import RestaurantListItem from "@/components/base/RestaurantListItem/RestaurantListItem";
+import RestaurantListItemCard from "@/components/base/RestaurantListItemCard/RestaurantListItemCard";
 import UserInfo from "@/components/base/UserInfo/UserInfo";
-import Border from "@/components/ui/Border";
+import Border from "@/components/ui/Border/Border";
 import {
   getFavoritesCount,
   getOtherFavoritesInfo,
@@ -98,7 +98,7 @@ const UserProfilePage = ({ params }: { params: { userSub: string } }) => {
               </div>
             ) : (
               favorites.map((restaurant: RestaurantData) => (
-                <RestaurantListItem
+                <RestaurantListItemCard
                   restaurant={restaurant}
                   setSelectedRestaurant={() =>
                     setSelectedRestaurant(restaurant)

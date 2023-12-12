@@ -1,4 +1,4 @@
-import styles from "./StarRating.module.scss";
+import styles from "./PriceLevel.module.scss";
 
 interface PriceLevelProps {
   priceLevel: number;

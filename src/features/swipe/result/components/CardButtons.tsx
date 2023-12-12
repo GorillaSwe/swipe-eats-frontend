@@ -13,6 +13,27 @@ interface CardButtonsProps {
   onLastCardSwipe: () => void;
 }
 
+interface CardButtonProps {
+  className: string;
+  onClick: () => void;
+  disabled: boolean;
+  children: React.ReactNode;
+}
+
+const CardButton: React.FC<CardButtonProps> = ({
+  className,
+  onClick,
+  disabled,
+  children,
+}) => (
+  <div
+    className={`${styles.button} ${className} ${disabled ? styles.cannot : ""}`}
+    onClick={onClick}
+  >
+    {children}
+  </div>
+);
+
 const CardButtons: React.FC<CardButtonsProps> = ({
   canSwipe,
   canGoBack,
@@ -22,37 +43,34 @@ const CardButtons: React.FC<CardButtonsProps> = ({
 }) => {
   return (
     <div className={styles.container}>
-      <div
-        className={`${styles.button} ${styles.back} ${
-          canGoBack ? "" : styles.cannot
-        }`}
-        onClick={() => goBack()}
+      <CardButton
+        className={styles.back}
+        onClick={goBack}
+        disabled={!canGoBack}
       >
         <ReplayIcon fontSize="large" />
-      </div>
-      <div
-        className={`${styles.button} ${styles.nope} ${
-          canSwipe ? "" : styles.cannot
-        }`}
+      </CardButton>
+      <CardButton
+        className={styles.nope}
         onClick={() => swipe("left")}
+        disabled={!canSwipe}
       >
         <CloseIcon fontSize="large" />
-      </div>
-      <div
-        className={`${styles.button} ${styles.like} ${
-          canSwipe ? "" : styles.cannot
-        }`}
+      </CardButton>
+      <CardButton
+        className={styles.like}
         onClick={() => swipe("right")}
+        disabled={!canSwipe}
       >
         <FavoriteIcon fontSize="large" />
-      </div>
-
-      <div
-        className={`${styles.button} ${styles.skip} `}
-        onClick={() => onLastCardSwipe()}
+      </CardButton>
+      <CardButton
+        className={styles.skip}
+        onClick={onLastCardSwipe}
+        disabled={false}
       >
         <KeyboardDoubleArrowRightIcon fontSize="large" />
-      </div>
+      </CardButton>
     </div>
   );
 };
