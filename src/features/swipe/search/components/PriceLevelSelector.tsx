@@ -25,7 +25,7 @@ const PriceLevelSelector: React.FC<PriceLevelSelectorProps> = ({
   return (
     <div className={styles.container}>
       <h3 className={styles.title}>価格帯</h3>
-      <div className="options">
+      <div className={styles.options}>
         {PRICE_LEVELS.map((priceLevel) => (
           <PriceLevelOption
             key={priceLevel.level}
