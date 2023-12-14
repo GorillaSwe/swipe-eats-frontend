@@ -1,0 +1,125 @@
+@import "@/styles/colors.scss";
+@import "@/styles/mixins.scss";
+
+.container {
+  @include fullScreenContainer;
+  background: $semiTransparentBlack80;
+  z-index: 1;
+
+  .dialog {
+    width: 500px;
+    max-width: 500px;
+    max-height: 80dvh;
+    overflow-y: scroll;
+    background-color: $white;
+    padding: 50px;
+    display: flex;
+    position: absolute;
+    top: 10dvh;
+    text-align: left;
+    flex-flow: column;
+    row-gap: 10px;
+
+    @media (max-width: 768px) {
+      width: 90dvw;
+      padding: 30px;
+    }
+
+    .close {
+      position: absolute;
+      color: $black;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+
+      &:hover {
+        color: $lightGray;
+      }
+    }
+
+    .title {
+      @include swipeSearchTitleStyle;
+      font-size: 26px;
+      color: $black;
+      margin: 0;
+
+      @media (max-width: 768px) {
+        font-size: 26px;
+      }
+    }
+
+    .searchBar {
+      position: relative;
+
+      .input {
+        padding: 12px 40px;
+        width: 400px;
+        max-width: 400px;
+        background-color: $lightGray;
+
+        @media (max-width: 768px) {
+          width: calc(90dvw - 60px);
+        }
+      }
+
+      .cancelIcon,
+      .searchIcon {
+        position: absolute;
+        top: 13px;
+        color: $mediumGray;
+      }
+
+      .cancelIcon {
+        right: 10px;
+        cursor: pointer;
+      }
+
+      .searchIcon {
+        left: 10px;
+        pointer-events: none;
+      }
+    }
+
+    .suggestion {
+      list-style: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $lightGray;
+      }
+    }
+
+    .currentLocation,
+    .suggestion {
+      display: flex;
+      flex-direction: row;
+      column-gap: 10px;
+      align-items: center;
+      padding: 5px 0 5px 10px;
+
+      .location {
+        .name {
+          font-weight: bold;
+          font-size: 20px;
+        }
+
+        .address {
+          color: $gray;
+        }
+      }
+    }
+
+    .button {
+      @include buttonStyle;
+      width: 400px;
+      max-width: 400px;
+      margin: 0;
+      color: $white;
+      background-color: $black;
+
+      @media (max-width: 768px) {
+        width: calc(90dvw - 60px);
+      }
+    }
+  }
+}

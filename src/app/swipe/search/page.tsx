@@ -8,6 +8,7 @@ import { NextPage } from "next";
 
 import LoadingSection from "@/components/base/Loading/LoadingSection";
 import DistanceSlider from "@/features/swipe/search/components/DistanceSlider";
+import LocationSelector from "@/features/swipe/search/components/LocationSelector";
 import PriceLevelSelector from "@/features/swipe/search/components/PriceLevelSelector";
 import SortOptionSelector from "@/features/swipe/search/components/SortOptionSelector";
 import useLocation from "@/lib/useLocation";
@@ -27,6 +28,10 @@ const SearchPage: NextPage = () => {
   const [selectedRadius, setSelectedRadius] = useState<number>(DEFAULT_RADIUS);
   const [selectedPriceLevels, setSelectedPriceLevels] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState({
+    latitude,
+    longitude,
+  });
 
   useEffect(() => {
     const category = searchParams.get("category");
@@ -39,16 +44,23 @@ const SearchPage: NextPage = () => {
 
   useEffect(() => {
     if (latitude && longitude) {
+      setSelectedLocation({ latitude, longitude });
       setIsLoading(false);
     }
   }, [latitude, longitude]);
 
+  const updateLocation = (lat: number, lng: number) => {
+    setSelectedLocation({ latitude: lat, longitude: lng });
+  };
+
   const handleSearch = () => {
-    if (latitude && longitude) {
+    if (selectedLocation.latitude && selectedLocation.longitude) {
       router.push(
-        `/swipe/result?category=${selectedCategory}&radius=${selectedRadius}&latitude=${latitude}&longitude=${longitude}&price=${selectedPriceLevels.join(
-          ","
-        )}&sort=${selectedSort}`
+        `/swipe/result?category=${selectedCategory}&radius=${selectedRadius}&latitude=${
+          selectedLocation.latitude
+        }&longitude=${
+          selectedLocation.longitude
+        }&price=${selectedPriceLevels.join(",")}&sort=${selectedSort}`
       );
     } else {
       console.log("位置情報がありません。");
@@ -61,6 +73,7 @@ const SearchPage: NextPage = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>検索条件を設定してください</h1>
+      <LocationSelector onLocationUpdate={updateLocation} />
       <SortOptionSelector
         selectedSort={selectedSort}
         onSelectedSortChange={setSelectedSort}

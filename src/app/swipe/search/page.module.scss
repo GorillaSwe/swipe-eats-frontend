@@ -4,6 +4,10 @@
 .container {
   .title {
     @include titleStyle;
+
+    @media (max-width: 768px) {
+      margin: 10px 0;
+    }
   }
 
   .buttons {
