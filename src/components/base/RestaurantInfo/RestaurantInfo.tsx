@@ -42,6 +42,8 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(restaurant.isFavorite);
   const { user } = useUser();
+  const [userName, setUserName] = useState(restaurant.userName);
+  const [userPicture, setUserPicture] = useState(restaurant.userPicture);
   const [userRating, setUserRating] = useState(restaurant.userRating || 0);
   const [userComment, setUserComment] = useState(restaurant.userComment);
   const [hasUserUpdated, setHasUserUpdated] = useState(false);
@@ -98,6 +100,8 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
         userComment
       );
       setIsFavorite(true);
+      setUserName(favoriteData.userName);
+      setUserPicture(favoriteData.userPicture);
       setRestaurants((prevRestaurants) =>
         prevRestaurants.map((r) =>
           r.placeId === restaurant.placeId
@@ -106,7 +110,8 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
                 isFavorite: true,
                 userRating: userRating,
                 userComment: userComment,
-                userPicture: favoriteData.user_picture,
+                userName: favoriteData.userName,
+                userPicture: favoriteData.userPicture,
               }
             : r
         )
@@ -199,13 +204,13 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
             <div className={styles.favoriteContainer}>
               <div className={styles.userContainer}>
                 <Image
-                  src={restaurant.userPicture}
-                  alt={restaurant.userName}
+                  src={userPicture}
+                  alt={userName}
                   className={styles.userPicture}
                   width={30}
                   height={30}
                 />
-                <p className={styles.userName}>{restaurant.userName}</p>
+                <p className={styles.userName}>{userName}</p>
               </div>
               <div className={styles.ratingContainer}>
                 <UserStarRating
