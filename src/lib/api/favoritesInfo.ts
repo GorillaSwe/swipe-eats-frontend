@@ -60,17 +60,23 @@ const getFavoritesCount = async (userSub: string | null | undefined) => {
   }
 };
 
-const addFavorite = async (token: string | null, placeId: string) => {
+const addFavorite = async (
+  token: string | null,
+  placeId: string,
+  userRating: number | null,
+  userComment: string | null
+) => {
   try {
-    await client.post(
+    const response = await client.post(
       `/favorites`,
-      { placeId: placeId },
+      { placeId: placeId, userRating: userRating, userComment: userComment },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
+    return response.data;
   } catch (error) {
     console.error("Error add favorite data: ", error);
   }
