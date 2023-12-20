@@ -92,7 +92,7 @@ const ResultPage: NextPage = () => {
         );
         await Promise.all(
           likedRestaurants.map((restaurant) => {
-            addFavorite(token, restaurant.placeId);
+            addFavorite(token, restaurant.placeId, null, null);
           })
         );
       } catch (err) {

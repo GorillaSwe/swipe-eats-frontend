@@ -7,6 +7,7 @@ import { formatDate } from "@/lib/formatDate";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./FavoriteInfo.module.scss";
+import StarRating from "@/components/ui/StarRating/StarRating";
 
 type FavoriteInfoProps = {
   favorites: RestaurantData[];
@@ -38,6 +39,7 @@ const FavoriteInfo: React.FC<FavoriteInfoProps> = ({ favorites }) => {
           <div className={styles.middleContainer}>
             <p>「{favorite.name}」をお気に入りに追加しました</p>
           </div>
+
           <div className={styles.bottomContainer}>
             <div className={styles.photo}>
               {favorite.photos && (
@@ -48,6 +50,15 @@ const FavoriteInfo: React.FC<FavoriteInfoProps> = ({ favorites }) => {
                   height={300}
                 />
               )}
+            </div>
+            {favorite.userRating && (
+              <div className={styles.ratingContainer}>
+                <StarRating rating={favorite.userRating} />
+                <p className={styles.rating}>{favorite.userRating}</p>
+              </div>
+            )}
+            <div className={styles.commentContainer}>
+              <p className={styles.commentText}>{favorite.userComment}</p>
             </div>
           </div>
         </div>

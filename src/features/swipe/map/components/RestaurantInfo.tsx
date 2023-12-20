@@ -62,7 +62,7 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
   const handleAddToFavorites = async () => {
     if (user) {
       try {
-        addFavorite(token, restaurant.placeId);
+        addFavorite(token, restaurant.placeId, null, null);
       } catch (error) {
         console.error("お気に入り追加に失敗しました: ", error);
       }

@@ -17,4 +17,6 @@ export interface RestaurantData {
   userName: string;
   userPicture: string;
   createdAt: string;
+  userRating: number;
+  userComment: string;
 }

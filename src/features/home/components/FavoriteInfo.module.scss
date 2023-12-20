@@ -41,5 +41,21 @@
       width: 500px;
       height: 300px;
     }
+
+    .ratingContainer {
+      font-size: 24px;
+      display: flex;
+      column-gap: 10px;
+      padding: 5px 10px 0 10px;
+    }
+
+    .commentContainer {
+      text-align: left;
+      padding: 0 10px;
+
+      .commentText {
+        color: $gray;
+      }
+    }
   }
 }
