@@ -8,6 +8,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import ConfirmationDialog from "@/components/base/ConfirmationDialog/ConfirmationDialog";
+import CommentDialog from "@/components/base/RestaurantInfo/CommentDialog";
 import ContactInfo from "@/components/base/RestaurantInfo/ContactInfo";
 import Border from "@/components/ui/Border/Border";
 import NonScroll from "@/components/ui/NonScroll/NonScroll";
@@ -19,7 +20,6 @@ import useAccessToken from "@/lib/api/useAccessToken";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./RestaurantInfo.module.scss";
-import CommentDialog from "./CommentDialog";
 
 interface RestaurantInfoProps {
   restaurant: RestaurantData;

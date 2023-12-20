@@ -3,11 +3,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import StarRating from "@/components/ui/StarRating/StarRating";
 import { formatDate } from "@/lib/formatDate";
 import { RestaurantData } from "@/types/RestaurantData";
 
 import styles from "./FavoriteInfo.module.scss";
-import StarRating from "@/components/ui/StarRating/StarRating";
 
 type FavoriteInfoProps = {
   favorites: RestaurantData[];
