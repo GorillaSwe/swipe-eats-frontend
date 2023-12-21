@@ -96,8 +96,8 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
       const favoriteData = await addFavorite(
         token,
         restaurant.placeId,
-        userRating,
-        userComment
+        null,
+        null
       );
       setIsFavorite(true);
       setUserName(favoriteData.userName);
@@ -108,8 +108,6 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
             ? {
                 ...r,
                 isFavorite: true,
-                userRating: userRating,
-                userComment: userComment,
                 userName: favoriteData.userName,
                 userPicture: favoriteData.userPicture,
               }
@@ -120,6 +118,25 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
       console.error("お気に入り追加に失敗しました: ", error);
     }
   }, [token, restaurant.placeId, userRating, userComment, setRestaurants]);
+
+  const updateFavorites = async () => {
+    try {
+      await addFavorite(token, restaurant.placeId, userRating, userComment);
+      setRestaurants((prevRestaurants) =>
+        prevRestaurants.map((r) =>
+          r.placeId === restaurant.placeId
+            ? {
+                ...r,
+                userRating: userRating,
+                userComment: userComment,
+              }
+            : r
+        )
+      );
+    } catch (error) {
+      console.error("お気に入り更新に失敗しました: ", error);
+    }
+  };
 
   const handleRatingChange = async (newRating: number) => {
     setUserRating(newRating);
@@ -134,12 +151,12 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
   useEffect(() => {
     const updateFavorite = async () => {
       if (hasUserUpdated) {
-        await handleAddToFavorites();
+        await updateFavorites();
         setHasUserUpdated(false);
       }
     };
     updateFavorite();
-  }, [userRating, userComment, handleAddToFavorites, hasUserUpdated]);
+  }, [userRating, userComment, updateFavorites, hasUserUpdated]);
 
   return (
     <div className={styles.container}>

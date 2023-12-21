@@ -91,4 +91,50 @@
       }
     }
   }
+
+  .favoriteContainer {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .userContainer {
+      display: flex;
+      column-gap: 10px;
+
+      .userPicture {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+
+      .userName {
+        line-height: 50px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .ratingContainer {
+      font-size: 24px;
+      display: flex;
+      column-gap: 10px;
+    }
+  }
+
+  .commentContainer {
+    text-align: left;
+    padding: 10px 20px;
+
+    .commentText {
+      color: $gray;
+    }
+
+    .commentButton {
+      font-weight: bold;
+      color: $darkBlue;
+    }
+  }
 }

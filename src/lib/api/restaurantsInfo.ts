@@ -3,15 +3,18 @@ import { UserProfile } from "@auth0/nextjs-auth0/client";
 import client from "@/lib/api/apiClient";
 
 const getRestaurants = async (
+  token: string | null,
   latitude: number,
   longitude: number,
   category: string,
   radius: number,
   price: number[],
-  sort: string
+  sort: string,
+  user: UserProfile | undefined
 ) => {
   const response = await client.get("/restaurants", {
     params: { latitude, longitude, category, radius, price, sort },
+    headers: user && token ? { Authorization: `Bearer ${token}` } : {},
   });
 
   if (response.status === 200 && response.data.message.length > 0) {

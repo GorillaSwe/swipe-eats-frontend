@@ -15,8 +15,8 @@ interface RestaurantMarkersProps {
 const LIKE_MARKER_ICON = "/images/map/heart.png";
 const NULL_MARKER_ICON = "/images/map/null.png";
 
-const getMarkerIcon = (isFavorite: boolean | null) => {
-  if (isFavorite === true) {
+const getMarkerIcon = (direction: boolean | null) => {
+  if (direction === true) {
     return LIKE_MARKER_ICON;
   } else {
     return NULL_MARKER_ICON;
@@ -41,7 +41,7 @@ const RestaurantMarkers: React.FC<RestaurantMarkersProps> = ({
               lat: restaurant.lat,
               lng: restaurant.lng,
             }}
-            icon={getMarkerIcon(restaurant.isFavorite)}
+            icon={getMarkerIcon(restaurant.direction)}
             onClick={() => {
               setSelectedRestaurant(restaurant);
             }}

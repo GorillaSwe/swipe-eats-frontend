@@ -51,7 +51,7 @@ const FavoriteInfo: React.FC<FavoriteInfoProps> = ({ favorites }) => {
                 />
               )}
             </div>
-            {favorite.userRating && (
+            {favorite.userRating > 0 && (
               <div className={styles.ratingContainer}>
                 <StarRating rating={favorite.userRating} />
                 <p className={styles.rating}>{favorite.userRating}</p>

@@ -92,7 +92,6 @@ const CardSwiper: React.FC<CardSwiperProps> = ({
   const swiped = (direction: string, nameToDelete: string, index: number) => {
     updateCurrentIndex(index - 1);
     onCardSwipe(index, direction);
-    if (currentIndex === 0) onLastCardSwipe();
   };
 
   /**
