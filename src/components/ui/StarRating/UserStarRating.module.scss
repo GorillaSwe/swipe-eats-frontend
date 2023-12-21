@@ -1,0 +1,14 @@
+@import "@/styles/colors.scss";
+
+.container {
+  display: flex;
+  direction: row;
+
+  .gold {
+    color: $gold;
+  }
+
+  .grey {
+    color: $lightGray;
+  }
+}

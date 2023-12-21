@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 
 import Image from "next/image";
 
@@ -8,11 +8,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import ConfirmationDialog from "@/components/base/ConfirmationDialog/ConfirmationDialog";
+import CommentDialog from "@/components/base/RestaurantInfo/CommentDialog";
 import ContactInfo from "@/components/base/RestaurantInfo/ContactInfo";
 import Border from "@/components/ui/Border/Border";
 import NonScroll from "@/components/ui/NonScroll/NonScroll";
 import PriceLevel from "@/components/ui/PriceLevel/PriceLevel";
 import StarRating from "@/components/ui/StarRating/StarRating";
+import UserStarRating from "@/components/ui/StarRating/UserStarRating";
 import { addFavorite, deleteFavorite } from "@/lib/api/favoritesInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
 import { RestaurantData } from "@/types/RestaurantData";
@@ -40,6 +42,14 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(restaurant.isFavorite);
   const { user } = useUser();
+  const [userName, setUserName] = useState(restaurant.userName);
+  const [userPicture, setUserPicture] = useState(restaurant.userPicture);
+  const [userRating, setUserRating] = useState(restaurant.userRating || 0);
+  const [userComment, setUserComment] = useState(restaurant.userComment);
+  const [hasUserUpdated, setHasUserUpdated] = useState(false);
+  const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
+
+  const CommentButtonTitle = userComment ? "メモを編集" : "メモを追加";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -64,7 +74,14 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
       setIsFavorite(false);
       setRestaurants((prevRestaurants) =>
         prevRestaurants.map((r) =>
-          r.placeId === restaurant.placeId ? { ...r, isFavorite: false } : r
+          r.placeId === restaurant.placeId
+            ? {
+                ...r,
+                isFavorite: false,
+                userRating: 0,
+                userComment: "",
+              }
+            : r
         )
       );
       setIsDialogOpen(false);
@@ -74,19 +91,72 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
     }
   };
 
-  const handleAddToFavorites = async () => {
+  const handleAddToFavorites = useCallback(async () => {
     try {
-      addFavorite(token, restaurant.placeId);
+      const favoriteData = await addFavorite(
+        token,
+        restaurant.placeId,
+        null,
+        null
+      );
       setIsFavorite(true);
+      setUserName(favoriteData.userName);
+      setUserPicture(favoriteData.userPicture);
       setRestaurants((prevRestaurants) =>
         prevRestaurants.map((r) =>
-          r.placeId === restaurant.placeId ? { ...r, isFavorite: true } : r
+          r.placeId === restaurant.placeId
+            ? {
+                ...r,
+                isFavorite: true,
+                userName: favoriteData.userName,
+                userPicture: favoriteData.userPicture,
+              }
+            : r
         )
       );
     } catch (error) {
       console.error("お気に入り追加に失敗しました: ", error);
     }
+  }, [token, restaurant.placeId, userRating, userComment, setRestaurants]);
+
+  const updateFavorites = async () => {
+    try {
+      await addFavorite(token, restaurant.placeId, userRating, userComment);
+      setRestaurants((prevRestaurants) =>
+        prevRestaurants.map((r) =>
+          r.placeId === restaurant.placeId
+            ? {
+                ...r,
+                userRating: userRating,
+                userComment: userComment,
+              }
+            : r
+        )
+      );
+    } catch (error) {
+      console.error("お気に入り更新に失敗しました: ", error);
+    }
   };
+
+  const handleRatingChange = async (newRating: number) => {
+    setUserRating(newRating);
+    setHasUserUpdated(true);
+  };
+
+  const handleCommentChange = async (newComment: string) => {
+    setUserComment(newComment);
+    setHasUserUpdated(true);
+  };
+
+  useEffect(() => {
+    const updateFavorite = async () => {
+      if (hasUserUpdated) {
+        await updateFavorites();
+        setHasUserUpdated(false);
+      }
+    };
+    updateFavorite();
+  }, [userRating, userComment, updateFavorites, hasUserUpdated]);
 
   return (
     <div className={styles.container}>
@@ -143,6 +213,53 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
             title="お気に入りを削除しますか？"
             confirmButtonText="削除"
           />
+        )}
+
+        <Border />
+        {isFavorite && (
+          <>
+            <div className={styles.favoriteContainer}>
+              <div className={styles.userContainer}>
+                <Image
+                  src={userPicture}
+                  alt={userName}
+                  className={styles.userPicture}
+                  width={30}
+                  height={30}
+                />
+                <p className={styles.userName}>{userName}</p>
+              </div>
+              <div className={styles.ratingContainer}>
+                <UserStarRating
+                  userRating={userRating}
+                  setUserRating={handleRatingChange}
+                  displayFavorite={displayFavorite}
+                />
+                <p className={styles.rating}>{userRating}</p>
+              </div>
+            </div>
+            <div className={styles.commentContainer}>
+              <p className={styles.commentText}>{userComment}</p>
+              {displayFavorite && (
+                <button
+                  className={styles.commentButton}
+                  onClick={() => {
+                    setIsCommentDialogOpen(true);
+                  }}
+                >
+                  {CommentButtonTitle}
+                </button>
+              )}
+            </div>
+            {isCommentDialogOpen && (
+              <CommentDialog
+                name={restaurant.name}
+                comment={userComment}
+                setIsDialogOpen={() => setIsCommentDialogOpen(false)}
+                onSubmitComment={handleCommentChange}
+              />
+            )}
+          </>
         )}
         <Border />
         <ContactInfo restaurant={restaurant} />

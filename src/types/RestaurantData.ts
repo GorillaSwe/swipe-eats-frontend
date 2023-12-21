@@ -12,9 +12,12 @@ export interface RestaurantData {
   url: string;
   userRatingsTotal: number;
   formattedPhoneNumber: string;
+  direction: boolean | null;
   isFavorite: boolean | null;
   userSub: string;
   userName: string;
   userPicture: string;
   createdAt: string;
+  userRating: number;
+  userComment: string;
 }

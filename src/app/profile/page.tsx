@@ -65,8 +65,6 @@ const ProfilePage: NextPage = () => {
     setFavoritesCount((prev) => prev - 1);
   };
 
-  const setRestaurants = () => {};
-
   if (isLoading) {
     return <LoadingSection />;
   }
@@ -112,7 +110,7 @@ const ProfilePage: NextPage = () => {
           {selectedRestaurant && (
             <RestaurantInfo
               restaurant={selectedRestaurant}
-              setRestaurants={setRestaurants}
+              setRestaurants={setFavorites}
               setSelectedRestaurant={() => setSelectedRestaurant(null)}
               removeFavorite={removeFavorite}
               displayFavorite={true}

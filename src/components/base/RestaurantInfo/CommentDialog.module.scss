@@ -48,65 +48,14 @@
       }
     }
 
-    .searchBar {
-      position: relative;
-
-      .input {
-        padding: 12px 40px;
-        width: 400px;
-        max-width: 440px;
-        background-color: $lightGray;
-
-        @media (max-width: 768px) {
-          width: calc(90dvw - 60px);
-        }
-      }
-
-      .cancelIcon,
-      .searchIcon {
-        position: absolute;
-        top: 13px;
-        color: $mediumGray;
-      }
-
-      .cancelIcon {
-        right: 10px;
-        cursor: pointer;
-      }
-
-      .searchIcon {
-        left: 10px;
-        pointer-events: none;
-      }
+    .name {
+      font-weight: bold;
+      font-size: 20px;
     }
 
-    .suggestion {
-      list-style: none;
-      cursor: pointer;
-
-      &:hover {
-        background-color: $lightGray;
-      }
-    }
-
-    .currentLocation,
-    .suggestion {
-      display: flex;
-      flex-direction: row;
-      column-gap: 10px;
-      align-items: center;
-      padding: 5px 0 5px 10px;
-
-      .location {
-        .name {
-          font-weight: bold;
-          font-size: 20px;
-        }
-
-        .address {
-          color: $gray;
-        }
-      }
+    .textarea {
+      border: 1px solid $lightGray;
+      border-radius: 6px;
     }
 
     .button {
