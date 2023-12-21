@@ -24,7 +24,7 @@ const ResultPage: NextPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setRestaurantData = useSetRestaurantData();
-  const { user } = useUser();
+  const { user, isLoading: isUserLoading } = useUser();
 
   const latitude = parseFloat(searchParams.get("latitude") || "");
   const longitude = parseFloat(searchParams.get("longitude") || "");
@@ -42,73 +42,114 @@ const ResultPage: NextPage = () => {
 
   useEffect(() => {
     const fetchRestaurants = async () => {
-      try {
-        const price = searchParams.get("price") || "";
-        const splittedPrice = price ? price.split(",").map(Number) : [];
-        const sort = searchParams.get("sort") || "prominence";
+      if (!isUserLoading && (!user || (user && token))) {
+        try {
+          const price = searchParams.get("price") || "";
+          const splittedPrice = price ? price.split(",").map(Number) : [];
+          const sort = searchParams.get("sort") || "prominence";
 
-        if (!latitude || !longitude) {
-          throw new Error("位置情報がありません");
+          if (!latitude || !longitude) {
+            throw new Error("位置情報がありません");
+          }
+
+          const res = await getRestaurants(
+            token,
+            latitude,
+            longitude,
+            category,
+            radius,
+            splittedPrice,
+            sort,
+            user
+          );
+
+          const updatedRestaurants = res.message.map(
+            (restaurant: RestaurantData) => ({
+              ...restaurant,
+              direction: null,
+            })
+          );
+
+          setRestaurants(updatedRestaurants);
+        } catch (error) {
+          const axiosError = error as AxiosError<ErrorResponse>;
+          setError(
+            axiosError.response?.data.error || "不明なエラーが発生しました"
+          );
+        } finally {
+          setIsLoading(false);
         }
-
-        const res = await getRestaurants(
-          latitude,
-          longitude,
-          category,
-          radius,
-          splittedPrice,
-          sort
-        );
-
-        setRestaurants(res.message);
-      } catch (error) {
-        const axiosError = error as AxiosError<ErrorResponse>;
-        setError(
-          axiosError.response?.data.error || "不明なエラーが発生しました"
-        );
-      } finally {
-        setIsLoading(false);
       }
     };
 
     fetchRestaurants();
-  }, [searchParams, latitude, longitude, category, radius]);
+  }, [
+    isUserLoading,
+    user,
+    token,
+    searchParams,
+    latitude,
+    longitude,
+    category,
+    radius,
+  ]);
 
-  const handleCardSwipe = (index: number, direction: string) => {
-    index > 0 && setCurrentIndex(restaurants.length - index);
-    setRestaurants((prev) => {
+  const handleCardSwipe = async (index: number, direction: string) => {
+    const newIsFavorite =
+      direction === "right" ? true : direction === "left" ? false : null;
+    await setRestaurants((prev) => {
       const updatedRestaurants = [...prev];
-      updatedRestaurants[index].isFavorite =
-        direction === "right" ? true : direction === "left" ? false : null;
+      updatedRestaurants[index].direction = newIsFavorite;
       return updatedRestaurants;
     });
-  };
 
-  const sendRestaurantsData = async (restaurants: RestaurantData[]) => {
-    if (user) {
-      try {
-        const likedRestaurants = restaurants.filter(
-          (r) => r.isFavorite === true
-        );
-        await Promise.all(
-          likedRestaurants.map((restaurant) => {
-            addFavorite(token, restaurant.placeId, null, null);
-          })
-        );
-      } catch (err) {
-        console.error("バックエンドへのデータ送信エラー:", err);
-      }
+    if (index === 0) {
+      handleLastCardSwipe();
+    } else {
+      index > 0 && setCurrentIndex(restaurants.length - index);
     }
   };
 
+  const sendRestaurantsData = async () => {
+    if (user) {
+      const updatedRestaurants = [...restaurants];
+      const likedRestaurants = restaurants.filter(
+        (r) => r.direction && !r.isFavorite
+      );
+
+      for (const restaurant of likedRestaurants) {
+        try {
+          const favoriteData = await addFavorite(
+            token,
+            restaurant.placeId,
+            null,
+            null
+          );
+          const index = updatedRestaurants.findIndex(
+            (r) => r.placeId === restaurant.placeId
+          );
+          updatedRestaurants[index] = {
+            ...updatedRestaurants[index],
+            userName: favoriteData.userName,
+            userPicture: favoriteData.userPicture,
+          };
+        } catch (err) {
+          console.error("バックエンドへのデータ送信エラー:", err);
+        }
+      }
+      return updatedRestaurants;
+    }
+    return restaurants;
+  };
+
   const handleLastCardSwipe = async () => {
+    const updatedRestaurants = await sendRestaurantsData();
     setRestaurantData({
-      restaurants: [...restaurants].reverse(),
+      restaurants: updatedRestaurants.reverse(),
       latitude,
       longitude,
       radius,
     });
-    sendRestaurantsData(restaurants);
     router.push(`/swipe/map`);
   };
 

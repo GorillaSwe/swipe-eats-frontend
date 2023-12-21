@@ -57,9 +57,9 @@ const MapPage: NextPage = () => {
   const [zIndex, setZIndex] = useState(3);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const favoriteCount = restaurants.filter((r) => r.isFavorite === true).length;
-  const nullCount = restaurants.filter((r) => r.isFavorite === null).length;
-  const allCount = restaurants.filter((r) => r.isFavorite !== false).length;
+  const favoriteCount = restaurants.filter((r) => r.direction === true).length;
+  const nullCount = restaurants.filter((r) => r.direction === null).length;
+  const allCount = restaurants.filter((r) => r.direction !== false).length;
 
   const containerStyle = {
     width: "100%",
@@ -78,18 +78,18 @@ const MapPage: NextPage = () => {
   const visibleRestaurants = restaurants.filter((restaurant) => {
     switch (filter) {
       case "favorites":
-        return restaurant.isFavorite === true;
+        return restaurant.direction === true;
       case "null":
-        return restaurant.isFavorite === null;
+        return restaurant.direction === null;
       case "all":
-        return restaurant.isFavorite !== false;
+        return restaurant.direction !== false;
       default:
         return true;
     }
   });
 
   const visibleRestaurantsLength = restaurants.filter(
-    (restaurant) => restaurant.isFavorite !== false
+    (restaurant) => restaurant.direction !== false
   ).length;
 
   const clearSelectedRestaurant = () => {
