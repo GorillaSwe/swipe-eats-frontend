@@ -15,7 +15,8 @@ const UserStarRating: React.FC<UserStarRatingProps> = ({
 
   const handleStarClick = (rating: number) => {
     if (displayFavorite) {
-      setUserRating(rating);
+      const newRating = userRating === rating ? 0 : rating;
+      setUserRating(newRating);
     }
   };
 
