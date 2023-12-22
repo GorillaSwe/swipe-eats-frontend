@@ -28,6 +28,12 @@ const RestaurantListItem: React.FC<RestaurantListItemProps> = ({
           fill
         />
       </div>
+      {restaurant.userRating > 0 && (
+        <div className={styles.rating}>
+          <p>★</p>
+          <p>{restaurant.userRating}</p>
+        </div>
+      )}
       <div className={styles.nameContainer}>
         <p className={styles.name}>{restaurant.name}</p>
       </div>
