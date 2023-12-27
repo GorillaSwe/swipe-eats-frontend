@@ -251,15 +251,15 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
                 </button>
               )}
             </div>
-            {isCommentDialogOpen && (
-              <CommentDialog
-                name={restaurant.name}
-                comment={userComment}
-                setIsDialogOpen={() => setIsCommentDialogOpen(false)}
-                onSubmitComment={handleCommentChange}
-              />
-            )}
           </>
+        )}
+        {isCommentDialogOpen && (
+          <CommentDialog
+            name={restaurant.name}
+            comment={userComment}
+            setIsDialogOpen={() => setIsCommentDialogOpen(false)}
+            onSubmitComment={handleCommentChange}
+          />
         )}
         <Border />
         <ContactInfo restaurant={restaurant} />
