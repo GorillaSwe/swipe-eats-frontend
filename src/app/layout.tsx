@@ -22,6 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
+      <link rel="icon" href="/images/favicon.ico" sizes="any" />
       <UserProvider>
         <body className={inter.className}>
           <Header />
