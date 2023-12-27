@@ -67,7 +67,6 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
     );
     setIsFavorite(null);
     setIsDialogOpen(false);
-    console.log(restaurant);
   };
 
   const handleAddToFavorites = async () => {
@@ -76,8 +75,8 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
         const favoriteData = await addFavorite(
           token,
           restaurant.placeId,
-          null,
-          null
+          userRating,
+          userComment
         );
         setUserName(favoriteData.userName);
         setUserPicture(favoriteData.userPicture);
@@ -229,15 +228,15 @@ const RestaurantInfo: React.FC<RestaurantInfoProps> = ({
               {CommentButtonTitle}
             </button>
           </div>
-          {isCommentDialogOpen && (
-            <CommentDialog
-              name={restaurant.name}
-              comment={userComment}
-              setIsDialogOpen={() => setIsCommentDialogOpen(false)}
-              onSubmitComment={handleCommentChange}
-            />
-          )}
         </>
+      )}
+      {isCommentDialogOpen && (
+        <CommentDialog
+          name={restaurant.name}
+          comment={userComment}
+          setIsDialogOpen={() => setIsCommentDialogOpen(false)}
+          onSubmitComment={handleCommentChange}
+        />
       )}
       <Border />
       <ContactInfo restaurant={restaurant} />
