@@ -30,7 +30,7 @@ const ProfilePage: NextPage = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   const isLoading = isUserLoading || (user && !token);
-  const isEmpty = dataLoaded && favorites.length === 0;
+  const isEmpty = dataLoaded && favorites.length === 0 && favoritesCount === 0;
 
   useEffect(() => {
     const fetchFavoritesCounts = async () => {
