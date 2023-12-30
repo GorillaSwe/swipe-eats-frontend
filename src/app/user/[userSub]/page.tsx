@@ -31,6 +31,7 @@ const UserProfilePage = ({ params }: { params: { userSub: string } }) => {
   const [favoritesCount, setFavoritesCount] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const isEmpty = dataLoaded && favorites.length === 0 && favoritesCount === 0;
 
   useEffect(() => {
     if (!isLoading) {
@@ -67,8 +68,6 @@ const UserProfilePage = ({ params }: { params: { userSub: string } }) => {
 
   const removeFavorite = (placeId: string) => {};
   const setRestaurants = () => {};
-
-  const isEmpty = dataLoaded && favorites.length === 0;
 
   if (isLoading) {
     return <LoadingSection />;
