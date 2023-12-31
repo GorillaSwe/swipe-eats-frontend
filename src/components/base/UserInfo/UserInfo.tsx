@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 
@@ -155,14 +156,18 @@ const UserInfo: React.FC<UserInfoProps> = ({
         </div>
         <p className={styles.favoritesCount}>お気に入り{favoritesCount}件</p>
         <div className={styles.countsContainer}>
-          <p className={styles.followingCount}>
-            <span>フォロー中</span>
-            <span>{followingCount}人</span>
-          </p>
-          <p className={styles.followersCount}>
-            <span>フォロワー</span>
-            <span>{followersCount}人</span>
-          </p>
+          <Link href={`/following/${userSub}`}>
+            <p className={styles.followingCount}>
+              <span>フォロー中</span>
+              <span>{followingCount}人</span>
+            </p>
+          </Link>
+          <Link href={`/followers/${userSub}`}>
+            <p className={styles.followersCount}>
+              <span>フォロワー</span>
+              <span>{followersCount}人</span>
+            </p>
+          </Link>
         </div>
       </div>
     </div>
