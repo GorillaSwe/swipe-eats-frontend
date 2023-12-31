@@ -28,17 +28,11 @@ const getOtherFavoritesInfo = async (
   }
 };
 
-const getHomeFavoritesInfo = async (
-  user: any,
-  token: string | null,
-  page: number
-) => {
-  const endpoint = user ? "/favorites/followed" : "/favorites/latest";
-
+const getHomeFavoritesInfo = async (token: string | null, page: number) => {
   try {
-    const response = await client.get(endpoint, {
+    const response = await client.get("/favorites/followed", {
       params: { page },
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: { Authorization: `Bearer ${token}` },
     });
     return response.data.favorites;
   } catch (error) {

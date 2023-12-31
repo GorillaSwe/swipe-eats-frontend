@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 
+import ConfirmationDialog from "@/components/base/ConfirmationDialog/ConfirmationDialog";
 import {
   followRelationship,
   getFollowRelationship,
@@ -14,7 +16,6 @@ import useAccessToken from "@/lib/api/useAccessToken";
 import { getUserProfile } from "@/lib/api/usersInfo";
 
 import styles from "./UserInfo.module.scss";
-import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog";
 
 interface UserInfoProps {
   isMyInfo: boolean;
@@ -32,14 +33,11 @@ const UserInfo: React.FC<UserInfoProps> = ({
   const token = useAccessToken();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [followingCount, setFollowingCount] = useState(0);
-  const [followersCount, setFollowersCount] = useState(0);
-  const [userProfile, setUserProfile] = useState({
-    name: "ゲスト",
-    picture: "/images/header/guest.png",
-  });
+  const [followingCount, setFollowingCount] = useState();
+  const [followersCount, setFollowersCount] = useState();
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isUserProfileLoaded, setIsUserProfileLoaded] = useState(false);
 
-  // フォローしているかを取得
   useEffect(() => {
     if (!isMyInfo && user && token) {
       const checkFollowStatus = async () => {
@@ -74,7 +72,6 @@ const UserInfo: React.FC<UserInfoProps> = ({
     }
   }, [userSub, isFollowing]);
 
-  // ユーザーのプロフィールを取得
   useEffect(() => {
     if (userSub) {
       const fetchUserProfile = async () => {
@@ -83,6 +80,8 @@ const UserInfo: React.FC<UserInfoProps> = ({
           setUserProfile(userProfile);
         } catch (error) {
           console.error("ユーザープロフィールの取得に失敗しました。", error);
+        } finally {
+          setIsUserProfileLoaded(true);
         }
       };
       fetchUserProfile();
@@ -113,15 +112,21 @@ const UserInfo: React.FC<UserInfoProps> = ({
   return (
     <div className={styles.container}>
       <Image
-        src={userProfile.picture}
-        alt={`${userProfile.name}のプロフィール画像`}
+        src={
+          isUserProfileLoaded
+            ? userProfile?.picture ?? "/images/header/guest.png"
+            : ""
+        }
+        alt={isUserProfileLoaded ? userProfile?.name ?? "ゲスト" : ""}
         width={150}
         height={150}
         className={styles.image}
       />
       <div className={styles.infoContainer}>
         <div className={styles.infoTopContainer}>
-          <p className={styles.name}>{userProfile.name}</p>
+          <p className={styles.name}>
+            {userProfile ? userProfile?.name ?? "ゲスト" : " "}
+          </p>
           {!isMyInfo &&
             user &&
             (isFollowing ? (
@@ -151,14 +156,18 @@ const UserInfo: React.FC<UserInfoProps> = ({
         </div>
         <p className={styles.favoritesCount}>お気に入り{favoritesCount}件</p>
         <div className={styles.countsContainer}>
-          <p className={styles.followingCount}>
-            <span>フォロー中</span>
-            <span>{followingCount}人</span>
-          </p>
-          <p className={styles.followersCount}>
-            <span>フォロワー</span>
-            <span>{followersCount}人</span>
-          </p>
+          <Link href={`/following/${userSub}`}>
+            <p className={styles.followingCount}>
+              <span>フォロー中</span>
+              <span>{followingCount}人</span>
+            </p>
+          </Link>
+          <Link href={`/followers/${userSub}`}>
+            <p className={styles.followersCount}>
+              <span>フォロワー</span>
+              <span>{followersCount}人</span>
+            </p>
+          </Link>
         </div>
       </div>
     </div>

@@ -70,9 +70,37 @@ const unfollowRelationship = async (
   }
 };
 
+const getFollowing = async (userSub: string | null | undefined) => {
+  try {
+    const response = await client.get(`/follow_relationships/following`, {
+      params: { userSub: userSub },
+    });
+    const data = await response.data.following;
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching following data: ", error);
+    return [];
+  }
+};
+
+const getFollowers = async (userSub: string | null | undefined) => {
+  try {
+    const response = await client.get(`/follow_relationships/followers`, {
+      params: { userSub: userSub },
+    });
+    const data = await response.data.followers;
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching followings data: ", error);
+    return [];
+  }
+};
+
 export {
   getFollowRelationship,
   getFollowRelationshipsCount,
   followRelationship,
   unfollowRelationship,
+  getFollowing,
+  getFollowers,
 };
