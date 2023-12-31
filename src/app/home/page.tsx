@@ -8,6 +8,7 @@ import InfiniteScroll from "react-infinite-scroller";
 
 import LoadingSection from "@/components/base/Loading/LoadingSection";
 import PartialLoadingSection from "@/components/base/Loading/PartialLoadingSection";
+import LoginSection from "@/components/base/Login/LoginSection";
 import FavoriteInfo from "@/features/home/components/FavoriteInfo";
 import { getHomeFavoritesInfo } from "@/lib/api/favoritesInfo";
 import useAccessToken from "@/lib/api/useAccessToken";
@@ -28,7 +29,7 @@ const HomePage: NextPage = () => {
 
   const loadFavorites = async (page: number) => {
     try {
-      const fetchedFavorites = await getHomeFavoritesInfo(user, token, page);
+      const fetchedFavorites = await getHomeFavoritesInfo(token, page);
       setFavorites((prev) => [...prev, ...fetchedFavorites]);
       setHasMore(fetchedFavorites.length > 0);
     } catch (error) {
@@ -40,6 +41,10 @@ const HomePage: NextPage = () => {
 
   if (isLoading) {
     return <LoadingSection />;
+  }
+
+  if (!user) {
+    return <LoginSection />;
   }
 
   return (
