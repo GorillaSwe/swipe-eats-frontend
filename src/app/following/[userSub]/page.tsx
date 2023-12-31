@@ -6,21 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-
 import { UserProfile } from "@auth0/nextjs-auth0/client";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 import LoadingSection from "@/components/base/Loading/LoadingSection";
 import FilterButton from "@/components/ui/FilterButton/FilterButton";
-
 import UserListItem from "@/features/search/components/UserListItem";
-
 import { getFollowing } from "@/lib/api/followRelationshipsInfo";
 import { getUserProfile } from "@/lib/api/usersInfo";
-
-import { UserData } from "@/types/UserData";
-
 import styles from "@/styles/FollowPage.module.scss";
+import { UserData } from "@/types/UserData";
 
 const FollowingPage = ({ params }: { params: { userSub: string } }) => {
   const router = useRouter();
