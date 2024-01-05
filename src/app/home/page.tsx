@@ -52,7 +52,7 @@ const HomePage: NextPage = () => {
       <InfiniteScroll
         loadMore={loadFavorites}
         hasMore={hasMore}
-        loader={<PartialLoadingSection />}
+        loader={<PartialLoadingSection key="loader" />}
       >
         {isEmpty ? (
           <h1 className={styles.message}>
