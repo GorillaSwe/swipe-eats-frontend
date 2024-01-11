@@ -63,4 +63,4 @@ Swipe Eatsでは、ユーザーに最適なレストラン検索体験を提供�
 
 ## ER図
 
-![er-diagram](https://raw.githubusercontent.com/GorillaSwe/swipe-eats-frontend/main/public/images/er-diagram.png)
+![er-diagram](https://raw.githubusercontent.com/GorillaSwe/swipe-eats-frontend/main/public/images/erd.png)
