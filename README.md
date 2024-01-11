@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+こちらは「SwipeEats」のフロントエンドのリポジトリになります。
+バックエンドのリポジトリは[こちら](https://github.com/GorillaSwe/swipe-eats-backend)です。
 
-## Getting Started
+# SwipeEats
 
-First, run the development server:
+SwipeEats はレストランを簡単に探せる、無料のWebアプリケーションです。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+ユーザーはスワイプすることでレストランを選び、お気に入りの店を見つけることができます。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### ▼ サービスURL
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+https://www.swipeeats.net/
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+レスポンシブ対応済のため、PCでもスマートフォンでも快適にご利用いただけます。
 
-## Learn More
+## 技術スタック
 
-To learn more about Next.js, take a look at the following resources:
+**バックエンド:** Ruby 3.0.6 / Rails 7.0.7.2
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- テストフレームワーク: Minitest
+- 主要パッケージ: JWT / Kaminari / Google Places
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**フロントエンド:** TypeScript 5.2.2 / React 18.2.0 / Next.js 13.5.4
 
-## Deploy on Vercel
+- コード解析: ESLint
+- フォーマッター: Prettier
+- テストフレームワーク: Jest / React Testing Library
+- スタイリング: CSS Modules / SCSS
+- 主要パッケージ: Axios / Material UI / React Tinder Card / React Infinite Scroller
+  / React Slick
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**インフラ:** Vercel / Render / PlanetScale
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**CI / CD:** GitHub Actions
+
+**環境構築:** Docker / Docker Compose
+
+**認証:** Auth0
+
+**死活監視:** Uptime Robot
+
+**マップサービス:** Google Maps API
+
+## 主要な対応
+
+Swipe Eatsでは、ユーザーに最適なレストラン検索体験を提供するために、以下の主要な機能と技術的対応を実装しています。
+
+### 機能
+
+- レストランのスワイプ機能: ユーザーはスワイプ操作でレストランを「Like」または「Nope」することができます。
+- お気に入りのレストラン管理: 「Like」したレストランはお気に入りリストに追加され、後で閲覧可能です。
+- 地図上でのレストラン表示: レストランは地図上に表示され、ユーザーは場所に基づいてレストランを探索できます。
+- レスポンシブデザイン: スマートフォン、タブレット、デスクトップなど、異なるデバイスでスムーズに利用できます。
+- ユーザー認証: Auth0を使用したセキュアなログインとサインアップ機能を提供します。
+
+### 技術的対応
+
+- UIコンポーネント: React Tinder CardとReact Slickを用いたインタラクティブなUI。
+- 認証: Auth0による安全な認証とユーザー管理。
+- 地図表示: Google Maps APIを使用したインタラクティブな地図表示。
+- インフラストラクチャ: Dockerによる開発環境のコンテナ化。
+- CI / CD: GitHub ActionsによるCI / CDパイプラインの構築
+
+## ER図
+
+![er-diagram](https://raw.githubusercontent.com/GorillaSwe/swipe-eats-frontend/main/public/images/er-diagram.png)
