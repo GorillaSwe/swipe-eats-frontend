@@ -87,7 +87,7 @@ const UserProfilePage = ({ params }: { params: { userSub: string } }) => {
       <InfiniteScroll
         loadMore={loadFavorites}
         hasMore={hasMore}
-        loader={<PartialLoadingSection />}
+        loader={<PartialLoadingSection key="loader" />}
       >
         <div className={styles.restaurantInfo}>
           <div className={styles.restaurantList}>

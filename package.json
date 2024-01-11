@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.2.0",
@@ -19,6 +20,7 @@
     "@mui/material": "^5.14.11",
     "@react-google-maps/api": "^2.19.2",
     "@react-spring/web": "^9.7.3",
+    "@types/jest": "^29.5.11",
     "axios": "^1.5.1",
     "axios-case-converter": "^1.1.0",
     "eslint-config-prettier": "^9.0.0",
@@ -35,9 +37,15 @@
     "sass": "^1.69.4",
     "slick-carousel": "^1.8.1",
     "swing": "^3.1.4",
-    "swiper": "^10.3.1"
+    "swiper": "^10.3.1",
+    "ts-jest": "^29.1.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.23.7",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "@testing-library/jest-dom": "^6.1.6",
+    "@testing-library/react": "^14.1.2",
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/node": "latest",
     "@types/react": "latest",
@@ -45,8 +53,12 @@
     "@types/react-infinite-scroller": "^1.2.5",
     "@types/react-slick": "^0.23.10",
     "autoprefixer": "latest",
+    "babel-jest": "^29.7.0",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-transform-stub": "^2.0.0",
     "postcss": "latest",
     "tailwindcss": "latest",
     "typescript": "latest"
