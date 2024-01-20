@@ -9,7 +9,7 @@ import { RestaurantProvider } from "@/contexts/RestaurantContext";
 import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
-const siteName = 'Swipe Eats"';
+const siteName = "Swipe Eats";
 const description =
   "SwipeEats はレストランを簡単に探せる、無料のWebアプリケーションです。スワイプ操作で簡単にあなたの好みに合ったレストランを見つけることができます。";
 const url = "https://www.swipeeats.net/";
